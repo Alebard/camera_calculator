@@ -63,15 +63,6 @@ hr{border:0;border-top:1px solid #e7ebef;margin:18px 0}
         <label for="distance">Расстояние до объекта, м</label>
         <input id="distance" type="number" min="1" max="300" step="1" value="20">
       </div>
-      <div>
-        <label for="budget">Предпочтительный класс решения</label>
-        <select id="budget">
-          <option value="economy">Экономичный</option>
-          <option value="balanced" selected>Сбалансированный</option>
-          <option value="pro">Профессиональный</option>
-          <option value="any">Без ограничения</option>
-        </select>
-      </div>
     </div>
 
     <label for="light">Освещение в зоне наблюдения</label>
@@ -86,6 +77,23 @@ hr{border:0;border-top:1px solid #e7ebef;margin:18px 0}
       <option value="still">Обычно неподвижен</option>
       <option value="walk" selected>Человек идёт</option>
       <option value="fast">Быстро движется / бежит</option>
+    </select>
+
+    <label for="viewAngle">Под каким углом камера будет видеть человека?</label>
+    <select id="viewAngle">
+      <option value="front" selected>Почти фронтально</option>
+      <option value="slight">Небольшой угол</option>
+      <option value="side">Сбоку</option>
+      <option value="top">Сверху / под крутым углом</option>
+    </select>
+
+    <label for="illuminationType">Как организовано ночное освещение?</label>
+    <select id="illuminationType">
+      <option value="ambient" selected>Постоянный уличный свет</option>
+      <option value="ir">ИК-подсветка камеры</option>
+      <option value="white">Белая подсветка камеры</option>
+      <option value="projector">Отдельный прожектор</option>
+      <option value="none">Подсветки нет / неизвестно</option>
     </select>
 
     <label for="widthMode">Нужно ли ограничить ширину зоны?</label>
@@ -212,7 +220,7 @@ function chooseAperture(light, movement) {
   return movement === "fast" ? 1.4 : 1.8;
 }
 
-function buildCandidates({ppm, distance, minWidth, budget, light, movement}) {
+function buildCandidates({ppm, distance, minWidth, light, movement}) {
   const candidates = [];
 
   for (const resolution of resolutionCatalog) {
@@ -245,19 +253,11 @@ function buildCandidates({ppm, distance, minWidth, budget, light, movement}) {
     }
   }
 
-  if (budget === "economy") {
-    candidates.sort((a,b) => a.score - b.score);
-  } else if (budget === "pro") {
-    candidates.sort((a,b) =>
-      (b.actualPPM - a.actualPPM) || (b.sensor.width-a.sensor.width)
-    );
-  } else {
-    // Сбалансированный вариант: избегаем чрезмерно узкой сцены
-    // и предпочитаем умеренную сложность конфигурации.
-    candidates.sort((a,b) =>
-      (a.score - b.score) || (b.sceneWidth-a.sceneWidth)
-    );
-  }
+  // Сортировка по условному индексу конфигурации: это не цена
+  // и не оценка качества конкретной модели.
+  candidates.sort((a,b) =>
+    (a.score - b.score) || (b.sceneWidth-a.sceneWidth)
+  );
 
   // Убираем почти одинаковые варианты.
   const unique = [];
@@ -272,26 +272,59 @@ function buildCandidates({ppm, distance, minWidth, budget, light, movement}) {
   return unique.slice(0, 6);
 }
 
-function nightAdvice(light, movement, aperture) {
-  const shutter = movement === "fast" ? "1/250 с как отправная точка" :
+function selectThreeVariants(candidates) {
+  if (candidates.length <= 3) return candidates;
+  const indices = [0, Math.floor((candidates.length - 1) / 2), candidates.length - 1];
+  const chosen = [];
+  const seen = new Set();
+  for (const index of indices) {
+    const item = candidates[index];
+    const key = [item.resolution.pixels, item.sensor.width, item.focal].join("/");
+    if (!seen.has(key)) {
+      seen.add(key);
+      chosen.push(item);
+    }
+  }
+  return chosen;
+}
+
+function variantLabel(index, total) {
+  if (total === 1) return "Расчётный вариант";
+  return ["Минимально достаточный", "Сбалансированный", "С запасом по детализации"][index] || "Альтернативный вариант";
+}
+
+function nightAdvice(light, movement, aperture, illuminationType) {
+  const shutter = movement === "fast" ? "1/250 с или короче как отправная точка" :
     movement === "walk" ? "около 1/100 с как отправная точка" :
     "можно рассмотреть более длинную выдержку при неподвижной сцене";
+  const sourceAdvice = {
+    ambient: "Проверьте освещённость непосредственно на лице, равномерность света и контровую засветку.",
+    ir: "Проверьте дальность и равномерность ИК-подсветки, отражения от близких стен/предметов и работу ИК-режима.",
+    white: "Проверьте дальность, равномерность и допустимость видимого света для объекта наблюдения.",
+    projector: "Проверьте направление прожектора, освещённость лица и отсутствие пересвета или глубоких теней.",
+    none: "Без подсветки пригодность ночного изображения нельзя предполагать: потребуется тест в реальных условиях или организация освещения."
+  }[illuminationType];
+  if (light === "dark") return `Зона очень тёмная. Светосила F${aperture.toFixed(1)} сама по себе не гарантирует качество. ${sourceAdvice} Для движения ориентир по выдержке: ${shutter}.`;
+  if (light === "street") return `Есть внешнее освещение, но его может быть недостаточно для короткой выдержки. ${sourceAdvice} Ориентир по выдержке: ${shutter}.`;
+  return `При достаточном освещении проверьте, что выдержка не вызывает смазывание. ${sourceAdvice} Ориентир: ${shutter}.`;
+}
 
-  if (light === "dark") {
-    return `Очень тёмная зона: одной светосилы F${aperture.toFixed(1)} недостаточно, чтобы предсказать качество. Предусмотрите ИК-подсветку или видимый белый свет, проверьте дальность и равномерность освещения. Для движения ориентир по выдержке: ${shutter}.`;
-  }
-  if (light === "street") {
-    return `Уличный свет помогает, но проверьте фактическую освещённость именно на лице человека, контровой свет и выдержку. Ориентир по выдержке: ${shutter}.`;
-  }
-  return `При достаточном освещении проверьте, что выдержка не вызывает смазывание. Ориентир: ${shutter}.`;
+function angleAdvice(angle) {
+  return {
+    front: "Фронтальный ракурс наиболее благоприятен для оценки лица, если лицо достаточно крупное и резкое.",
+    slight: "Небольшой угол снижает видимость отдельных черт лица. По возможности направьте камеру ближе к фронтальному ракурсу.",
+    side: "Боковой ракурс заметно ограничивает видимость черт лица. Высокая PPM не компенсирует отсутствие фронтальной информации.",
+    top: "Съёмка сверху или под крутым углом может скрывать глаза и другие признаки лица. Для идентификации лучше предусмотреть отдельную камеру на уровне лица."
+  }[angle];
 }
 
 function renderAuto() {
   const distance = Number($("distance").value);
   const ppm = Number($("goal").value);
-  const budget = $("budget").value;
   const light = $("light").value;
   const movement = $("movement").value;
+  const viewAngle = $("viewAngle").value;
+  const illuminationType = $("illuminationType").value;
   const minWidth = $("widthMode").value === "set" ? Number($("sceneWidth").value) : 0;
 
   if (!Number.isFinite(distance) || distance <= 0 ||
@@ -304,7 +337,8 @@ function renderAuto() {
     return;
   }
 
-  const results = buildCandidates({ppm,distance,minWidth,budget,light,movement});
+  const candidates = buildCandidates({ppm,distance,minWidth,light,movement});
+  const results = selectThreeVariants(candidates);
   if (!results.length) {
     $("output").innerHTML = `<div class="result"><h2>Подходящая комбинация не найдена</h2>
       <p>При заданном расстоянии и ширине зоны текущий набор разрешений, сенсоров и объективов не обеспечивает выбранную плотность.</p>
@@ -320,23 +354,27 @@ function renderAuto() {
   results.forEach((c,i) => {
     const widthPass = minWidth === 0 || c.sceneWidth >= minWidth;
     html += `<article class="camera">
-      <span class="pill ${i===0 ? "best" : ""}">${i===0 ? "Приоритет по выбранному бюджету" : "Альтернативный вариант"}</span>
+      <span class="pill ${i===1 ? "best" : ""}">${variantLabel(i,results.length)}</span>
       <h3>${c.resolution.label} · матрица ${c.sensor.format}</h3>
       <div class="metrics">
+        <div class="metric"><small>Разрешение</small><b>${c.resolution.label}</b></div>
+        <div class="metric"><small>Размер матрицы</small><b>${c.sensor.format}</b></div>
+        <div class="metric"><small>Ширина сенсора</small><b>${fmt(c.sensor.width)} мм</b></div>
         <div class="metric"><small>Объектив</small><b>${c.focal} мм</b></div>
         <div class="metric"><small>Светосила — ориентир</small><b>F${c.aperture.toFixed(1)}</b></div>
         <div class="metric"><small>Ширина сцены</small><b>${fmt(c.sceneWidth)} м</b></div>
         <div class="metric"><small>Плотность</small><b>${Math.round(c.actualPPM)} PPM</b></div>
       </div>
-      <p class="note">Физическая ширина сенсора в модели: ${c.sensor.width} мм. Расчётное минимальное фокусное расстояние: ${fmt(c.minFocal)} мм.</p>
     </article>`;
   });
 
   html += `</div></section>
     <section class="result"><h2>Проверка условий</h2>
-    <p>${nightAdvice(light,movement,results[0].aperture)}</p>
+    <p><b>Ракурс:</b> ${angleAdvice(viewAngle)}</p>
+    <p><b>Ночное освещение:</b> ${nightAdvice(light,movement,results[0].aperture,illuminationType)}</p>
     <div class="warning"><b>Ограничение ночного расчёта.</b> Светосила F сама по себе не определяет, получится ли пригодное изображение. Нужны реальные данные о чувствительности сенсора, размере пикселя, выдержке, усилении, шуме, ИК/белой подсветке и отражательной способности объекта. Поэтому калькулятор задаёт ориентир по светосиле и отдельно предупреждает о необходимости проверки ночной сцены.</div>
-    <p class="note">PPM рассчитан по горизонтальному разрешению. Для лица важны также вертикальная детализация, размер лица в кадре, ракурс, фокусировка, компрессия и отсутствие смаза. Для автомобильных номеров нужен отдельный профиль с учётом скорости автомобиля и выдержки.</p>
+    <p class="note">PPM рассчитан по горизонтальному разрешению. Угол съёмки не переводится в условный коэффициент: он влияет на видимость признаков лица и оценивается отдельно. Также важны вертикальная детализация, размер лица в кадре, фокусировка, компрессия и отсутствие смаза. Для автомобильных номеров нужен отдельный профиль с учётом скорости и выдержки.</p>
+    <p class="note">Варианты показывают разные уровни технического запаса в рамках расчётной модели. Они не означают конкретную цену, наличие в продаже или подтверждённую совместимость компонентов.</p>
     </section>`;
 
   $("output").innerHTML = html;
@@ -390,9 +428,10 @@ $("calculateManual").addEventListener("click", renderManual);
 $("resetAuto").addEventListener("click", () => {
   $("goal").value="250";
   $("distance").value="20";
-  $("budget").value="balanced";
   $("light").value="street";
   $("movement").value="walk";
+  $("viewAngle").value="front";
+  $("illuminationType").value="ambient";
   $("widthMode").value="auto";
   $("sceneWidth").value="8";
   $("widthWrap").classList.add("hidden");
