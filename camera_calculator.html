@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Подбор камеры видеонаблюдения</title>
+<style>
+:root{font-family:Arial,sans-serif;color:#202630;background:#f3f5f7}
+*{box-sizing:border-box}body{margin:0;padding:22px}
+main{max-width:960px;margin:auto}
+h1{font-size:27px;margin:0 0 8px}h2{font-size:20px;margin:0 0 14px}
+p{line-height:1.5}.muted,.note{color:#657180}.muted{font-size:14px}
+.panel,.result{background:#fff;border:1px solid #e0e5ea;border-radius:14px;padding:18px;margin:14px 0}
+.tabs{display:flex;gap:8px;margin:18px 0}
+button{border:0;border-radius:9px;padding:11px 15px;background:#1769aa;color:white;font-size:14px;cursor:pointer}
+button.secondary{background:#e8edf2;color:#26313c}
+button:focus,input:focus,select:focus{outline:2px solid #83b8e8;outline-offset:1px}
+label{display:block;font-weight:600;margin:14px 0 7px}
+input,select{width:100%;padding:11px;border:1px solid #cbd3dc;border-radius:8px;background:#fff;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.camera{border:1px solid #dce2e8;border-radius:12px;padding:15px}
+.camera h3{margin:0 0 8px;font-size:17px}
+.pill{display:inline-block;border-radius:20px;background:#e9f3ff;color:#145b91;padding:5px 9px;font-size:12px;margin-bottom:9px}
+.pill.best{background:#e6f5ec;color:#176b3a}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.metric{background:#f3f6f8;padding:10px;border-radius:8px}
+.metric small{display:block;color:#657180;margin-bottom:4px}
+.metric b{font-size:18px}
+.note{font-size:13px;line-height:1.5}
+.warning{background:#fff7e8;border:1px solid #f1dfb8;border-radius:9px;padding:12px;font-size:13px;line-height:1.5}
+.hidden{display:none!important}
+.inline{display:flex;align-items:center;gap:8px}
+.inline input{width:auto}
+hr{border:0;border-top:1px solid #e7ebef;margin:18px 0}
+@media(max-width:600px){body{padding:12px}.grid{grid-template-columns:1fr}h1{font-size:23px}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Подбор камеры видеонаблюдения</h1>
+  <p class="muted">В автоматическом режиме укажите только задачу и условия. Технические параметры камера-кандидатов калькулятор рассчитает самостоятельно.</p>
+
+  <div class="tabs">
+    <button id="autoTab">Автоматический подбор</button>
+    <button id="manualTab" class="secondary">Ручной расчёт</button>
+  </div>
+
+  <section id="autoPanel" class="panel">
+    <h2>Задача и условия наблюдения</h2>
+    <label for="goal">Что необходимо видеть?</label>
+    <select id="goal">
+      <option value="25">Обнаружить присутствие человека (25 PPM)</option>
+      <option value="62.5">Понимать, что делает человек (62,5 PPM)</option>
+      <option value="125">Распознавать человека (125 PPM)</option>
+      <option value="250" selected>Идентифицировать человека по изображению (250 PPM)</option>
+      <option value="500">Повышенная детализация (500 PPM)</option>
+      <option value="125">Распознавать автомобильный номер — предварительный ориентир (125 PPM)</option>
+    </select>
+
+    <div class="grid">
+      <div>
+        <label for="distance">Расстояние до объекта, м</label>
+        <input id="distance" type="number" min="1" max="300" step="1" value="20">
+      </div>
+      <div>
+        <label for="budget">Предпочтительный класс решения</label>
+        <select id="budget">
+          <option value="economy">Экономичный</option>
+          <option value="balanced" selected>Сбалансированный</option>
+          <option value="pro">Профессиональный</option>
+          <option value="any">Без ограничения</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="light">Освещение в зоне наблюдения</label>
+    <select id="light">
+      <option value="day">Достаточное дневное / постоянное освещение</option>
+      <option value="street" selected>Ночью есть уличное освещение</option>
+      <option value="dark">Очень темно, освещения почти нет</option>
+    </select>
+
+    <label for="movement">Как движется объект?</label>
+    <select id="movement">
+      <option value="still">Обычно неподвижен</option>
+      <option value="walk" selected>Человек идёт</option>
+      <option value="fast">Быстро движется / бежит</option>
+    </select>
+
+    <label for="widthMode">Нужно ли ограничить ширину зоны?</label>
+    <select id="widthMode">
+      <option value="auto" selected>Нет, подобрать подходящую ширину автоматически</option>
+      <option value="set">Да, указать минимальную ширину охвата</option>
+    </select>
+    <div id="widthWrap" class="hidden">
+      <label for="sceneWidth">Минимальная ширина зоны, м</label>
+      <input id="sceneWidth" type="number" min="0.5" max="200" step="0.5" value="8">
+      <p class="note">Это минимальная ширина сцены, которую должна охватывать камера на указанном расстоянии.</p>
+    </div>
+
+    <div style="margin-top:18px">
+      <button id="calculateAuto">Подобрать варианты</button>
+      <button id="resetAuto" class="secondary">Сбросить</button>
+    </div>
+  </section>
+
+  <section id="manualPanel" class="panel hidden">
+    <h2>Ручной расчёт известной камеры</h2>
+    <p class="muted">Здесь пользователь сам задаёт характеристики камеры.</p>
+    <div class="grid">
+      <div>
+        <label for="mPixels">Горизонтальное разрешение, пикселей</label>
+        <select id="mPixels">
+          <option value="1920">1920 — около 2 Мп</option>
+          <option value="2688" selected>2688 — около 4 Мп</option>
+          <option value="2960">2960 — около 5 Мп</option>
+          <option value="3840">3840 — около 8 Мп</option>
+          <option value="4000">4000 — около 12 Мп</option>
+        </select>
+      </div>
+      <div>
+        <label for="mSensorFormat">Размер матрицы</label>
+        <select id="mSensorFormat">
+          <option value="4.8">1/3″ — около 4,8 мм</option>
+          <option value="5.37">1/2.8″ — около 5,37 мм</option>
+          <option value="5.76">1/2.5″ — около 5,76 мм</option>
+          <option value="7.2" selected>1/1.8″ — около 7,2 мм</option>
+          <option value="9.6">1/1.2″ — около 9,6 мм</option>
+          <option value="12.8">1″ — около 12,8 мм</option>
+          <option value="custom">Указать ширину вручную</option>
+        </select>
+        <div id="customSensorWrap" class="hidden">
+          <label for="mSensor">Физическая ширина сенсора, мм</label>
+          <input id="mSensor" type="number" min="1" max="30" step="0.01" value="7.2">
+        </div>
+      </div>
+      <div>
+        <label for="mFocal">Фокусное расстояние, мм</label>
+        <input id="mFocal" type="number" min="1" max="100" step="0.1" value="8">
+      </div>
+      <div>
+        <label for="mDistance">Расстояние до объекта, м</label>
+        <input id="mDistance" type="number" min="1" max="300" value="20">
+      </div>
+    </div>
+    <button id="calculateManual">Рассчитать</button>
+  </section>
+
+  <div id="output" aria-live="polite"></div>
+  <p class="note">Важно: это расчётная модель по горизонтальной плотности пикселей (PPM). Она помогает оценить геометрию кадра, но не гарантирует идентификацию лица или чтение номера. Для реального выбора модели нужны подтверждённые характеристики сенсора, объектива, ночной чувствительности и подсветки.</p>
+</main>
+
+<script>
+"use strict";
+
+// Каталог условных технических конфигураций для предварительного подбора.
+// Это не каталог конкретных моделей и не утверждение о совместимости
+// любой комбинации. Перед покупкой параметры сверяются с паспортом камеры.
+const sensorCatalog = [
+  {format:"1/3″", width:4.8},
+  {format:"1/2.8″", width:5.37},
+  {format:"1/2.5″", width:5.76},
+  {format:"1/1.8″", width:7.2},
+  {format:"1/1.2″", width:9.6},
+  {format:"1″", width:12.8}
+];
+
+const resolutionCatalog = [
+  {label:"2 Мп", pixels:1920, cost:1},
+  {label:"4 Мп", pixels:2688, cost:2},
+  {label:"5 Мп", pixels:2960, cost:2.5},
+  {label:"8 Мп", pixels:3840, cost:3},
+  {label:"12 Мп", pixels:4000, cost:4}
+];
+
+const focalCatalog = [2.8,3.6,4,6,8,12,16,25,32,50,75];
+const apertureCatalog = [1.0,1.2,1.4,1.6,1.8,2.0,2.8];
+
+const $ = id => document.getElementById(id);
+const fmt = n => Number(n).toFixed(1);
+
+function showMode(mode) {
+  const auto = mode === "auto";
+  $("autoPanel").classList.toggle("hidden", !auto);
+  $("manualPanel").classList.toggle("hidden", auto);
+  $("autoTab").classList.toggle("secondary", !auto);
+  $("manualTab").classList.toggle("secondary", auto);
+  $("output").innerHTML = "";
+}
+$("autoTab").addEventListener("click", () => showMode("auto"));
+$("manualTab").addEventListener("click", () => showMode("manual"));
+
+$("widthMode").addEventListener("change", () => {
+  $("widthWrap").classList.toggle("hidden", $("widthMode").value !== "set");
+});
+
+function targetName(ppm) {
+  return ({
+    "25":"Обнаружение",
+    "62.5":"Наблюдение",
+    "125":"Распознавание",
+    "250":"Идентификация по изображению",
+    "500":"Повышенная детализация"
+  })[String(ppm)] || "Выбранная задача";
+}
+
+function chooseAperture(light, movement) {
+  // Светосила здесь является проектным предпочтением, не моделью lux-to-image.
+  if (light === "dark") return movement === "fast" ? 1.0 : 1.2;
+  if (light === "street") return movement === "fast" ? 1.2 : 1.4;
+  return movement === "fast" ? 1.4 : 1.8;
+}
+
+function buildCandidates({ppm, distance, minWidth, budget, light, movement}) {
+  const candidates = [];
+
+  for (const resolution of resolutionCatalog) {
+    for (const sensor of sensorCatalog) {
+      const minFocal = ppm * distance * sensor.width / resolution.pixels;
+      const maxFocalByWidth = minWidth > 0
+        ? distance * sensor.width / minWidth
+        : Infinity;
+
+      const focal = focalCatalog.find(f =>
+        f >= minFocal && f <= maxFocalByWidth
+      );
+      if (!focal) continue;
+
+      const sceneWidth = distance * sensor.width / focal;
+      const actualPPM = resolution.pixels / sceneWidth;
+      const aperture = chooseAperture(light, movement);
+
+      // Условный индекс сложности/стоимости для ранжирования,
+      // не рыночная цена.
+      const score = resolution.cost +
+        sensor.width / 4.8 * 0.55 +
+        focal / 32 * 0.25 +
+        (1 / aperture) * 0.25;
+
+      candidates.push({
+        resolution, sensor, focal, sceneWidth, actualPPM,
+        aperture, score, minFocal
+      });
+    }
+  }
+
+  if (budget === "economy") {
+    candidates.sort((a,b) => a.score - b.score);
+  } else if (budget === "pro") {
+    candidates.sort((a,b) =>
+      (b.actualPPM - a.actualPPM) || (b.sensor.width-a.sensor.width)
+    );
+  } else {
+    // Сбалансированный вариант: избегаем чрезмерно узкой сцены
+    // и предпочитаем умеренную сложность конфигурации.
+    candidates.sort((a,b) =>
+      (a.score - b.score) || (b.sceneWidth-a.sceneWidth)
+    );
+  }
+
+  // Убираем почти одинаковые варианты.
+  const unique = [];
+  const keys = new Set();
+  for (const c of candidates) {
+    const key = [c.resolution.pixels,c.sensor.width,c.focal].join("/");
+    if (!keys.has(key)) {
+      keys.add(key);
+      unique.push(c);
+    }
+  }
+  return unique.slice(0, 6);
+}
+
+function nightAdvice(light, movement, aperture) {
+  const shutter = movement === "fast" ? "1/250 с как отправная точка" :
+    movement === "walk" ? "около 1/100 с как отправная точка" :
+    "можно рассмотреть более длинную выдержку при неподвижной сцене";
+
+  if (light === "dark") {
+    return `Очень тёмная зона: одной светосилы F${aperture.toFixed(1)} недостаточно, чтобы предсказать качество. Предусмотрите ИК-подсветку или видимый белый свет, проверьте дальность и равномерность освещения. Для движения ориентир по выдержке: ${shutter}.`;
+  }
+  if (light === "street") {
+    return `Уличный свет помогает, но проверьте фактическую освещённость именно на лице человека, контровой свет и выдержку. Ориентир по выдержке: ${shutter}.`;
+  }
+  return `При достаточном освещении проверьте, что выдержка не вызывает смазывание. Ориентир: ${shutter}.`;
+}
+
+function renderAuto() {
+  const distance = Number($("distance").value);
+  const ppm = Number($("goal").value);
+  const budget = $("budget").value;
+  const light = $("light").value;
+  const movement = $("movement").value;
+  const minWidth = $("widthMode").value === "set" ? Number($("sceneWidth").value) : 0;
+
+  if (!Number.isFinite(distance) || distance <= 0 ||
+      distance > 300 || !Number.isFinite(minWidth) || minWidth < 0) {
+    $("output").innerHTML = '<div class="result">Проверьте расстояние и ширину зоны.</div>';
+    return;
+  }
+  if ($("widthMode").value === "set" && (!minWidth || minWidth <= 0)) {
+    $("output").innerHTML = '<div class="result">Введите положительную ширину зоны.</div>';
+    return;
+  }
+
+  const results = buildCandidates({ppm,distance,minWidth,budget,light,movement});
+  if (!results.length) {
+    $("output").innerHTML = `<div class="result"><h2>Подходящая комбинация не найдена</h2>
+      <p>При заданном расстоянии и ширине зоны текущий набор разрешений, сенсоров и объективов не обеспечивает выбранную плотность.</p>
+      <p>Попробуйте увеличить ширину допустимого набора решений, уменьшить расстояние или использовать несколько камер.</p></div>`;
+    return;
+  }
+
+  let html = `<section class="result"><h2>Результаты автоматического подбора</h2>
+    <p>Задача: <b>${targetName(ppm)}</b> · расстояние: <b>${distance} м</b> · ориентир: <b>${ppm} PPM</b>.</p>
+    <p class="note">Ниже — расчётные технические конфигурации для поиска подходящих моделей. Это не конкретные товары и не гарантия, что все сочетания выпускаются одним производителем.</p>
+    <div class="cards">`;
+
+  results.forEach((c,i) => {
+    const widthPass = minWidth === 0 || c.sceneWidth >= minWidth;
+    html += `<article class="camera">
+      <span class="pill ${i===0 ? "best" : ""}">${i===0 ? "Приоритет по выбранному бюджету" : "Альтернативный вариант"}</span>
+      <h3>${c.resolution.label} · матрица ${c.sensor.format}</h3>
+      <div class="metrics">
+        <div class="metric"><small>Объектив</small><b>${c.focal} мм</b></div>
+        <div class="metric"><small>Светосила — ориентир</small><b>F${c.aperture.toFixed(1)}</b></div>
+        <div class="metric"><small>Ширина сцены</small><b>${fmt(c.sceneWidth)} м</b></div>
+        <div class="metric"><small>Плотность</small><b>${Math.round(c.actualPPM)} PPM</b></div>
+      </div>
+      <p class="note">Физическая ширина сенсора в модели: ${c.sensor.width} мм. Расчётное минимальное фокусное расстояние: ${fmt(c.minFocal)} мм.</p>
+    </article>`;
+  });
+
+  html += `</div></section>
+    <section class="result"><h2>Проверка условий</h2>
+    <p>${nightAdvice(light,movement,results[0].aperture)}</p>
+    <div class="warning"><b>Ограничение ночного расчёта.</b> Светосила F сама по себе не определяет, получится ли пригодное изображение. Нужны реальные данные о чувствительности сенсора, размере пикселя, выдержке, усилении, шуме, ИК/белой подсветке и отражательной способности объекта. Поэтому калькулятор задаёт ориентир по светосиле и отдельно предупреждает о необходимости проверки ночной сцены.</div>
+    <p class="note">PPM рассчитан по горизонтальному разрешению. Для лица важны также вертикальная детализация, размер лица в кадре, ракурс, фокусировка, компрессия и отсутствие смаза. Для автомобильных номеров нужен отдельный профиль с учётом скорости автомобиля и выдержки.</p>
+    </section>`;
+
+  $("output").innerHTML = html;
+}
+
+$("mSensorFormat").addEventListener("change", () => {
+  $("customSensorWrap").classList.toggle(
+    "hidden", $("mSensorFormat").value !== "custom"
+  );
+});
+
+function renderManual() {
+  const pixels = Number($("mPixels").value);
+  const sensorChoice = $("mSensorFormat").value;
+  const sensorWidth = sensorChoice === "custom"
+    ? Number($("mSensor").value)
+    : Number(sensorChoice);
+  const sensorLabel = sensorChoice === "custom"
+    ? "Пользовательский размер"
+    : $("mSensorFormat").selectedOptions[0].textContent.split(" — ")[0];
+  const focal = Number($("mFocal").value);
+  const distance = Number($("mDistance").value);
+
+  if (![pixels,sensorWidth,focal,distance].every(Number.isFinite) ||
+      pixels <= 0 || sensorWidth <= 0 || focal <= 0 || distance <= 0) {
+    $("output").innerHTML = '<div class="result">Введите корректные положительные значения.</div>';
+    return;
+  }
+
+  const scene = distance * sensorWidth / focal;
+  const ppm = pixels / scene;
+  const distances = [25,62.5,125,250,500].map(t => ({
+    t, d: distance * ppm / t
+  }));
+
+  $("output").innerHTML = `<section class="result">
+    <h2>Результат ручного расчёта</h2>
+    <p>Матрица: <b>${sensorLabel}</b>, физическая ширина сенсора: <b>${fmt(sensorWidth)} мм</b>.</p>
+    <div class="metrics">
+      <div class="metric"><small>Ширина сцены</small><b>${fmt(scene)} м</b></div>
+      <div class="metric"><small>Плотность</small><b>${Math.round(ppm)} PPM</b></div>
+    </div>
+    <h3>Расчётные дистанции по плотности</h3>
+    ${distances.map(x => `<p>${targetName(x.t)} (${x.t} PPM): <b>${fmt(x.d)} м</b></p>`).join("")}
+    <p class="note">Это геометрические дистанции при неизменных разрешении, сенсоре и объективе. Они не учитывают условия съёмки и не гарантируют фактическое распознавание.</p>
+  </section>`;
+}
+
+$("calculateAuto").addEventListener("click", renderAuto);
+$("calculateManual").addEventListener("click", renderManual);
+$("resetAuto").addEventListener("click", () => {
+  $("goal").value="250";
+  $("distance").value="20";
+  $("budget").value="balanced";
+  $("light").value="street";
+  $("movement").value="walk";
+  $("widthMode").value="auto";
+  $("sceneWidth").value="8";
+  $("widthWrap").classList.add("hidden");
+  $("output").innerHTML="";
+});
+
+// Первоначально показываем автоматическую форму без автоподстановки камер.
+showMode("auto");
+</script>
+</body>
+</html>
