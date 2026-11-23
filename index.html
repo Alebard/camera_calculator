@@ -29,6 +29,18 @@ input,select{width:100%;padding:11px;border:1px solid #cbd3dc;border-radius:8px;
 .metric b{font-size:18px}
 .note{font-size:13px;line-height:1.5}
 .warning{background:#fff7e8;border:1px solid #f1dfb8;border-radius:9px;padding:12px;font-size:13px;line-height:1.5}
+.manufacturer-filter{margin:14px 0;padding:13px;border:1px solid #e0e5ea;border-radius:10px;background:#fbfcfd}
+.manufacturer-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.manufacturer-actions{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
+.manufacturer-actions button{padding:8px 11px;font-size:13px}
+.manufacturer-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px}
+.manufacturer-option{display:flex;align-items:center;gap:8px;font-weight:400;margin:0;padding:7px 9px;background:#fff;border:1px solid #e3e8ed;border-radius:8px}
+.manufacturer-option input{width:auto;margin:0}
+.requirement{border:1px solid #cbdceb;background:#f6faff;border-radius:12px;padding:16px;margin:14px 0}
+.requirement h3{margin:0 0 10px}
+.catalog-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.catalog-item{border:1px solid #dce2e8;border-radius:10px;padding:13px}
+.catalog-item h4{margin:0 0 7px}
 .hidden{display:none!important}
 .inline{display:flex;align-items:center;gap:8px}
 .inline input{width:auto}
@@ -39,7 +51,8 @@ hr{border:0;border-top:1px solid #e7ebef;margin:18px 0}
 <body>
 <main>
   <h1>Подбор камеры видеонаблюдения</h1>
-  <p class="muted">В автоматическом режиме укажите только задачу и условия. Технические параметры камера-кандидатов калькулятор рассчитает самостоятельно.</p>
+  <p class="muted">В автоматическом режиме укажите задачу и условия. Сначала калькулятор сформирует требуемые параметры камеры, затем покажет реальные модели из внешнего каталога.</p>
+  <p class="note" id="catalogStatus">Загрузка каталога…</p>
 
   <div class="tabs">
     <button id="autoTab">Автоматический подбор</button>
@@ -58,10 +71,27 @@ hr{border:0;border-top:1px solid #e7ebef;margin:18px 0}
       <option value="125">Распознавать автомобильный номер — предварительный ориентир (125 PPM)</option>
     </select>
 
+    <div class="manufacturer-filter">
+      <div class="manufacturer-head">
+        <label style="margin:0" for="manufacturerOptions">Производители для поиска</label>
+        <span class="note" id="manufacturerSelectionSummary">Загрузка списка…</span>
+      </div>
+      <div class="manufacturer-actions">
+        <button type="button" class="secondary" id="selectAllManufacturers">Выбрать всех</button>
+        <button type="button" class="secondary" id="clearManufacturers">Снять все</button>
+      </div>
+      <div id="manufacturerOptions" class="manufacturer-options"></div>
+      <p class="note">Можно отметить одного или нескольких производителей. Подбор будет выполняться только среди выбранных.</p>
+    </div>
+
     <div class="grid">
       <div>
         <label for="distance">Расстояние до объекта, м</label>
         <input id="distance" type="number" min="1" max="300" step="1" value="20">
+      </div>
+      <div>
+        <label>Принцип подбора</label>
+        <p class="note">Калькулятор покажет три варианта: минимально достаточный, сбалансированный и с максимальной детализацией. Сравнение выполняется по разрешению, PPM и ширине охвата, без предположений о цене.</p>
       </div>
     </div>
 
@@ -160,18 +190,247 @@ hr{border:0;border-top:1px solid #e7ebef;margin:18px 0}
 </main>
 
 <script>
+
+let supplierCameras = [];
+let catalogLoaded = false;
+const manufacturerOptions = document.getElementById("manufacturerOptions");
+function selectedManufacturers() {
+  return [...manufacturerOptions.querySelectorAll('input[type="checkbox"]:checked')].map(x=>x.value);
+}
+function updateManufacturerSummary() {
+  const all=[...manufacturerOptions.querySelectorAll('input[type="checkbox"]')];
+  const selected=selectedManufacturers();
+  const node=document.getElementById("manufacturerSelectionSummary");
+  if(node) node.textContent = selected.length===all.length ? `Все производители (${all.length})` :
+    selected.length ? `Выбрано: ${selected.length} из ${all.length}` : "Ничего не выбрано";
+}
+function renderManufacturerOptions() {
+  const brands=[...new Set(supplierCameras.map(c=>c.brand).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"ru"));
+  manufacturerOptions.innerHTML=brands.map((brand,i)=>`<label class="manufacturer-option"><input type="checkbox" value="${esc(brand)}" checked> ${esc(brand)}</label>`).join("");
+  manufacturerOptions.querySelectorAll("input").forEach(input=>input.addEventListener("change",updateManufacturerSummary));
+  updateManufacturerSummary();
+}
+document.getElementById("selectAllManufacturers").addEventListener("click",()=>{
+  manufacturerOptions.querySelectorAll("input").forEach(x=>x.checked=true); updateManufacturerSummary();
+});
+document.getElementById("clearManufacturers").addEventListener("click",()=>{
+  manufacturerOptions.querySelectorAll("input").forEach(x=>x.checked=false); updateManufacturerSummary();
+});
+async function loadCatalog() {
+  const status=document.getElementById("catalogStatus");
+  try {
+    const response=await fetch("./ip_cameras_supplier.json",{cache:"no-store"});
+    if(!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data=await response.json();
+    if(!Array.isArray(data)) throw new Error("Ожидался JSON-массив камер");
+    supplierCameras=data;
+    catalogLoaded=true;
+    renderManufacturerOptions();
+    status.textContent=`Каталог загружен: ${supplierCameras.length} камер, ${new Set(supplierCameras.map(x=>x.brand).filter(Boolean)).size} производителей.`;
+  } catch(error) {
+    status.textContent="Не удалось загрузить ip_cameras_supplier.json. Проверьте, что файл лежит рядом с index.html и страница открыта через локальный веб-сервер.";
+    status.classList.add("warning");
+    console.error("Catalog loading failed:",error);
+  }
+}
+
+
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[ch]));
+}
+function showVal(v, suffix="") {
+  return v === null || v === undefined || v === "" ? "Нет данных в каталоге" : `${v}${suffix}`;
+}
+function yesNo(v) {
+  return v === true ? "Да" : v === false ? "Нет" : "Нет данных";
+}
+function focalText(s) {
+  const a=s.focal_length_min_mm, b=s.focal_length_max_mm;
+  if (a == null && b == null) return "Нет данных";
+  if (a != null && b != null && a !== b) return `${a}–${b} мм`;
+  return `${a ?? b} мм`;
+}
+function cameraMetrics(camera, distance) {
+  const s=camera.specs || {};
+  const angle=s.view_angle_horizontal_deg;
+  const widthPx=s.resolution_width_px;
+  // Используем только разумный горизонтальный угол; вертикальный из этой базы
+  // намеренно не используем из-за аномальных значений >100°.
+  if (!(Number.isFinite(angle) && angle >= 5 && angle <= 120 &&
+        Number.isFinite(widthPx) && widthPx > 0)) return null;
+  const rad=angle*Math.PI/180;
+  const sceneWidth=2*distance*Math.tan(rad/2);
+  if (!Number.isFinite(sceneWidth) || sceneWidth <= 0) return null;
+  return {
+    ppm:widthPx/sceneWidth,
+    sceneWidth,
+    hfov:angle,
+    sceneHeight:null,
+    vfov:null
+  };
+}
+function renderAutoReal() {
+  const distance=Number($("distance").value);
+  const ppm=Number($("goal").value);
+  const light=$("light").value;
+  const movement=$("movement").value;
+  const viewAngle=$("viewAngle").value;
+  const illuminationType=$("illuminationType").value;
+  const minWidth=$("widthMode").value==="set" ? Number($("sceneWidth").value) : 0;
+
+  if (!Number.isFinite(distance) || distance<=0 || distance>300 ||
+      !Number.isFinite(minWidth) || minWidth<0 ||
+      ($("widthMode").value==="set" && minWidth<=0)) {
+    $("output").innerHTML='<div class="result">Проверьте расстояние и ширину зоны.</div>';
+    return;
+  }
+
+  if (!catalogLoaded) {
+    $("output").innerHTML='<div class="result">Каталог ещё не загружен. Проверьте файл ip_cameras_supplier.json рядом с index.html.</div>';
+    return;
+  }
+  const selectedBrands=selectedManufacturers();
+  if (!selectedBrands.length) {
+    $("output").innerHTML='<div class="result">Выберите хотя бы одного производителя.</div>';
+    return;
+  }
+  const filteredCatalog=supplierCameras.filter(camera=>selectedBrands.includes(camera.brand));
+  const evaluated=filteredCatalog.map(camera=>{
+    const m=cameraMetrics(camera,distance);
+    return m ? {...camera,calc:m} : null;
+  }).filter(Boolean);
+  const passing=evaluated.filter(c=>c.calc.ppm>=ppm && (!minWidth || c.calc.sceneWidth>=minWidth));
+  const byMp=[...new Set(passing.map(c=>c.specs.resolution_mp ?? (c.specs.resolution_width_px*c.specs.resolution_height_px/1e6)))].sort((a,b)=>a-b);
+  const chosen=[];
+  const addGroup=(mp,label,description)=>{
+    if(mp===undefined) return;
+    const pool=passing.filter(c=>(c.specs.resolution_mp ?? (c.specs.resolution_width_px*c.specs.resolution_height_px/1e6))===mp);
+    pool.sort((a,b)=>(b.calc.sceneWidth-a.calc.sceneWidth)||(a.calc.ppm-b.calc.ppm)||(Number(a.price)-Number(b.price)));
+    const item=pool[0];
+    if(item && !chosen.some(x=>x.camera===item)) chosen.push({camera:item,label,description});
+  };
+  if(byMp.length){
+    addGroup(byMp[0],"Минимально достаточная",`Самый низкий класс разрешения (${byMp[0]} Мп), который проходит заданный PPM и ширину зоны.`);
+    if(byMp.length>1) addGroup(byMp[1],"Сбалансированная",`Следующий доступный класс разрешения (${byMp[1]} Мп).`);
+    if(byMp.length>2) {
+      const top=byMp[byMp.length-1];
+      const pool=passing.filter(c=>(c.specs.resolution_mp ?? (c.specs.resolution_width_px*c.specs.resolution_height_px/1e6))===top);
+      pool.sort((a,b)=>b.calc.ppm-a.calc.ppm);
+      if(pool[0] && !chosen.some(x=>x.camera===pool[0])) chosen.push({camera:pool[0],label:"Максимальная детализация",description:`Наивысший доступный класс разрешения (${top} Мп) среди прошедших камер.`});
+    }
+  }
+
+  const targetNames={"25":"Обнаружение","62.5":"Наблюдение","125":"Распознавание","250":"Идентификация по изображению","500":"Повышенная детализация"};
+  const requiredWidth=minWidth>0 ? minWidth : null;
+  const requiredResolution=requiredWidth ? Math.ceil(ppm*requiredWidth) : null;
+  let out=`<section class="result"><h2>Требуемые параметры камеры</h2>
+    <div class="requirement">
+      <h3>Целевые характеристики для заданной задачи</h3>
+      <div class="metrics">
+        <div class="metric"><small>Целевая плотность</small><b>${ppm} PPM</b></div>
+        <div class="metric"><small>Дистанция до объекта</small><b>${distance} м</b></div>
+        <div class="metric"><small>Ширина зоны</small><b>${requiredWidth ? requiredWidth+" м (минимум)" : "Подбирается автоматически"}</b></div>
+        <div class="metric"><small>Требование к горизонтальному разрешению</small><b>${requiredResolution ? requiredResolution.toLocaleString("ru-RU")+" px минимум при указанной ширине" : "Зависит от угла обзора выбранной камеры"}</b></div>
+      </div>
+      <p class="note">Камера должна обеспечивать не менее ${ppm} PPM на расстоянии ${distance} м. При заданной ширине ${requiredWidth ? "от "+requiredWidth+" м" : "ширина кадра выбирается по моделям каталога"}. Конкретные разрешение и угол обзора взаимосвязаны: чем шире угол при том же разрешении, тем ниже PPM.</p>
+      <p class="note"><b>Ограничения:</b> размер матрицы и светосила не заданы, поскольку в каталоге нет достоверных значений для их расчёта. Ночной режим дополнительно требует проверки в реальных условиях.</p>
+    </div>
+    <h2>Примеры камер из каталога</h2>
+    <p>Выбранные производители: <b>${selectedBrands.map(esc).join(", ")}</b>. Проверено ${filteredCatalog.length} моделей из выбранных производителей. В расчёт PPM включены только модели с пригодными углом обзора и разрешением.</p>
+    <p class="note">PPM рассчитан по горизонтальному углу обзора из JSON. Вертикальный угол не используется: в исходном наборе встречаются подозрительные значения.</p>`;
+  if(chosen.length){
+    out+='<div class="cards">';
+    chosen.forEach(({camera:c,label,description})=>{
+      const s=c.specs||{}, m=c.calc;
+      const smart=["human_detection","vehicle_detection","line_crossing_detection","intrusion_detection"].filter(k=>s[k]===true).map(k=>({
+        human_detection:"человек",vehicle_detection:"транспорт",line_crossing_detection:"пересечение линии",intrusion_detection:"вторжение"
+      }[k]));
+      const supplier=c.supplier_url ? `<a href="${esc(c.supplier_url)}" target="_blank" rel="noopener">Страница поставщика</a>` : "Ссылка отсутствует";
+      const source=c.specs_source ? esc(c.specs_source) : "Источник не указан";
+      out+=`<article class="camera">
+        <span class="pill">${esc(label)}</span><h3>${esc(c.brand)} · ${esc(c.model)}</h3>
+        <p class="note">${esc(description)}</p>
+        <div class="metrics">
+          <div class="metric"><small>Цена</small><b>${c.price==null?"Нет данных":esc(c.price.toLocaleString("ru-RU"))+" "+esc(c.currency||"")}</b></div>
+          <div class="metric"><small>Разрешение</small><b>${showVal(s.resolution_mp," Мп")}</b></div>
+          <div class="metric"><small>Объектив</small><b>${esc(focalText(s))}</b></div>
+          <div class="metric"><small>Минимальная освещённость (паспортная)</small><b>${showVal(s.minimum_illumination_lux," лк")}</b></div>
+          <div class="metric"><small>ИК-дальность</small><b>${showVal(s.ir_range_m," м")}</b></div>
+          <div class="metric"><small>Защита IP</small><b>${showVal(s.ip_rating,"")}</b></div>
+          <div class="metric"><small>PoE / Wi-Fi</small><b>${yesNo(s.poe)} / ${yesNo(s.wifi)}</b></div>
+          <div class="metric"><small>Микрофон / динамик</small><b>${yesNo(s.microphone)} / ${yesNo(s.speaker)}</b></div>
+          <div class="metric"><small>WDR</small><b>${yesNo(s.wdr)}${s.wdr_db!=null?" · "+s.wdr_db+" дБ":""}</b></div>
+          <div class="metric"><small>Аналитика</small><b>${smart.length?esc(smart.join(", ")):"Нет подтверждённых данных"}</b></div>
+          <div class="metric"><small>Матрица</small><b>Нет данных в каталоге</b></div>
+          <div class="metric"><small>Светосила</small><b>Нет данных в каталоге</b></div>
+        </div>
+        <h4>Расчёт результата</h4>
+        <div class="metrics">
+          <div class="metric"><small>Плотность пикселей</small><b>${Math.round(m.ppm)} PPM</b></div>
+          <div class="metric"><small>Горизонтальный угол</small><b>${m.hfov}°</b></div>
+          <div class="metric"><small>Вертикальный угол</small><b>Нет данных для расчёта</b></div>
+          <div class="metric"><small>Ширина сцены</small><b>${m.sceneWidth.toFixed(2)} м</b></div>
+          <div class="metric"><small>Высота сцены</small><b>Нет данных для расчёта</b></div>
+          <div class="metric"><small>Запас PPM</small><b>+${Math.round(m.ppm-ppm)} (${Math.round((m.ppm/ppm-1)*100)}%)</b></div>
+        </div>
+        <p class="note"><b>Статус данных:</b> ${esc(c.data_status||"Не указан")}</p>
+        <details><summary>Источник характеристик</summary><p class="note">${source}</p></details>
+        <p>${supplier}</p>
+      </article>`;
+    });
+    out+='</div>';
+  } else {
+    out+=`<div class="warning"><b>Подходящие модели не найдены.</b> В каталоге нет камер с одновременно известными горизонтальным углом и разрешением, которые проходят заданный PPM${minWidth?" и ширину зоны":""}. Это не означает, что остальные камеры не подходят — для них недостаточно данных для честного расчёта.</div>`;
+  }
+
+  if(passing.length){
+    const allMatches=[...passing].sort((a,b)=>b.calc.ppm-a.calc.ppm);
+    out+=`<hr><h3>Все подходящие модели из выбранных производителей (${allMatches.length})</h3>
+      <div class="catalog-list">`;
+    allMatches.slice(0,60).forEach(c=>{
+      const s=c.specs||{},m=c.calc;
+      out+=`<article class="catalog-item">
+        <h4>${esc(c.brand)} — ${esc(c.model)}</h4>
+        <p><b>${s.resolution_mp??"?"} Мп</b> · ${Math.round(m.ppm)} PPM · HFOV ${m.hfov}°</p>
+        <p>Цена: ${c.price==null?"нет данных":esc(Number(c.price).toLocaleString("ru-RU"))+" "+esc(c.currency||"")} · Объектив: ${esc(focalText(s))}</p>
+        <p class="note">IP: ${showVal(s.ip_rating)} · PoE: ${yesNo(s.poe)} · ИК: ${showVal(s.ir_range_m," м")}</p>
+        ${c.supplier_url?`<a href="${esc(c.supplier_url)}" target="_blank" rel="noopener">Страница поставщика</a>`:""}
+      </article>`;
+    });
+    out+='</div>';
+    if(allMatches.length>60) out+=`<p class="note">Показаны первые 60 моделей из ${allMatches.length} подходящих.</p>`;
+  }
+  const incomplete=filteredCatalog.filter(c=>!cameraMetrics(c,distance));
+  out+=`<hr><h3>Модели, которые нельзя оценить по PPM</h3>
+    <p class="note">${incomplete.length} камер без пригодной пары «горизонтальный угол обзора + горизонтальное разрешение». Они не объявляются подходящими и не участвуют в ранжировании.</p>
+    <details><summary>Показать модели с недостаточными данными (первые 30)</summary><ul>`;
+  incomplete.slice(0,30).forEach(c=>{
+    out+=`<li>${esc(c.brand)} — ${esc(c.model)}; ${c.specs?.resolution_mp??"?"} Мп; HFOV: ${showVal(c.specs?.view_angle_horizontal_deg,"°")}</li>`;
+  });
+  out+='</ul></details>';
+  out+=`</section>
+    <section class="result"><h2>Условия съёмки и ограничения</h2>
+      <p><b>Ракурс:</b> ${angleAdvice(viewAngle)}</p>
+      <p><b>Ночное освещение:</b> ${light==="dark"?"Зона очень тёмная. Необходимо проверить качество изображения в реальных условиях; паспортная минимальная освещённость не гарантирует нужный PPM.":light==="street"?"Уличного освещения может быть недостаточно для короткой выдержки. Проверьте сцену ночью.":"При достаточном освещении проверьте отсутствие смаза."}</p>
+      <p><b>Тип подсветки:</b> ${esc(({ambient:"Внешнее/постоянное освещение",ir:"ИК-подсветка",white:"Белая подсветка",projector:"Внешний прожектор",none:"Подсветки нет"}[illuminationType]||illuminationType))}. Движение: ${movement==="fast"?"быстрое":movement==="walk"?"ходьба":"неподвижная сцена"}.</p>
+      <div class="warning">Минимальная освещённость в карточке — паспортное значение камеры, а не требуемая освещённость объекта. Размер матрицы и F-число в JSON отсутствуют. Фокусное расстояние само по себе не позволяет рассчитать угол обзора без физических размеров сенсора. Расчёт PPM ориентировочный и зависит от достоверности угла обзора в исходном каталоге.</div>
+    </section>`;
+  $("output").innerHTML=out;
+}
 "use strict";
 
 // Каталог условных технических конфигураций для предварительного подбора.
 // Это не каталог конкретных моделей и не утверждение о совместимости
 // любой комбинации. Перед покупкой параметры сверяются с паспортом камеры.
 const sensorCatalog = [
-  {format:"1/3″", width:4.8},
-  {format:"1/2.8″", width:5.37},
-  {format:"1/2.5″", width:5.76},
-  {format:"1/1.8″", width:7.2},
-  {format:"1/1.2″", width:9.6},
-  {format:"1″", width:12.8}
+  {format:"1/3″", width:4.8, height:2.7},
+  {format:"1/2.8″", width:5.37, height:3.02},
+  {format:"1/2.5″", width:5.76, height:3.24},
+  {format:"1/1.8″", width:7.2, height:4.05},
+  {format:"1/1.2″", width:9.6, height:5.4},
+  {format:"1″", width:12.8, height:7.2}
 ];
 
 const resolutionCatalog = [
@@ -187,6 +446,10 @@ const apertureCatalog = [1.0,1.2,1.4,1.6,1.8,2.0,2.8];
 
 const $ = id => document.getElementById(id);
 const fmt = n => Number(n).toFixed(1);
+const deg = rad => rad * 180 / Math.PI;
+function fieldOfView(sensorSize, focal) {
+  return deg(2 * Math.atan(sensorSize / (2 * focal)));
+}
 
 function showMode(mode) {
   const auto = mode === "auto";
@@ -236,30 +499,23 @@ function buildCandidates({ppm, distance, minWidth, light, movement}) {
       if (!focal) continue;
 
       const sceneWidth = distance * sensor.width / focal;
+      const sceneHeight = distance * sensor.height / focal;
+      const horizontalAngle = fieldOfView(sensor.width, focal);
+      const verticalAngle = fieldOfView(sensor.height, focal);
       const actualPPM = resolution.pixels / sceneWidth;
       const aperture = chooseAperture(light, movement);
 
-      // Условный индекс сложности/стоимости для ранжирования,
-      // не рыночная цена.
-      const score = resolution.cost +
-        sensor.width / 4.8 * 0.55 +
-        focal / 32 * 0.25 +
-        (1 / aperture) * 0.25;
-
       candidates.push({
-        resolution, sensor, focal, sceneWidth, actualPPM,
-        aperture, score, minFocal
+        resolution, sensor, focal, sceneWidth, sceneHeight,
+        horizontalAngle, verticalAngle, actualPPM,
+        aperture, minFocal,
+        marginPPM: actualPPM - ppm,
+        marginPercent: (actualPPM / ppm - 1) * 100
       });
     }
   }
 
-  // Сортировка по условному индексу конфигурации: это не цена
-  // и не оценка качества конкретной модели.
-  candidates.sort((a,b) =>
-    (a.score - b.score) || (b.sceneWidth-a.sceneWidth)
-  );
-
-  // Убираем почти одинаковые варианты.
+  // Убираем повторяющиеся конфигурации.
   const unique = [];
   const keys = new Set();
   for (const c of candidates) {
@@ -269,28 +525,75 @@ function buildCandidates({ppm, distance, minWidth, light, movement}) {
       unique.push(c);
     }
   }
-  return unique.slice(0, 6);
+  return unique;
 }
 
-function selectThreeVariants(candidates) {
-  if (candidates.length <= 3) return candidates;
-  const indices = [0, Math.floor((candidates.length - 1) / 2), candidates.length - 1];
-  const chosen = [];
-  const seen = new Set();
-  for (const index of indices) {
-    const item = candidates[index];
-    const key = [item.resolution.pixels, item.sensor.width, item.focal].join("/");
-    if (!seen.has(key)) {
-      seen.add(key);
-      chosen.push(item);
-    }
+function selectProfiles(candidates, targetPPM) {
+  if (!candidates.length) return [];
+
+  const selected = [];
+  const used = new Set();
+  const keyOf = c => [c.resolution.pixels,c.sensor.width,c.focal].join("/");
+  const add = (candidate, label, description) => {
+    if (!candidate || used.has(keyOf(candidate))) return false;
+    used.add(keyOf(candidate));
+    selected.push({ ...candidate, profileLabel: label, profileDescription: description });
+    return true;
+  };
+
+  // Сначала группируем доступные конфигурации по классу разрешения.
+  const resolutionLevels = [...new Set(candidates.map(c => c.resolution.pixels))]
+    .sort((a,b) => a-b);
+
+  const byResolution = pixels => candidates.filter(c => c.resolution.pixels === pixels);
+
+  // Внутри одного разрешения выбираем максимально широкий кадр,
+  // сохраняя целевой PPM. При равной ширине предпочитаем меньший запас.
+  const bestCoverage = list => [...list].sort((a,b) =>
+    (b.sceneWidth - a.sceneWidth) ||
+    (a.marginPPM - b.marginPPM) ||
+    (a.focal - b.focal)
+  )[0];
+
+  // 1. Минимально достаточный: самый низкий доступный класс разрешения.
+  const minLevel = resolutionLevels[0];
+  const minimum = bestCoverage(byResolution(minLevel));
+  add(minimum, "Минимально достаточный",
+    `Минимальный доступный класс разрешения (${minimum.resolution.label}), который выполняет целевой PPM.`);
+
+  // 2. Сбалансированный: следующий класс разрешения после минимального.
+  // Это гарантирует сравнение с более высоким разрешением, если оно доступно.
+  const middleLevel = resolutionLevels.find(level => level > minLevel);
+  if (middleLevel !== undefined) {
+    const balancedPool = byResolution(middleLevel);
+    const balanced = bestCoverage(balancedPool);
+    add(balanced, "Сбалансированный",
+      `Следующий класс разрешения (${balanced.resolution.label}) с максимально широким охватом при выполнении целевого PPM.`);
   }
-  return chosen;
-}
 
-function variantLabel(index, total) {
-  if (total === 1) return "Расчётный вариант";
-  return ["Минимально достаточный", "Сбалансированный", "С запасом по детализации"][index] || "Альтернативный вариант";
+  // 3. Максимальная детализация: самый высокий доступный класс разрешения.
+  const maxLevel = resolutionLevels[resolutionLevels.length - 1];
+  if (maxLevel !== minLevel && maxLevel !== middleLevel) {
+    const detailPool = byResolution(maxLevel);
+    const detailed = [...detailPool].sort((a,b) =>
+      (b.actualPPM - a.actualPPM) ||
+      (b.sceneWidth - a.sceneWidth)
+    )[0];
+    add(detailed, "Максимальная детализация",
+      `Наивысший доступный класс разрешения (${detailed.resolution.label}); среди его конфигураций выбрана максимальная PPM.`);
+  } else if (maxLevel !== minLevel) {
+    // Если доступны только два класса, третьим показываем конфигурацию
+    // с наибольшей PPM из оставшихся вариантов второго класса.
+    const detailPool = candidates.filter(c => !used.has(keyOf(c)));
+    const detailed = [...detailPool].sort((a,b) =>
+      (b.actualPPM - a.actualPPM) ||
+      (b.resolution.pixels - a.resolution.pixels)
+    )[0];
+    add(detailed, "Повышенная детализация",
+      "Дополнительная конфигурация с максимально высокой PPM среди оставшихся вариантов.");
+  }
+
+  return selected;
 }
 
 function nightAdvice(light, movement, aperture, illuminationType) {
@@ -338,7 +641,7 @@ function renderAuto() {
   }
 
   const candidates = buildCandidates({ppm,distance,minWidth,light,movement});
-  const results = selectThreeVariants(candidates);
+  const results = selectProfiles(candidates, ppm);
   if (!results.length) {
     $("output").innerHTML = `<div class="result"><h2>Подходящая комбинация не найдена</h2>
       <p>При заданном расстоянии и ширине зоны текущий набор разрешений, сенсоров и объективов не обеспечивает выбранную плотность.</p>
@@ -354,17 +657,28 @@ function renderAuto() {
   results.forEach((c,i) => {
     const widthPass = minWidth === 0 || c.sceneWidth >= minWidth;
     html += `<article class="camera">
-      <span class="pill ${i===1 ? "best" : ""}">${variantLabel(i,results.length)}</span>
+      <span class="pill ${i===0 ? "best" : ""}">${c.profileLabel}</span>
       <h3>${c.resolution.label} · матрица ${c.sensor.format}</h3>
+      <p class="note">${c.profileDescription}</p>
+      <h4>Параметры камеры</h4>
       <div class="metrics">
         <div class="metric"><small>Разрешение</small><b>${c.resolution.label}</b></div>
         <div class="metric"><small>Размер матрицы</small><b>${c.sensor.format}</b></div>
-        <div class="metric"><small>Ширина сенсора</small><b>${fmt(c.sensor.width)} мм</b></div>
         <div class="metric"><small>Объектив</small><b>${c.focal} мм</b></div>
-        <div class="metric"><small>Светосила — ориентир</small><b>F${c.aperture.toFixed(1)}</b></div>
-        <div class="metric"><small>Ширина сцены</small><b>${fmt(c.sceneWidth)} м</b></div>
-        <div class="metric"><small>Плотность</small><b>${Math.round(c.actualPPM)} PPM</b></div>
+        <div class="metric"><small>Светосила</small><b>F${c.aperture.toFixed(1)}</b></div>
+        <div class="metric"><small>Необходимая освещённость</small><b>Уточняется по модели</b></div>
       </div>
+      <h4>Параметры результата</h4>
+      <div class="metrics">
+        <div class="metric"><small>Плотность пикселей</small><b>${Math.round(c.actualPPM)} PPM</b></div>
+        <div class="metric"><small>Горизонтальный угол обзора</small><b>${fmt(c.horizontalAngle)}°</b></div>
+        <div class="metric"><small>Вертикальный угол обзора</small><b>${fmt(c.verticalAngle)}°</b></div>
+        <div class="metric"><small>Ширина сцены</small><b>${fmt(c.sceneWidth)} м</b></div>
+        <div class="metric"><small>Высота сцены</small><b>${fmt(c.sceneHeight)} м</b></div>
+        <div class="metric"><small>Запас относительно цели</small><b>+${Math.round(c.marginPPM)} PPM (${Math.round(c.marginPercent)}%)</b></div>
+      </div>
+      <p class="note">Для расчёта принят формат изображения 16:9. Физические размеры сенсора приблизительные; точные активные размеры и реальный угол обзора нужно сверять с паспортом конкретной камеры. Минимальное расчётное фокусное расстояние: ${fmt(c.minFocal)} мм.</p>
+      <p class="note">Число люкс нельзя надёжно вывести только из светосилы F: оно зависит от чувствительности сенсора, выдержки, усиления, шума и подсветки. Поэтому числовое требование в люксах появится после выбора реальной модели с паспортными данными.</p>
     </article>`;
   });
 
@@ -374,7 +688,7 @@ function renderAuto() {
     <p><b>Ночное освещение:</b> ${nightAdvice(light,movement,results[0].aperture,illuminationType)}</p>
     <div class="warning"><b>Ограничение ночного расчёта.</b> Светосила F сама по себе не определяет, получится ли пригодное изображение. Нужны реальные данные о чувствительности сенсора, размере пикселя, выдержке, усилении, шуме, ИК/белой подсветке и отражательной способности объекта. Поэтому калькулятор задаёт ориентир по светосиле и отдельно предупреждает о необходимости проверки ночной сцены.</div>
     <p class="note">PPM рассчитан по горизонтальному разрешению. Угол съёмки не переводится в условный коэффициент: он влияет на видимость признаков лица и оценивается отдельно. Также важны вертикальная детализация, размер лица в кадре, фокусировка, компрессия и отсутствие смаза. Для автомобильных номеров нужен отдельный профиль с учётом скорости и выдержки.</p>
-    <p class="note">Варианты показывают разные уровни технического запаса в рамках расчётной модели. Они не означают конкретную цену, наличие в продаже или подтверждённую совместимость компонентов.</p>
+    <p class="note">Варианты специально показывают разные классы разрешения: минимальный доступный, следующий класс и максимальный доступный. Так 4 Мп не теряется между другими вариантами, если такая конфигурация проходит условия. Калькулятор пока не оценивает стоимость и не выдаёт точное требование в люксах: для этого нужны конкретная модель камеры и её паспортные данные.</p>
     </section>`;
 
   $("output").innerHTML = html;
@@ -397,6 +711,8 @@ function renderManual() {
     : $("mSensorFormat").selectedOptions[0].textContent.split(" — ")[0];
   const focal = Number($("mFocal").value);
   const distance = Number($("mDistance").value);
+  // Если высота активной области неизвестна, принимаем кадр 16:9.
+  const sensorHeight = sensorWidth * 9 / 16;
 
   if (![pixels,sensorWidth,focal,distance].every(Number.isFinite) ||
       pixels <= 0 || sensorWidth <= 0 || focal <= 0 || distance <= 0) {
@@ -405,6 +721,9 @@ function renderManual() {
   }
 
   const scene = distance * sensorWidth / focal;
+  const sceneHeight = distance * sensorHeight / focal;
+  const horizontalAngle = fieldOfView(sensorWidth, focal);
+  const verticalAngle = fieldOfView(sensorHeight, focal);
   const ppm = pixels / scene;
   const distances = [25,62.5,125,250,500].map(t => ({
     t, d: distance * ppm / t
@@ -413,17 +732,28 @@ function renderManual() {
   $("output").innerHTML = `<section class="result">
     <h2>Результат ручного расчёта</h2>
     <p>Матрица: <b>${sensorLabel}</b>, физическая ширина сенсора: <b>${fmt(sensorWidth)} мм</b>.</p>
+    <h3>Параметры камеры</h3>
     <div class="metrics">
+      <div class="metric"><small>Разрешение по горизонтали</small><b>${pixels} px</b></div>
+      <div class="metric"><small>Размер матрицы</small><b>${sensorLabel}</b></div>
+      <div class="metric"><small>Объектив</small><b>${fmt(focal)} мм</b></div>
+      <div class="metric"><small>Физическая ширина сенсора</small><b>${fmt(sensorWidth)} мм</b></div>
+    </div>
+    <h3>Параметры результата</h3>
+    <div class="metrics">
+      <div class="metric"><small>Плотность пикселей</small><b>${Math.round(ppm)} PPM</b></div>
+      <div class="metric"><small>Горизонтальный угол обзора</small><b>${fmt(horizontalAngle)}°</b></div>
+      <div class="metric"><small>Вертикальный угол обзора</small><b>${fmt(verticalAngle)}°</b></div>
       <div class="metric"><small>Ширина сцены</small><b>${fmt(scene)} м</b></div>
-      <div class="metric"><small>Плотность</small><b>${Math.round(ppm)} PPM</b></div>
+      <div class="metric"><small>Высота сцены</small><b>${fmt(sceneHeight)} м</b></div>
     </div>
     <h3>Расчётные дистанции по плотности</h3>
     ${distances.map(x => `<p>${targetName(x.t)} (${x.t} PPM): <b>${fmt(x.d)} м</b></p>`).join("")}
-    <p class="note">Это геометрические дистанции при неизменных разрешении, сенсоре и объективе. Они не учитывают условия съёмки и не гарантируют фактическое распознавание.</p>
+    <p class="note">Для вертикального угла и высоты сцены принято соотношение сторон 16:9. Если камера использует другое соотношение сторон или обрезает изображение, значения будут отличаться. Расчёт геометрический и не гарантирует фактическое распознавание.</p>
   </section>`;
 }
 
-$("calculateAuto").addEventListener("click", renderAuto);
+$("calculateAuto").addEventListener("click", renderAutoReal);
 $("calculateManual").addEventListener("click", renderManual);
 $("resetAuto").addEventListener("click", () => {
   $("goal").value="250";
@@ -437,6 +767,9 @@ $("resetAuto").addEventListener("click", () => {
   $("widthWrap").classList.add("hidden");
   $("output").innerHTML="";
 });
+
+// Загружаем внешний каталог до первого использования фильтра.
+loadCatalog();
 
 // Первоначально показываем автоматическую форму без автоподстановки камер.
 showMode("auto");
