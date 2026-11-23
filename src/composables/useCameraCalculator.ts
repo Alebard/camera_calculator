@@ -8,12 +8,7 @@ import type {
   ResolutionChoice,
   ScenarioProfile,
 } from '../types/camera'
-import {
-  estimatedSensorWidths,
-  formatNumber,
-  inferFormFactor,
-  sensorWidthFor,
-} from '../utils/camera'
+import { estimatedSensorWidths, inferFormFactor, sensorWidthFor } from '../utils/camera'
 
 const catalog = catalogData as Camera[]
 
@@ -80,6 +75,7 @@ export function useCameraCalculator() {
   const formFactor = ref('any')
   const needWdr = ref(false)
   const needPoe = ref(true)
+  const needWhiteLed = ref(false)
 
   const selectedProfile = computed(() =>
     scenarioProfiles.find((item) => item.id === profile.value)!,
@@ -172,40 +168,73 @@ export function useCameraCalculator() {
     if (focalMin > focalMax || distance.value <= 0 || sceneWidth.value <= 0 || targetPpm.value <= 0)
       return null
 
-    const requiredFocalMin = (distance.value * sensorWidth * targetPpm.value) / widthPx
-    const allowedFocalMax = (distance.value * sensorWidth) / sceneWidth.value
-    const low = Math.max(focalMin, requiredFocalMin)
-    const high = Math.min(focalMax, allowedFocalMax)
-    if (low > high) return null
+    const getGeometry = (width: number) => {
+      const requiredMin = (distance.value * width * targetPpm.value) / widthPx
+      const allowedMax = (distance.value * width) / sceneWidth.value
+      const low = Math.max(focalMin, requiredMin)
+      const high = Math.min(focalMax, allowedMax)
+      return low <= high ? { requiredMin, allowedMax, focal: high } : null
+    }
+    const geometry = getGeometry(sensorWidth)
+    if (!geometry) return null
+    const { requiredMin: requiredFocalMin, allowedMax: allowedFocalMax, focal } = geometry
 
-    const focal = high
     const frameWidth = (distance.value * sensorWidth) / focal
     const ppm = widthPx / frameWidth
     const ipRating = specs.ip_rating as number | null
     const lux = specs.minimum_illumination_lux as number | null
     const notes: string[] = []
+    const whiteLedRange = specs.white_led_range_m
+    const whiteLedCanCover =
+      needWhiteLed.value &&
+      specs.white_led === true &&
+      (typeof whiteLedRange !== 'number' || whiteLedRange >= distance.value)
     if (!heightPx && !sensorHeight)
       notes.push('вертикальное разрешение не указано; вертикальный угол не рассчитан')
+    let conditional = false
 
     if (location.value === 'outdoor' && ipRating !== null && ipRating < 65) return null
-    if (location.value === 'outdoor' && ipRating === null) notes.push('класс IP не указан')
-    if (lighting.value === 'dim' && typeof lux === 'number' && lux > 0.01) return null
-    if (lighting.value === 'dim' && typeof lux !== 'number')
+    if (location.value === 'outdoor' && ipRating === null) {
+      notes.push('класс IP не указан')
+      conditional = true
+    }
+    if (lighting.value === 'dim' && typeof lux === 'number' && lux > 0.01 && !whiteLedCanCover)
+      return null
+    if (lighting.value === 'dim' && typeof lux !== 'number' && !whiteLedCanCover) {
       notes.push('минимальная освещённость не указана')
+      conditional = true
+    }
 
     const irRange = specs.ir_range_m
-    if (lighting.value === 'dark' && typeof irRange === 'number' && irRange < distance.value)
+    if (
+      lighting.value === 'dark' &&
+      !whiteLedCanCover &&
+      typeof irRange === 'number' &&
+      irRange < distance.value
+    )
       return null
-    if (lighting.value === 'dark' && typeof irRange !== 'number')
+    if (lighting.value === 'dark' && !whiteLedCanCover && typeof irRange !== 'number') {
       notes.push('дальность ИК-подсветки не указана')
+      conditional = true
+    }
+    if (whiteLedCanCover && typeof whiteLedRange !== 'number') {
+      notes.push('белая LED-подсветка подтверждена, но её дальность не указана')
+      conditional = true
+    }
     if (needWdr.value && specs.wdr !== true) return null
     if (needPoe.value && specs.poe !== true) return null
 
     const estimatedSensor = typeof exactSensorWidth !== 'number'
-    if (estimatedSensor)
-      notes.unshift(
-        `сенсор ${specs.sensor_format}: ширина матрицы принята ≈${formatNumber(sensorWidth, 2)} мм`,
+    const estimateRange = estimatedSensor ? [sensorWidth * 0.9, sensorWidth * 1.1] : null
+    const sensorEstimateStable = estimateRange
+      ? estimateRange.every((width) => getGeometry(width) !== null)
+      : true
+    if (estimatedSensor && !sensorEstimateStable) {
+      notes.push(
+        'подбор зависит от оценочного размера сенсора; нужна проверка точной ширины матрицы',
       )
+      conditional = true
+    }
     const calculatedSensorHeight =
       sensorHeight ?? (heightPx ? (sensorWidth * heightPx) / widthPx : null)
     return {
@@ -216,11 +245,13 @@ export function useCameraCalculator() {
       minFocal: requiredFocalMin,
       maxFocal: allowedFocalMax,
       sensorWidth,
+      sensorFormat: typeof specs.sensor_format === 'string' ? specs.sensor_format : null,
+      estimatedSensor,
       hAngle: (2 * Math.atan(sensorWidth / (2 * focal)) * 180) / Math.PI,
       vAngle: calculatedSensorHeight
         ? (2 * Math.atan(calculatedSensorHeight / (2 * focal)) * 180) / Math.PI
         : null,
-      conditional: notes.length > 0 || estimatedSensor,
+      conditional,
       notes,
     }
   }
@@ -262,6 +293,7 @@ export function useCameraCalculator() {
     formOptions,
     needWdr,
     needPoe,
+    needWhiteLed,
     selectedProfile,
     targetPpm,
     requiredPixels,

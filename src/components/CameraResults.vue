@@ -139,6 +139,13 @@
           </div>
           <div v-if="megapixelLabel(item.camera)">{{ megapixelLabel(item.camera) }}</div>
           <div>{{ fmt(item.focal, 1) }} мм</div>
+          <div>
+            Ширина сенсора: {{ fmt(item.sensorWidth, 2) }} мм{{
+              item.estimatedSensor ? ' (оценка)' : ''
+            }}
+          </div>
+          <div v-if="item.sensorFormat">Формат: {{ item.sensorFormat }}</div>
+          <div v-if="item.estimatedSensor">Источник: формат сенсора; проверка ±10%</div>
         </div>
         <div class="camera-metrics">
           <div>

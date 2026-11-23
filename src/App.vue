@@ -16,6 +16,7 @@
     missingDataCounts,
     matches,
     needPoe,
+    needWhiteLed,
     needWdr,
     profile,
     recommendedFocalRange,
@@ -48,6 +49,7 @@
         v-model:form-factor="formFactor"
         v-model:need-wdr="needWdr"
         v-model:need-poe="needPoe"
+        v-model:need-white-led="needWhiteLed"
         :profiles="scenarioProfiles"
         :selected-profile="selectedProfile"
         :target-ppm="targetPpm"

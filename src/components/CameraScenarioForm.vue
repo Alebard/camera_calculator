@@ -16,6 +16,7 @@
   const formFactor = defineModel<string>('formFactor', { required: true })
   const needWdr = defineModel<boolean>('needWdr', { required: true })
   const needPoe = defineModel<boolean>('needPoe', { required: true })
+  const needWhiteLed = defineModel<boolean>('needWhiteLed', { required: true })
 
   const fmt = (value: number, digits = 1) =>
     new Intl.NumberFormat('ru-RU', { maximumFractionDigits: digits }).format(value)
@@ -97,9 +98,9 @@
           <option value="dim">Слабое освещение</option>
           <option value="dark">Полная темнота</option></select
         ><small class="field-hint"
-          >При слабом свете камеры с известной освещённостью выше 0,01 лк исключаются. В темноте
-          исключаются модели, у которых ИК не покрывает дистанцию; неизвестные данные остаются с
-          предупреждением.</small
+          >При слабом свете камеры с известной освещённостью выше 0,01 лк исключаются. В полной
+          темноте проверяется дальность ИК. Переключатель белой LED-подсветки позволяет таким
+          камерам пройти фильтр освещения, если светодиод подтверждён и покрывает дистанцию.</small
         ></label
       ><label class="field"
         ><span>Исполнение камеры</span
@@ -119,6 +120,9 @@
       ><label class="toggle"
         ><input v-model="needPoe" type="checkbox" /><span class="toggle-ui"></span
         ><span>Питание по Ethernet <small>PoE</small></span></label
+      ><label class="toggle"
+        ><input v-model="needWhiteLed" type="checkbox" /><span class="toggle-ui"></span
+        ><span>Белая LED-подсветка</span></label
       >
     </div>
   </section>

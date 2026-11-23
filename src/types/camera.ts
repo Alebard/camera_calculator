@@ -18,6 +18,8 @@ export type CameraMatch = {
   minFocal: number
   maxFocal: number
   sensorWidth: number
+  sensorFormat: string | null
+  estimatedSensor: boolean
   conditional: boolean
   notes: string[]
 }
