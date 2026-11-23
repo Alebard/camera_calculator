@@ -38,6 +38,11 @@
 
 <template>
   <main class="app-shell">
+    <header class="topbar">
+      <span class="brand">Калькулятор IP-камер</span>
+      <span class="top-note">Разработка @alebarrd</span>
+    </header>
+
     <div class="workspace">
       <CameraScenarioForm
         v-model:profile="profile"
@@ -98,5 +103,9 @@
       :missing-data-counts="missingDataCounts"
       :form-factor="formFactor"
     />
+
+    <footer>
+      <span>Разработка @alebarrd</span>
+    </footer>
   </main>
 </template>
