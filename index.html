@@ -46,6 +46,8 @@ input,select{width:100%;padding:11px;border:1px solid #cbd3dc;border-radius:8px;
 .inline input{width:auto}
 hr{border:0;border-top:1px solid #e7ebef;margin:18px 0}
 @media(max-width:600px){body{padding:12px}.grid{grid-template-columns:1fr}h1{font-size:23px}}
+
+.success-note{padding:10px 12px;border-left:3px solid #26965b;background:rgba(38,150,91,.08);border-radius:6px}
 </style>
 </head>
 <body>
@@ -356,32 +358,55 @@ function renderAutoReal() {
   }
 
   const targetNames={"25":"Обнаружение","62.5":"Наблюдение","125":"Распознавание","250":"Идентификация по изображению","500":"Повышенная детализация"};
-  const requiredWidth=minWidth>0 ? minWidth : null;
+  // В автоширине выбираем минимальную подтверждённую комбинацию из каталога:
+  // сначала минимальное горизонтальное разрешение, затем максимальную ширину
+  // охвата при сохранении целевого PPM. При заданной ширине учитываем её.
   const minimumCandidate = [...passing].sort((a,b) =>
     (a.specs.resolution_width_px-b.specs.resolution_width_px) ||
     (b.calc.sceneWidth-a.calc.sceneWidth) ||
-    (a.calc.ppm-b.calc.ppm)
+    ((Number(a.price)||Number.MAX_VALUE)-(Number(b.price)||Number.MAX_VALUE))
   )[0] || null;
-  const minimumResolution = minimumCandidate ? minimumCandidate.specs.resolution_width_px : null;
-  const maxAllowedHFOV = minimumResolution
-    ? 2*Math.atan(minimumResolution/(2*ppm*distance))*180/Math.PI
+
+  // Если подходящей камеры нет, показываем ближайшую по PPM конфигурацию
+  // как диагностическую, но не выдаём её за подходящую.
+  const diagnosticCandidate = minimumCandidate || [...evaluated]
+    .filter(c=>!minWidth || c.calc.sceneWidth>=minWidth)
+    .sort((a,b)=>(b.calc.ppm-a.calc.ppm) ||
+      (a.specs.resolution_width_px-b.specs.resolution_width_px))[0] || null;
+
+  const requirementCandidate = minimumCandidate || diagnosticCandidate;
+  const selectedWidth = requirementCandidate ? requirementCandidate.calc.sceneWidth : null;
+  const requiredPixels = selectedWidth ? Math.ceil(ppm*selectedWidth) : null;
+  const actualPixels = requirementCandidate ? requirementCandidate.specs.resolution_width_px : null;
+  const maxAllowedHFOV = requiredPixels
+    ? 2*Math.atan(selectedWidth/(2*distance))*180/Math.PI
     : null;
-  const recommendedWidth = minimumCandidate ? minimumCandidate.calc.sceneWidth : null;
+  const actualCameraHFOV = requirementCandidate ? requirementCandidate.calc.hfov : null;
+  const actualCameraPPM = requirementCandidate ? requirementCandidate.calc.ppm : null;
+  const targetNamesText=esc(targetNames[String(ppm)]||"Выбранная задача");
+  const fitStatus = minimumCandidate
+    ? `<p class="success-note"><b>Подходящая минимальная конфигурация найдена в каталоге.</b> Ниже показаны требования, полученные по самой компактной из подходящих комбинаций каталога.</p>`
+    : `<p class="warning"><b>Камера, полностью удовлетворяющая условиям, не найдена.</b> Ниже показан ближайший вариант из каталога для понимания, каких параметров не хватает. Он не считается подходящим.</p>`;
+
   let out=`<section class="result"><h2>Требуемые параметры камеры</h2>
     <div class="requirement">
-      <h3>Минимальные параметры по результатам расчёта</h3>
+      <h3>Минимальная конфигурация для заданной задачи</h3>
+      ${fitStatus}
       <div class="metrics">
-        <div class="metric"><small>Задача</small><b>${esc(targetNames[String(ppm)]||"Выбранная задача")} · ${ppm} PPM</b></div>
-        <div class="metric"><small>Дистанция</small><b>${distance} м</b></div>
-        <div class="metric"><small>Минимальное горизонтальное разрешение среди подходящих камер</small><b>${minimumResolution ? minimumResolution.toLocaleString("ru-RU")+" px" : "Не найдено в каталоге"}</b></div>
-        <div class="metric"><small>Угол обзора у минимального варианта</small><b>${minimumCandidate ? minimumCandidate.calc.hfov+"°" : "Нет подходящей модели"}</b></div>
-        <div class="metric"><small>Ширина кадра у минимального варианта</small><b>${recommendedWidth ? recommendedWidth.toFixed(2)+" м" : "Нет данных"}</b></div>
-        <div class="metric"><small>Максимальный HFOV для этого разрешения при заданной PPM</small><b>${maxAllowedHFOV ? maxAllowedHFOV.toFixed(1)+"°" : "Не рассчитывается"}</b></div>
-        <div class="metric"><small>Минимальная ширина зоны по условию</small><b>${requiredWidth ? requiredWidth+" м" : "Не ограничена"}</b></div>
-        <div class="metric"><small>Исполнение / установка</small><b>${$("formFactor").selectedOptions[0].text} / ${$("environment").selectedOptions[0].text}</b></div>
+        <div class="metric"><small>Задача / целевая плотность</small><b>${targetNamesText} · ${ppm} PPM</b></div>
+        <div class="metric"><small>Дистанция до объекта</small><b>${distance} м</b></div>
+        <div class="metric"><small>Минимальное требуемое горизонтальное разрешение для выбранной ширины</small><b>${requiredPixels ? requiredPixels.toLocaleString("ru-RU")+" px" : "Не удалось рассчитать"}</b></div>
+        <div class="metric"><small>Горизонтальный угол обзора — предел для этой ширины</small><b>${maxAllowedHFOV ? maxAllowedHFOV.toFixed(1)+"°" : "Не удалось рассчитать"}</b></div>
+        <div class="metric"><small>Ширина охвата на дистанции ${distance} м</small><b>${selectedWidth ? selectedWidth.toFixed(2)+" м" : "Нет подходящих данных"}</b></div>
+        <div class="metric"><small>Фактическое разрешение минимальной модели каталога</small><b>${actualPixels ? actualPixels.toLocaleString("ru-RU")+" px" : "Нет данных"}</b></div>
+        <div class="metric"><small>Фактический HFOV минимальной модели каталога</small><b>${actualCameraHFOV!=null ? actualCameraHFOV+"°" : "Нет данных"}</b></div>
+        <div class="metric"><small>Фактическая плотность выбранной модели</small><b>${actualCameraPPM!=null ? Math.round(actualCameraPPM)+" PPM" : "Нет данных"}</b></div>
+        <div class="metric"><small>Исполнение</small><b>${$("formFactor").selectedOptions[0].text}</b></div>
+        <div class="metric"><small>Место установки</small><b>${$("environment").selectedOptions[0].text}</b></div>
       </div>
-      <p class="note">Минимальное разрешение здесь — наименьшее горизонтальное разрешение среди моделей каталога, которые проходят расчёт по PPM, дистанции и заданной ширине зоны. Указанный максимальный HFOV — теоретический предел для этого разрешения; фактический угол конкретной модели должен быть не больше него.</p>
-      <p class="note"><b>Важно:</b> форм-фактор и назначение установки выводятся только при наличии основания в названии модели или паспортных данных. Отсутствующие значения не считаются подтверждёнными. Размер матрицы и светосила в каталоге не заданы; ночной режим требует отдельной проверки.</p>
+      <p class="note">При автоматической ширине калькулятор выбирает из отфильтрованного каталога камеру с наименьшим горизонтальным разрешением, которая обеспечивает целевой PPM; при равном разрешении предпочтение отдаётся большему охвату. Минимальное требуемое число пикселей рассчитывается как ${ppm} PPM × выбранная ширина кадра. Угол обзора — соответствующий предел для этой ширины и дистанции.</p>
+      ${minimumCandidate ? `<p class="note">Каталожная минимальная конфигурация: <b>${esc(minimumCandidate.brand)} ${esc(minimumCandidate.model)}</b>. Камера имеет ${actualPixels.toLocaleString("ru-RU")} px по горизонтали, HFOV ${actualCameraHFOV}° и обеспечивает ${Math.round(actualCameraPPM)} PPM на заданной дистанции.</p>` : ""}
+      <p class="note"><b>Ограничения:</b> расчёт использует паспортный горизонтальный угол и горизонтальное разрешение. Размер матрицы и светосила не заданы; ночной режим требует отдельной проверки.</p>
     </div>
     <h2>Примеры камер из каталога</h2>
     <p>Выбранные производители: <b>${selectedBrands.map(esc).join(", ")}</b>. Проверено ${filteredCatalog.length} моделей из выбранных производителей. В расчёт PPM включены только модели с пригодными углом обзора и разрешением.</p>
