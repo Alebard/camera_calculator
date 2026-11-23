@@ -17,6 +17,7 @@
   const needWdr = defineModel<boolean>('needWdr', { required: true })
   const needPoe = defineModel<boolean>('needPoe', { required: true })
   const needWhiteLed = defineModel<boolean>('needWhiteLed', { required: true })
+  const needMicrophone = defineModel<boolean>('needMicrophone', { required: true })
 
   const fmt = (value: number, digits = 1) =>
     new Intl.NumberFormat('ru-RU', { maximumFractionDigits: digits }).format(value)
@@ -123,6 +124,9 @@
       ><label class="toggle"
         ><input v-model="needWhiteLed" type="checkbox" /><span class="toggle-ui"></span
         ><span>Белая LED-подсветка</span></label
+      ><label class="toggle"
+        ><input v-model="needMicrophone" type="checkbox" /><span class="toggle-ui"></span
+        ><span>Встроенный микрофон</span></label
       >
     </div>
   </section>

@@ -76,6 +76,7 @@ export function useCameraCalculator() {
   const needWdr = ref(false)
   const needPoe = ref(true)
   const needWhiteLed = ref(false)
+  const needMicrophone = ref(false)
 
   const selectedProfile = computed(() =>
     scenarioProfiles.find((item) => item.id === profile.value)!,
@@ -223,6 +224,7 @@ export function useCameraCalculator() {
     }
     if (needWdr.value && specs.wdr !== true) return null
     if (needPoe.value && specs.poe !== true) return null
+    if (needMicrophone.value && specs.microphone !== true) return null
 
     const estimatedSensor = typeof exactSensorWidth !== 'number'
     const estimateRange = estimatedSensor ? [sensorWidth * 0.9, sensorWidth * 1.1] : null
@@ -294,6 +296,7 @@ export function useCameraCalculator() {
     needWdr,
     needPoe,
     needWhiteLed,
+    needMicrophone,
     selectedProfile,
     targetPpm,
     requiredPixels,
