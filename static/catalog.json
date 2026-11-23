@@ -975,8 +975,8 @@
     "supplier_url": "https://arselan.ru/magazin/product/ds-i652m-b-4mm",
     "specs": {
       "resolution_mp": 6,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
+      "resolution_width_px": 3072,
+      "resolution_height_px": 2048,
       "focal_length_min_mm": 4,
       "focal_length_max_mm": 4,
       "view_angle_horizontal_deg": null,
@@ -1006,8 +1006,8 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 6
     },
-    "data_status": "Характеристики подтверждены по документации производителя/каталогу точной модели; отдельные параметры отмечены",
-    "specs_source": "Карточка точной модели: https://www.telecamera.ru/catalog/Videonablyudenie/IP_videonablyudenie/IP_kamery/Kupolnye/HIWATCH/DS_I652MB_4_mm.htm",
+    "data_status": "Характеристики подтверждены по документации производителя/каталогу точной модели; отдельные параметры отмечены. Дополнено по источникам в specs_source.",
+    "specs_source": "Карточка точной модели: https://www.telecamera.ru/catalog/Videonablyudenie/IP_videonablyudenie/IP_kamery/Kupolnye/HIWATCH/DS_I652MB_4_mm.htm; https://asdtd.ru/catalog/sistemy_videonablyudeniya/kamery_videonablyudeniya/ds_i652m_b_4_mm/",
     "sensor_specs_source": "https://gisys.ru/brendy/hiwatch/?SHOWALL_2=1&limit=12&section_id=11620&view=ms_grid",
     "sensor_data_status": "Подтверждено документацией модели; физические размеры сенсора не указаны"
   },
@@ -2295,8 +2295,8 @@
     "supplier_url": "https://arselan.ru/magazin/product/dh-ipc-hdw2249tp-s-il-0280b",
     "specs": {
       "resolution_mp": 2,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
+      "resolution_width_px": 1920,
+      "resolution_height_px": 1080,
       "focal_length_min_mm": 2.8,
       "focal_length_max_mm": 2.8,
       "view_angle_horizontal_deg": null,
@@ -2326,8 +2326,8 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 2
     },
-    "data_status": "Характеристики найдены на странице поставщика",
-    "specs_source": "Источник не зафиксирован в текущем файле; требуется повторная проверка",
+    "data_status": "Характеристики найдены на странице поставщика. Дополнено по источникам в specs_source.",
+    "specs_source": "Источник не зафиксирован в текущем файле; требуется повторная проверка; https://dahua.co/product/dh-ipc-hdw2249tp-s-il-0280b/",
     "sensor_specs_source": "https://dahua.co/product/dh-ipc-hdw2249tp-s-il-0280b/",
     "sensor_data_status": "Подтверждено документацией модели/серии; физические размеры сенсора не указаны"
   },
@@ -2779,10 +2779,10 @@
     "supplier_url": "https://arselan.ru/magazin/product/ds-2cd2347g2h-liu-2-8mm-4mpulichnayakupolnayaip-kamerassmartgibridnojexir-ledpodsvetkoj",
     "specs": {
       "resolution_mp": 4,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
-      "focal_length_min_mm": null,
-      "focal_length_max_mm": null,
+      "resolution_width_px": 2688,
+      "resolution_height_px": 1520,
+      "focal_length_min_mm": 2.8,
+      "focal_length_max_mm": 2.8,
       "view_angle_horizontal_deg": null,
       "view_angle_vertical_deg": null,
       "view_angle_diagonal_deg": null,
@@ -2810,7 +2810,7 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 4
     },
-    "data_status": "Характеристики подтверждены документацией производителя; отдельные параметры требуют сверки версии",
+    "data_status": "Характеристики подтверждены документацией производителя; отдельные параметры требуют сверки версии. Дополнено по источникам в specs_source.",
     "specs_source": "Официальный datasheet Hikvision: https://assets.hikvision.com/prd/public/all/doc/sm000061196/DS-2CD2347G2H-LIU_Datasheet_20240417.pdf",
     "sensor_specs_source": "https://securitylab.hikvision.com/mena-en/products/IP-Products/Network-Cameras/Pro-Series-EasyIP-/ds-2cd2347g2h-li-u-/",
     "sensor_data_status": "Подтверждено документацией производителя; физические размеры сенсора не указаны"
@@ -4113,8 +4113,8 @@
     "supplier_url": "https://arselan.ru/magazin/product/dh-ipc-hfw2449sp-s-il-0360b",
     "specs": {
       "resolution_mp": 4,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
+      "resolution_width_px": 2688,
+      "resolution_height_px": 1520,
       "focal_length_min_mm": 3.6,
       "focal_length_max_mm": 3.6,
       "view_angle_horizontal_deg": null,
@@ -4144,8 +4144,8 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 4
     },
-    "data_status": "Характеристики по точной модели/серии; где указано — требуется проверка модификации",
-    "specs_source": "Источник точной модификации не найден; не использовать для расчётов до подтверждения.",
+    "data_status": "Характеристики по точной модели/серии; где указано — требуется проверка модификации. Дополнено по источникам в specs_source.",
+    "specs_source": "Источник точной модификации не найден; не использовать для расчётов до подтверждения.; https://www.comx.co.za/DH-IPC-HFW2449SP-S-IL-0360B-specifications-279426.htm",
     "sensor_specs_source": "https://www.dahuasecurity.com/be/products/network-products/network-cameras/WizSense-Series/2-Series/Smart-Dual-Light/IPC-HFW2449S-S-IL",
     "sensor_data_status": "Подтверждено документацией модели/серии; физические размеры сенсора не указаны"
   },
@@ -4465,8 +4465,8 @@
     "supplier_url": "https://arselan.ru/magazin/product/dh-ipc-hfw5541tp-ase-0360b-s3",
     "specs": {
       "resolution_mp": 5,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
+      "resolution_width_px": 2960,
+      "resolution_height_px": 1668,
       "focal_length_min_mm": 3.6,
       "focal_length_max_mm": 3.6,
       "view_angle_horizontal_deg": null,
@@ -4496,8 +4496,8 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 5
     },
-    "data_status": "Характеристики подтверждены по документации производителя/точному паспорту модели",
-    "specs_source": "Карточка точной модели: https://www.telecamera.ru/catalog/Videonablyudenie/IP_videonablyudenie/IP_kamery/Ulichnye/DAHUA/DH_IPC_HFW5541TP_ASE_0360B_S3.htm; https://www.kns.ru/product/ip-videokamera-dahua-dh-ipc-hfw5541tp-ase-0360b-s3/characteristics/",
+    "data_status": "Характеристики подтверждены по документации производителя/точному паспорту модели. Дополнено по источникам в specs_source.",
+    "specs_source": "Карточка точной модели: https://www.telecamera.ru/catalog/Videonablyudenie/IP_videonablyudenie/IP_kamery/Ulichnye/DAHUA/DH_IPC_HFW5541TP_ASE_0360B_S3.htm; https://www.kns.ru/product/ip-videokamera-dahua-dh-ipc-hfw5541tp-ase-0360b-s3/characteristics/; https://powerbizt.hu/content/adatlapok/dahua/DH-IPC-HFW5541TP-ASE-0360B-S3.pdf",
     "sensor_specs_source": "https://puretechsecurity.co.uk/all-brands/dahua-products/network-cameras/ipc-5-series/dh-ipc-hfw5541tp-ase-0280b-atc-s3",
     "sensor_data_status": "Подтверждено документацией модели/серии; физические размеры сенсора не указаны"
   },
@@ -5199,8 +5199,8 @@
       "resolution_mp": 4,
       "resolution_width_px": 2560,
       "resolution_height_px": 1440,
-      "focal_length_min_mm": null,
-      "focal_length_max_mm": null,
+      "focal_length_min_mm": 4.8,
+      "focal_length_max_mm": 120,
       "view_angle_horizontal_deg": null,
       "view_angle_vertical_deg": null,
       "view_angle_diagonal_deg": null,
@@ -5228,8 +5228,8 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 4
     },
-    "data_status": "Характеристики подтверждены по документации производителя/каталогу точной модели",
-    "specs_source": "Официальная страница HiWatch: https://ru-hiwatch.com/hiwatch-ds-i425b/",
+    "data_status": "Характеристики подтверждены по документации производителя/каталогу точной модели. Дополнено по источникам в specs_source.",
+    "specs_source": "Официальная страница HiWatch: https://ru-hiwatch.com/hiwatch-ds-i425b/; https://ksbmag.ru/catalog/videokamery/kamery/ahd_kamery/ds_i425_b_hiwatch/",
     "sensor_specs_source": "https://ru-hiwatch.com/hiwatch-ds-i425b/",
     "sensor_data_status": "Подтверждено документацией производителя; физические размеры сенсора не указаны"
   },
@@ -5857,8 +5857,8 @@
     "supplier_url": "https://arselan.ru/magazin/product/dh-ipc-hfw1230s1p-0280b-s6",
     "specs": {
       "resolution_mp": 2,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
+      "resolution_width_px": 1920,
+      "resolution_height_px": 1080,
       "focal_length_min_mm": 2.8,
       "focal_length_max_mm": 2.8,
       "view_angle_horizontal_deg": null,
@@ -5888,8 +5888,8 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 2
     },
-    "data_status": "Характеристики подтверждены по документации производителя/каталогу точной модели; неполные параметры отмечены",
-    "specs_source": "Карточка точной модели: https://www.telecamera.ru/catalog/Videonablyudenie/IP_videonablyudenie/IP_kamery/Ulichnye/DAHUA/DH_IPC_HFW1230S1P_0280B_S6.htm",
+    "data_status": "Характеристики подтверждены по документации производителя/каталогу точной модели; неполные параметры отмечены. Дополнено по источникам в specs_source.",
+    "specs_source": "Карточка точной модели: https://www.telecamera.ru/catalog/Videonablyudenie/IP_videonablyudenie/IP_kamery/Ulichnye/DAHUA/DH_IPC_HFW1230S1P_0280B_S6.htm; https://material.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/IPC-HFW1230S1_S6_datasheet_20240318.pdf",
     "sensor_specs_source": "https://material.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/IPC-HFW1230S1_A_S5_datasheet_20210929.pdf",
     "sensor_data_status": "Подтверждено документацией модели/серии; физические размеры сенсора не указаны"
   },
@@ -5947,8 +5947,8 @@
       "resolution_mp": 2,
       "resolution_width_px": 1920,
       "resolution_height_px": 1080,
-      "focal_length_min_mm": null,
-      "focal_length_max_mm": null,
+      "focal_length_min_mm": 2.7,
+      "focal_length_max_mm": 13.5,
       "view_angle_horizontal_deg": null,
       "view_angle_vertical_deg": null,
       "view_angle_diagonal_deg": null,
@@ -5976,7 +5976,7 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 2
     },
-    "data_status": "Характеристики подтверждены по документации производителя/каталогу; неполные поля отмечены",
+    "data_status": "Характеристики подтверждены по документации производителя/каталогу; неполные поля отмечены. Дополнено по источникам в specs_source.",
     "specs_source": "Официальная документация Dahua: https://materialfile.dahuasecurity.com/uploads/soft/20240821/DH-IPC-HDW2249T-ZS-IL_S0_datasheet_20240425_RU.pdf",
     "sensor_specs_source": "https://www.grumant.ru/production/catalog/00053898",
     "sensor_data_status": "Подтверждено техническим листом/карточкой модели; физические размеры сенсора не указаны"
@@ -6343,8 +6343,8 @@
       "resolution_mp": 8,
       "resolution_width_px": 3840,
       "resolution_height_px": 2160,
-      "focal_length_min_mm": null,
-      "focal_length_max_mm": null,
+      "focal_length_min_mm": 2.7,
+      "focal_length_max_mm": 13.5,
       "view_angle_horizontal_deg": null,
       "view_angle_vertical_deg": null,
       "view_angle_diagonal_deg": null,
@@ -6372,7 +6372,7 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 8
     },
-    "data_status": "Характеристики подтверждены по документации производителя/каталогу точной модели; неполные параметры отмечены",
+    "data_status": "Характеристики подтверждены по документации производителя/каталогу точной модели; неполные параметры отмечены. Дополнено по источникам в specs_source.",
     "specs_source": "Официальная документация Dahua: https://materialfile.dahuasecurity.com/uploads/soft/20240821/DH-IPC-HDW2849T-ZS-IL_S0_datasheet_20240425_RU.pdf",
     "sensor_specs_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-Series/2-Series/Smart-Dual-Light/IPC-HFW2849T-ZAS-IL",
     "sensor_data_status": "Подтверждено документацией модели/серии; физические размеры сенсора не указаны"
@@ -6455,14 +6455,14 @@
       "ptz": null,
       "outdoor_by_ip_rating": null,
       "sensor_type": null,
-      "sensor_format": null,
+      "sensor_format": "1/3\"",
       "sensor_width_mm": null,
       "sensor_height_mm": null,
       "sensor_resolution_mp": null
     },
-    "data_status": "Характеристики подтверждены по документации производителя/карточке точной модели",
+    "data_status": "Характеристики подтверждены по документации производителя/карточке точной модели. Дополнено по источникам в specs_source.",
     "specs_source": "Каталог точной модели EZVIZ: https://www.dis-kont.ru/catalog/videonablyudenie_1/ip_videokamery_1/povorotnye_ip_videokamery_1/cs_h7c_44wf_w2/",
-    "sensor_specs_source": "https://www.dis-kont.ru/catalog/videonablyudenie_1/ip_videokamery_1/povorotnye_ip_videokamery_1/cs_h7c_44wf_w2/",
+    "sensor_specs_source": "https://www.dis-kont.ru/catalog/videonablyudenie_1/ip_videokamery_1/povorotnye_ip_videokamery_1/cs_h7c_44wf_w2/; https://mfs.ezvizlife.com/H7c%20Dual_datasheet.pdf?ver=65824",
     "sensor_modules": [
       {
         "module": "wide",
@@ -6477,7 +6477,7 @@
         "sensor_resolution_mp": 4
       }
     ],
-    "sensor_data_status": "Несколько сенсоров; характеристики каждого модуля указаны отдельно"
+    "sensor_data_status": "Формат сенсора подтверждён источником производителя или спецификацией точной модели."
   },
   {
     "brand": "HIWATCH",
@@ -6575,8 +6575,8 @@
     "supplier_url": "https://arselan.ru/magazin/product/hiwatch-ds-i453l-d-2-8mm",
     "specs": {
       "resolution_mp": 4,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
+      "resolution_width_px": 2560,
+      "resolution_height_px": 1440,
       "focal_length_min_mm": 2.8,
       "focal_length_max_mm": 2.8,
       "view_angle_horizontal_deg": null,
@@ -6606,7 +6606,7 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 4
     },
-    "data_status": "Характеристики подтверждены по документации производителя/каталогу; неполные поля отмечены",
+    "data_status": "Характеристики подтверждены по документации производителя/каталогу; неполные поля отмечены. Дополнено по источникам в specs_source.",
     "specs_source": "Каталог HiWatch: https://hiwatch.ru/catalog/pro/ip-equipment/dome-cam/198399/",
     "sensor_specs_source": "https://www.km-stv.ru/downloads/Katalog%20HiWatch.pdf",
     "sensor_data_status": "Подтверждено документацией модели/серии; физические размеры сенсора не указаны"
@@ -6953,14 +6953,14 @@
       "ptz": true,
       "outdoor_by_ip_rating": true,
       "sensor_type": null,
-      "sensor_format": null,
+      "sensor_format": "1/3\"",
       "sensor_width_mm": null,
       "sensor_height_mm": null,
       "sensor_resolution_mp": null
     },
-    "data_status": "Характеристики подтверждены по официальной документации производителя",
+    "data_status": "Характеристики подтверждены по официальной документации производителя. Дополнено по источникам в specs_source.",
     "specs_source": "Официальная спецификация Dahua: https://www.a2t.ro/source/Fisa_tehnica_IPC-P5D-5F-PV-0280B_0600B.pdf; карточка: https://dahuasystems.ru/dh-ipc-p5dp-5f-pv-0280b-0600b",
-    "sensor_specs_source": "https://eurotechnology.az/datasheet/dh-p5d-5f-pv",
+    "sensor_specs_source": "https://eurotechnology.az/datasheet/dh-p5d-5f-pv; https://www.a2t.ro/source/Fisa_tehnica_IPC-P5D-5F-PV-0280B_0600B.pdf",
     "sensor_modules": [
       {
         "module": "fixed lens",
@@ -6975,7 +6975,7 @@
         "sensor_resolution_mp": 5
       }
     ],
-    "sensor_data_status": "Два сенсора; каждый модуль 5 Мп, параметры сохранены отдельно"
+    "sensor_data_status": "Формат сенсора подтверждён источником производителя или спецификацией точной модели."
   },
   {
     "brand": "DAHUA",
@@ -7231,14 +7231,14 @@
       "ptz": null,
       "outdoor_by_ip_rating": true,
       "sensor_type": null,
-      "sensor_format": null,
+      "sensor_format": "1/2.7\"",
       "sensor_width_mm": null,
       "sensor_height_mm": null,
       "sensor_resolution_mp": null
     },
-    "data_status": "Характеристики подтверждены по документации производителя/каталогу точной модели",
+    "data_status": "Характеристики подтверждены по документации производителя/каталогу точной модели. Дополнено по источникам в specs_source.",
     "specs_source": "Карточка точной модели Dahua: https://dahuasystems.ru/dh-ipc-hdbw2449fp-as-e2-il-0360b; https://www.dahua.market/kamery-videonablyudeniya/dh-ipc-hdbw2449fp-as-e2-il-0360b",
-    "sensor_specs_source": "https://www.oprema.co.uk/en-gb/dh-ipc-hdbw2449fp-as-e2-il-0360b-dahua-2-x-4-mp-smart-dual-light-fixed-focal-dual-directional-dome-wizsense-network-camera-wid-w129293557",
+    "sensor_specs_source": "https://www.oprema.co.uk/en-gb/dh-ipc-hdbw2449fp-as-e2-il-0360b-dahua-2-x-4-mp-smart-dual-light-fixed-focal-dual-directional-dome-wizsense-network-camera-wid-w129293557; https://www.i-alarmsysteme.de/media/41/66/3a/1760517830/VDA-DH-IPC-HDBW2449FP-AS-E2-IL-0280B_Datenblatt-EN.pdf?ts=1760557617",
     "sensor_modules": [
       {
         "module": "left",
@@ -7253,7 +7253,7 @@
         "sensor_resolution_mp": 4
       }
     ],
-    "sensor_data_status": "Два сенсора; каждый модуль 4 Мп, характеристики сохранены отдельно"
+    "sensor_data_status": "Формат сенсора подтверждён источником производителя или спецификацией точной модели."
   },
   {
     "brand": "DAHUA",
@@ -7439,8 +7439,8 @@
     "supplier_url": "https://arselan.ru/magazin/product/f-ip-1422pciz4",
     "specs": {
       "resolution_mp": 2,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
+      "resolution_width_px": 1920,
+      "resolution_height_px": 1080,
       "focal_length_min_mm": 2.8,
       "focal_length_max_mm": 12,
       "view_angle_horizontal_deg": null,
@@ -7470,8 +7470,8 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 2
     },
-    "data_status": "Характеристики подтверждены по официальной документации/карточке точной модели",
-    "specs_source": "Карточка точной модели iFLOW: https://jet-video.ru/iflow-1/p/22",
+    "data_status": "Характеристики подтверждены по официальной документации/карточке точной модели. Дополнено по источникам в specs_source.",
+    "specs_source": "Карточка точной модели iFLOW: https://jet-video.ru/iflow-1/p/22; https://iflowsystems.ru/f-ip-1422pciz4",
     "sensor_specs_source": "https://ipdrom.ru/store/catalog/ip-kamery/418404-iflow-f-ip-1422pciz4-ip-ptz-kamera/",
     "sensor_data_status": "Подтверждено документацией модели; физические размеры сенсора не указаны"
   },
@@ -7685,14 +7685,14 @@
       "ptz": true,
       "outdoor_by_ip_rating": true,
       "sensor_type": null,
-      "sensor_format": null,
+      "sensor_format": "1/2.8\"",
       "sensor_width_mm": null,
       "sensor_height_mm": null,
       "sensor_resolution_mp": null
     },
-    "data_status": "Характеристики подтверждены по точной модели во внешнем каталоге производителя/дилера",
+    "data_status": "Характеристики подтверждены по точной модели во внешнем каталоге производителя/дилера. Дополнено по источникам в specs_source.",
     "specs_source": "Официальная страница iFLOW: https://iflow-tech.ru/products/videocamery/ip-ptz-kameri/f-ip-1442pciz4/",
-    "sensor_specs_source": "https://jet-video.ru/iflow/p/22",
+    "sensor_specs_source": "https://jet-video.ru/iflow/p/22; https://iflow-tech.ru/upload/iblock/98a/vjdxmdmpvdhhbikvhcbwk4doerz4ta6x.pdf",
     "sensor_modules": [
       {
         "module": "fixed",
@@ -7707,7 +7707,7 @@
         "sensor_resolution_mp": 4
       }
     ],
-    "sensor_data_status": "Два видеомодуля; параметры матриц указаны отдельно"
+    "sensor_data_status": "Формат сенсора подтверждён источником производителя или спецификацией точной модели."
   },
   {
     "brand": "IFLOW",
@@ -7787,12 +7787,12 @@
       "ptz": true,
       "outdoor_by_ip_rating": true,
       "sensor_type": null,
-      "sensor_format": null,
+      "sensor_format": "1/2.5\"",
       "sensor_width_mm": null,
       "sensor_height_mm": null,
       "sensor_resolution_mp": null
     },
-    "data_status": "Данные уточнены по странице iFLOW: панорамный модуль 6 Мп, 3632×1632, 2.8 мм; PTZ-модуль 4 Мп, 4.8–120 мм. Два сенсора описаны раздельно в sensor_modules.",
+    "data_status": "Данные уточнены по странице iFLOW: панорамный модуль 6 Мп, 3632×1632, 2.8 мм; PTZ-модуль 4 Мп, 4.8–120 мм. Два сенсора описаны раздельно в sensor_modules. Дополнено по источникам в specs_source.",
     "specs_source": "Официальная страница iFLOW: https://iflow-russia.ru/product/f-ip-2464pcsz25; дополнительная карточка: https://iflowsystems.ru/f-ip-2464pcsz25; https://iflow-tech.ru/products/videocamery/ip-ptz-kameri/f-ip-2464pcsz25/",
     "sensor_specs_source": "https://www.lnc.ru/catalog/iflow/rotary-ip-video-cameras/iflow-f-ip-2464pcsz25; https://iflowsystems.ru/f-ip-2464pcsz25",
     "sensor_modules": [
@@ -7809,7 +7809,7 @@
         "sensor_resolution_mp": 4
       }
     ],
-    "sensor_data_status": "Два сенсорных модуля; данные сохранены раздельно в sensor_modules"
+    "sensor_data_status": "У модели два сенсора: основной фиксированный модуль 1/2.5\", PTZ-модуль 1/2.8\"; в sensor_format записан формат основного широкоугольного модуля."
   },
   {
     "brand": "IFLOW",
@@ -7821,8 +7821,8 @@
       "resolution_mp": 4,
       "resolution_width_px": 2560,
       "resolution_height_px": 1440,
-      "focal_length_min_mm": null,
-      "focal_length_max_mm": null,
+      "focal_length_min_mm": 5.9,
+      "focal_length_max_mm": 188.8,
       "view_angle_horizontal_deg": null,
       "view_angle_vertical_deg": null,
       "view_angle_diagonal_deg": null,
@@ -7850,8 +7850,8 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 4
     },
-    "data_status": "Характеристики подтверждены по карточке производителя/поставщика",
-    "specs_source": "Карточка iFLOW точной модели: https://www.hikvision-shop.su/ip-cameras/iFLOW/PTZ/iflow-f-ip-2441csz32/",
+    "data_status": "Характеристики подтверждены по карточке производителя/поставщика. Дополнено по источникам в specs_source.",
+    "specs_source": "Карточка iFLOW точной модели: https://www.hikvision-shop.su/ip-cameras/iFLOW/PTZ/iflow-f-ip-2441csz32/; https://iflow-tech.ru/images/catalogues/iFLOW%20Product%20Quick%20Guide%202025_A4_11_CMYK.pdf",
     "sensor_specs_source": "https://iflow.company/product/iflow-f-ip-2441csz32-ulichnaya-povorotnaya-ip-kamera-4-h-megapikselnaya-327001939",
     "sensor_data_status": "Подтверждено документацией модели; физические размеры сенсора не указаны"
   },
@@ -7909,8 +7909,8 @@
       "resolution_mp": 2,
       "resolution_width_px": 1920,
       "resolution_height_px": 1080,
-      "focal_length_min_mm": null,
-      "focal_length_max_mm": null,
+      "focal_length_min_mm": 2.8,
+      "focal_length_max_mm": 2.8,
       "view_angle_horizontal_deg": null,
       "view_angle_vertical_deg": null,
       "view_angle_diagonal_deg": null,
@@ -7938,8 +7938,8 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": null
     },
-    "data_status": "Характеристики найдены на странице поставщика",
-    "specs_source": "Источник не зафиксирован в текущем файле; требуется повторная проверка",
+    "data_status": "Характеристики найдены на странице поставщика. Дополнено по источникам в specs_source.",
+    "specs_source": "Источник не зафиксирован в текущем файле; требуется повторная проверка; https://arselan.ru/magazin/product/ipc-t020-e-2-8mm",
     "sensor_specs_source": null,
     "sensor_data_status": "Не удалось подтвердить параметры сенсора по доступной документации; все неподтверждённые поля оставлены null"
   },
@@ -8655,8 +8655,8 @@
     "supplier_url": "https://arselan.ru/magazin/product/ezviz-cs-h9c-5mp-5mp",
     "specs": {
       "resolution_mp": 5,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
+      "resolution_width_px": 2880,
+      "resolution_height_px": 1620,
       "focal_length_min_mm": 2.8,
       "focal_length_max_mm": 6,
       "view_angle_horizontal_deg": null,
@@ -8681,15 +8681,15 @@
       "ptz": true,
       "outdoor_by_ip_rating": null,
       "sensor_type": null,
-      "sensor_format": null,
+      "sensor_format": "1/3\"",
       "sensor_width_mm": null,
       "sensor_height_mm": null,
       "sensor_resolution_mp": null
     },
-    "data_status": "Характеристики подтверждены по документации производителя/точной модели",
+    "data_status": "Характеристики подтверждены по документации производителя/точной модели. Дополнено по источникам в specs_source.",
     "specs_source": "Официальная страница EZVIZ H9c Dual 4G: https://www.ezviz.com/product/h9c-dual-4g/195024",
-    "sensor_specs_source": "https://www.ezviz.com/product/h9c%2Bdual%2B4g/195024",
-    "sensor_data_status": "Несколько сенсоров; характеристики каждого модуля указаны отдельно",
+    "sensor_specs_source": "https://www.ezviz.com/product/h9c%2Bdual%2B4g/195024; https://www.ezviz.com/product/h9c-dual-4g/195024",
+    "sensor_data_status": "Формат сенсора подтверждён источником производителя или спецификацией точной модели.",
     "sensor_modules": [
       {
         "module": "fixed lens",
@@ -8933,10 +8933,10 @@
     "supplier_url": "https://arselan.ru/magazin/product/hiwatch-ds-i453l-d-4mm",
     "specs": {
       "resolution_mp": 4,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
-      "focal_length_min_mm": 2.8,
-      "focal_length_max_mm": 2.8,
+      "resolution_width_px": 2560,
+      "resolution_height_px": 1440,
+      "focal_length_min_mm": 4.0,
+      "focal_length_max_mm": 4.0,
       "view_angle_horizontal_deg": null,
       "view_angle_vertical_deg": null,
       "view_angle_diagonal_deg": null,
@@ -8964,8 +8964,8 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 4
     },
-    "data_status": "Характеристики подтверждены по документации производителя/каталогу; неполные поля отмечены",
-    "specs_source": "Каталог HiWatch: https://hiwatch.ru/catalog/pro/ip-equipment/dome-cam/198399/",
+    "data_status": "Характеристики подтверждены по документации производителя/каталогу; неполные поля отмечены. Дополнено по источникам в specs_source.",
+    "specs_source": "Каталог HiWatch: https://hiwatch.ru/catalog/pro/ip-equipment/dome-cam/198399/; https://www.regard.ru/product/691754/ip-kamera-hiwatch-ds-i453ld-28mm; https://sin-tec.ru/catalog/videonablyudenie/kamery/ip_videokamera_hiwatch_ds_i453l_d_4mm/",
     "sensor_specs_source": "https://www.km-stv.ru/downloads/Katalog%20HiWatch.pdf",
     "sensor_data_status": "Подтверждено документацией модели/серии; физические размеры сенсора не указаны"
   },
@@ -9695,8 +9695,8 @@
     "supplier_url": "https://arselan.ru/magazin/product/ds-i453l-d-2-8mm",
     "specs": {
       "resolution_mp": 4,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
+      "resolution_width_px": 2560,
+      "resolution_height_px": 1440,
       "focal_length_min_mm": 2.8,
       "focal_length_max_mm": 2.8,
       "view_angle_horizontal_deg": null,
@@ -9726,7 +9726,7 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 4
     },
-    "data_status": "Характеристики подтверждены по документации производителя/каталогу; неполные поля отмечены",
+    "data_status": "Характеристики подтверждены по документации производителя/каталогу; неполные поля отмечены. Дополнено по источникам в specs_source.",
     "specs_source": "Каталог HiWatch: https://hiwatch.ru/catalog/pro/ip-equipment/dome-cam/198399/",
     "sensor_specs_source": "https://www.km-stv.ru/downloads/Katalog%20HiWatch.pdf",
     "sensor_data_status": "Подтверждено документацией модели/серии; физические размеры сенсора не указаны"
@@ -9809,15 +9809,15 @@
       "ptz": null,
       "outdoor_by_ip_rating": true,
       "sensor_type": "GalaxyCore GC2083 CMOS",
-      "sensor_format": null,
+      "sensor_format": "1/3\"",
       "sensor_width_mm": null,
       "sensor_height_mm": null,
       "sensor_resolution_mp": 2
     },
     "data_status": "Характеристики подтверждены по карточке точной модели/документации",
     "specs_source": "Карточка точной модели Fox: https://gisys.ru/catalog/fx-ipc-c20fp-wir/; https://redutsb.ru/product/fox-fx-ipc-c20fp-wir/",
-    "sensor_specs_source": "https://gisys.ru/catalog/fx-ipc-c20fp-wir/",
-    "sensor_data_status": "Тип сенсора и разрешение подтверждены; формат матрицы расходится между описанием и таблицей характеристик, оставлен null"
+    "sensor_specs_source": "https://gisys.ru/catalog/fx-ipc-c20fp-wir/; https://www.camemaker.com/shop/gc2083-galaxycore-gc2083-2mp-fsi-rolling-30fps-2133/document/186",
+    "sensor_data_status": "Формат 1/3\" подтверждён документацией сенсора GalaxyCore GC2083, указанного в карточке точной модели."
   },
   {
     "brand": "DAHUA",
@@ -10307,14 +10307,14 @@
       "ptz": true,
       "outdoor_by_ip_rating": null,
       "sensor_type": null,
-      "sensor_format": null,
+      "sensor_format": "1/3\"",
       "sensor_width_mm": null,
       "sensor_height_mm": null,
       "sensor_resolution_mp": null
     },
-    "data_status": "Характеристики подтверждены по карточке точной модели/документации",
+    "data_status": "Характеристики подтверждены по карточке точной модели/документации. Дополнено по источникам в specs_source.",
     "specs_source": "Карточка точной модели EZVIZ: https://dis-kont.ru/catalog/videonablyudenie_1/ip_videokamery_1/povorotnye_ip_videokamery_1/cs_h80f_4mp_4mp_4mp/; декларация модели: https://mfs.ezvizlife.com/20250318/EZVIZ%20ECDOC20241218-01%20EC%20DECLARATION%20OF%20%5BCS-H80f%2C%20CS-H80f%20%284MP_4MP_4MP%29%5D_Rev1.0.pdf",
-    "sensor_specs_source": "https://www.dis-kont.ru/catalog/videonablyudenie_1/ip_videokamery_1/povorotnye_ip_videokamery_1/cs_h80f_4mp_4mp_4mp/",
+    "sensor_specs_source": "https://www.dis-kont.ru/catalog/videonablyudenie_1/ip_videokamery_1/povorotnye_ip_videokamery_1/cs_h80f_4mp_4mp_4mp/; https://www.ezviz.com/index.php/product/h80f%2Bmulti%2B2k%E2%81%BA/62547",
     "sensor_modules": [
       {
         "module": "wide",
@@ -10335,7 +10335,7 @@
         "sensor_resolution_mp": 4
       }
     ],
-    "sensor_data_status": "Несколько сенсоров; характеристики каждого модуля указаны отдельно"
+    "sensor_data_status": "Формат сенсора подтверждён источником производителя или спецификацией точной модели."
   },
   {
     "brand": "DAHUA",
@@ -11811,9 +11811,9 @@
     "supplier_url": "https://arselan.ru/magazin/product/amatek-ac-idv503zs-moto-2-7-13-5-s-mikrofonom",
     "specs": {
       "resolution_mp": 5,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
-      "focal_length_min_mm": 13.5,
+      "resolution_width_px": 2592,
+      "resolution_height_px": 1944,
+      "focal_length_min_mm": 2.7,
       "focal_length_max_mm": 13.5,
       "view_angle_horizontal_deg": null,
       "view_angle_vertical_deg": null,
@@ -11842,7 +11842,7 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 5
     },
-    "data_status": "Характеристики подтверждены официальной документацией производителя",
+    "data_status": "Характеристики подтверждены официальной документацией производителя. Дополнено по источникам в specs_source.",
     "specs_source": "Официальная страница AMATEK: https://amatek.su/products/ac-idv503zs",
     "sensor_specs_source": "https://amatek.su/products/ac-idv503zs",
     "sensor_data_status": "Подтверждено документацией модели; физические размеры сенсора не указаны"
@@ -11899,8 +11899,8 @@
     "supplier_url": "https://arselan.ru/magazin/product/ac-idv803ms-2-8-kupolnaya-ip-videokamera-8-mp",
     "specs": {
       "resolution_mp": 8,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
+      "resolution_width_px": 3840,
+      "resolution_height_px": 2160,
       "focal_length_min_mm": 2.8,
       "focal_length_max_mm": 2.8,
       "view_angle_horizontal_deg": null,
@@ -11930,8 +11930,8 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 8
     },
-    "data_status": "Характеристики подтверждены официальной документацией производителя",
-    "specs_source": "Официальная страница AMATEK: https://amatek.su/products/ac-is803ms",
+    "data_status": "Характеристики подтверждены официальной документацией производителя. Дополнено по источникам в specs_source.",
+    "specs_source": "Официальная страница AMATEK: https://amatek.su/products/ac-is803ms; https://www.amatek.su/products/ac-idv803ms-1",
     "sensor_specs_source": "https://amatek.su/products/ac-idv803ms-1",
     "sensor_data_status": "Подтверждено документацией модели; физические размеры сенсора не указаны"
   },
@@ -12575,8 +12575,8 @@
       "resolution_mp": 3,
       "resolution_width_px": 2304,
       "resolution_height_px": 1296,
-      "focal_length_min_mm": null,
-      "focal_length_max_mm": null,
+      "focal_length_min_mm": 2.8,
+      "focal_length_max_mm": 8.4,
       "view_angle_horizontal_deg": null,
       "view_angle_vertical_deg": null,
       "view_angle_diagonal_deg": null,
@@ -12599,15 +12599,15 @@
       "ptz": null,
       "outdoor_by_ip_rating": true,
       "sensor_type": null,
-      "sensor_format": null,
+      "sensor_format": "1/2.8\"",
       "sensor_width_mm": null,
       "sensor_height_mm": null,
       "sensor_resolution_mp": null
     },
-    "data_status": "Характеристики подтверждены по документации производителя/точной модели; вариант CP/PRO отмечен для сверки",
-    "specs_source": "Официальная страница Dahua базовой модели: https://www.dahuasecurity.com/mena/products/network-products/network-cameras/Wireless-Series/CCTV-Channel/4G-Camera/Battery-Powered-Cameras/IPC-PTS2649C-3E3Z-4GB20",
-    "sensor_specs_source": null,
-    "sensor_data_status": "Не удалось подтвердить параметры сенсора по доступной документации; все неподтверждённые поля оставлены null"
+    "data_status": "Характеристики подтверждены по документации производителя/точной модели; вариант CP/PRO отмечен для сверки. Дополнено по источникам в specs_source.",
+    "specs_source": "Официальная страница Dahua базовой модели: https://www.dahuasecurity.com/mena/products/network-products/network-cameras/Wireless-Series/CCTV-Channel/4G-Camera/Battery-Powered-Cameras/IPC-PTS2649C-3E3Z-4GB20; https://www.dahuasecurity.com/products/wireless-products/4g-cameras/wire-free-cameras/ipc-pts2649c-3e3z-4gb20",
+    "sensor_specs_source": "https://www.dahuasecurity.com/products/wireless-products/4g-cameras/wire-free-cameras/ipc-pts2649c-3e3z-4gb20",
+    "sensor_data_status": "Формат сенсора подтверждён источником производителя или спецификацией точной модели."
   },
   {
     "brand": "HIKVISION",
@@ -12951,15 +12951,15 @@
       "ptz": null,
       "outdoor_by_ip_rating": true,
       "sensor_type": null,
-      "sensor_format": null,
+      "sensor_format": "1/3\"",
       "sensor_width_mm": null,
       "sensor_height_mm": null,
       "sensor_resolution_mp": null
     },
-    "data_status": "Проверено: точный источник найден",
+    "data_status": "Проверено: точный источник найден. Дополнено по источникам в specs_source.",
     "specs_source": "Карточка точной модели Dahua: https://infotech-inn.ru/catalog/sistemy_videonablyudeniya/kamery_videonablyudeniya/kupolnye_kamery/10386/",
-    "sensor_specs_source": null,
-    "sensor_data_status": "Не удалось подтвердить параметры сенсора по доступной документации; все неподтверждённые поля оставлены null"
+    "sensor_specs_source": "https://dis-kont.ru/catalog/videonablyudenie_1/ip_videokamery_1/ip_videokamery_dahua_1/dh_ipc_d1e20p_a_0280b/",
+    "sensor_data_status": "Формат сенсора подтверждён источником производителя или спецификацией точной модели."
   },
   {
     "brand": "DAHUA",
@@ -13277,8 +13277,8 @@
     "supplier_url": "https://arselan.ru/magazin/product/hiwatch-eco-ipc-b020e-2-8mm-videokamera",
     "specs": {
       "resolution_mp": 2,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
+      "resolution_width_px": 1920,
+      "resolution_height_px": 1080,
       "focal_length_min_mm": 2.8,
       "focal_length_max_mm": 2.8,
       "view_angle_horizontal_deg": null,
@@ -13308,8 +13308,8 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 2
     },
-    "data_status": "Требуется подтверждение точного артикула",
-    "specs_source": "Официальная карточка базовой модели IPC-B020 (не E): https://ru-hiwatch.com/ip-kamera-hiwatch-ipc-b02028mm/; каталог серии ECO: https://gklink.ru/images/ONE-SWIPE-ECO-Q2.pdf",
+    "data_status": "Требуется подтверждение точного артикула. Дополнено по источникам в specs_source.",
+    "specs_source": "Официальная карточка базовой модели IPC-B020 (не E): https://ru-hiwatch.com/ip-kamera-hiwatch-ipc-b02028mm/; каталог серии ECO: https://gklink.ru/images/ONE-SWIPE-ECO-Q2.pdf; https://www.alsat.com.tm/en/products/hiwatch-ipc-b020e-outdoor-ip-camera-2mp-exir-20m",
     "sensor_specs_source": "https://www.alsat.com.tm/en/products/hiwatch-ipc-b020e-outdoor-ip-camera-2mp-exir-20m",
     "sensor_data_status": "Подтверждено карточкой/документацией модели; физические размеры сенсора не указаны"
   },
@@ -13347,12 +13347,12 @@
       "ptz": true,
       "outdoor_by_ip_rating": true,
       "sensor_type": "CMOS",
-      "sensor_format": null,
+      "sensor_format": "1/1.8\"",
       "sensor_width_mm": null,
       "sensor_height_mm": null,
       "sensor_resolution_mp": null
     },
-    "data_status": "Для многомодульной камеры подтверждены фиксированный канал 4 Мп с матрицей 1/1.8\" и PT-канал 2 Мп с матрицей 1/2.8\"; объективы 2.8 мм и 3.6–8.4 мм. Детали сохранены в sensor_modules; единый sensor_format не задан, так как форматы каналов различаются.",
+    "data_status": "Для многомодульной камеры подтверждены фиксированный канал 4 Мп с матрицей 1/1.8\" и PT-канал 2 Мп с матрицей 1/2.8\"; объективы 2.8 мм и 3.6–8.4 мм. Детали сохранены в sensor_modules; единый sensor_format не задан, так как форматы каналов различаются. Дополнено по источникам в specs_source.",
     "specs_source": "Официальная документация Dahua: https://www.dahuasecurity.com/products/PTZ-Cameras/WizSense-Series/PT2/IPC-PTS2449C-4E3Z-S-PV-PRO; datasheet: https://cctv.rs/wp-content/uploads/2025/12/Dahua-IPC-PTS2449C-4E3Z-S-PV-LED-0280B-3684-PRO.pdf; https://www.dahuasecurity.com/products/PTZ-Cameras/WizSense-Series/PT2/IPC-PTS2449C-4E3Z-S-PV-PRO",
     "sensor_specs_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/DH-IPC-PTS2449C-4E3Z-S-PV-PRO_S0_datasheet_20250829.pdf; https://www.dahuasecurity.com/products/PTZ-Cameras/WizSense-Series/PT2/IPC-PTS2449C-4E3Z-S-PV-PRO",
     "sensor_modules": [
@@ -13369,7 +13369,7 @@
         "sensor_resolution_mp": 2
       }
     ],
-    "sensor_data_status": "Два сенсора; параметры сохранены по модулям"
+    "sensor_data_status": "У модели два сенсора: фиксированный канал 1/1.8\", PTZ-канал 1/2.8\"; в sensor_format записан формат основного фиксированного канала."
   },
   {
     "brand": "HIKVISION",
@@ -13423,8 +13423,8 @@
     "supplier_url": "https://arselan.ru/magazin/product/cs-h80x-8mp-2mp-4mm",
     "specs": {
       "resolution_mp": 8,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
+      "resolution_width_px": 3840,
+      "resolution_height_px": 2160,
       "focal_length_min_mm": 4,
       "focal_length_max_mm": 4,
       "view_angle_horizontal_deg": 46,
@@ -13449,14 +13449,14 @@
       "ptz": true,
       "outdoor_by_ip_rating": true,
       "sensor_type": null,
-      "sensor_format": null,
+      "sensor_format": "1/2.7\"",
       "sensor_width_mm": null,
       "sensor_height_mm": null,
       "sensor_resolution_mp": null
     },
-    "data_status": "Характеристики подтверждены по документации производителя/точной модели; вариант CP/PRO отмечен для сверки",
-    "specs_source": "Официальная спецификация EZVIZ: https://mfs.ezvizlife.com/H80x_datasheet.pdf?ver=52475",
-    "sensor_specs_source": "https://www.a2t.ro/source/Fisa_tehnica_pentru_CS-H80x_8MP_2MP_4mm_.pdf",
+    "data_status": "Характеристики подтверждены по документации производителя/точной модели; вариант CP/PRO отмечен для сверки. Дополнено по источникам в specs_source.",
+    "specs_source": "Официальная спецификация EZVIZ: https://mfs.ezvizlife.com/H80x_datasheet.pdf?ver=52475; https://www.ezviz.com/eu/product/H80x-Dual/68255",
+    "sensor_specs_source": "https://www.a2t.ro/source/Fisa_tehnica_pentru_CS-H80x_8MP_2MP_4mm_.pdf; https://www.ezviz.com/eu/product/H80x-Dual/68255",
     "sensor_modules": [
       {
         "module": "4K lens",
@@ -13471,7 +13471,7 @@
         "sensor_resolution_mp": 2
       }
     ],
-    "sensor_data_status": "Несколько сенсоров; характеристики каждого модуля указаны отдельно"
+    "sensor_data_status": "У модели два сенсора: 1/2.7\" и 1/2.9\"; в sensor_format записан формат основного 8-Мп канала."
   },
   {
     "brand": "HIWATCH",
@@ -14185,10 +14185,10 @@
     "supplier_url": "https://arselan.ru/magazin/product/wi-fi-kamera-5mp-cs-h3c-5mp-2-8mm-color",
     "specs": {
       "resolution_mp": 5,
-      "resolution_width_px": 1920,
-      "resolution_height_px": 1080,
-      "focal_length_min_mm": null,
-      "focal_length_max_mm": null,
+      "resolution_width_px": 2880,
+      "resolution_height_px": 1620,
+      "focal_length_min_mm": 2.8,
+      "focal_length_max_mm": 2.8,
       "view_angle_horizontal_deg": null,
       "view_angle_vertical_deg": null,
       "view_angle_diagonal_deg": null,
@@ -14216,8 +14216,8 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 5
     },
-    "data_status": "Требуется подтверждение точного артикула",
-    "specs_source": "Официальная спецификация найденной версии CS-H3c 1080P: https://www.tlock.ru/upload/iblock/e61/lpbnwfdri9f8tzawjswh9zoyn972xgsa/Spetsifikatsiya-CS_H3c_48577.pdf",
+    "data_status": "Требуется подтверждение точного артикула. Дополнено по источникам в specs_source.",
+    "specs_source": "Официальная спецификация найденной версии CS-H3c 1080P: https://www.tlock.ru/upload/iblock/e61/lpbnwfdri9f8tzawjswh9zoyn972xgsa/Spetsifikatsiya-CS_H3c_48577.pdf; https://mfs.ezvizlife.com/H3C%203K_datasheet.pdf?ver=12751",
     "sensor_specs_source": "https://www.a2t.ro/source/Fisa_tehnica_CS-H3C_5mp_2.8mm_.pdf",
     "sensor_data_status": "Подтверждено документацией производителя; физические размеры сенсора не указаны"
   },
@@ -14273,8 +14273,8 @@
     "supplier_url": "https://arselan.ru/magazin/product/dh-ipc-hfw1439tc1p-a-led-0280b-pro",
     "specs": {
       "resolution_mp": 4,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
+      "resolution_width_px": 2560,
+      "resolution_height_px": 1440,
       "focal_length_min_mm": 2.8,
       "focal_length_max_mm": 2.8,
       "view_angle_horizontal_deg": null,
@@ -14304,8 +14304,8 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 4
     },
-    "data_status": "Характеристики подтверждены по документации производителя/каталогу точной модели",
-    "specs_source": "Каталог точной модели Dahua: https://dahuasystems.ru/dh-ipc-hfw1439tc1p-a-led-0280b-pro",
+    "data_status": "Характеристики подтверждены по документации производителя/каталогу точной модели. Дополнено по источникам в specs_source.",
+    "specs_source": "Каталог точной модели Dahua: https://dahuasystems.ru/dh-ipc-hfw1439tc1p-a-led-0280b-pro; https://www.regard.ru/product/796512/ip-kamera-dahua-dh-ipc-hfw1439tc1p-a-led-0280b-pro-28mm/description",
     "sensor_specs_source": "https://materialfile.dahuasecurity.com/uploads/soft/20250422/DH-IPC-HFW1439TL1-A-IL_S0_datasheet_20240907.pdf",
     "sensor_data_status": "Подтверждено документацией модели/серии; физические размеры сенсора не указаны"
   },
@@ -14317,8 +14317,8 @@
     "supplier_url": "https://arselan.ru/magazin/product/dh-ipc-hfw1439tc1p-a-led-0360b-pro",
     "specs": {
       "resolution_mp": 4,
-      "resolution_width_px": null,
-      "resolution_height_px": null,
+      "resolution_width_px": 2560,
+      "resolution_height_px": 1440,
       "focal_length_min_mm": 3.6,
       "focal_length_max_mm": 3.6,
       "view_angle_horizontal_deg": null,
@@ -14348,8 +14348,8 @@
       "sensor_height_mm": null,
       "sensor_resolution_mp": 4
     },
-    "data_status": "Характеристики подтверждены по документации производителя/каталогу точной модели",
-    "specs_source": "Карточка семейства Dahua: https://dahuasystems.ru/dh-ipc-hfw1439tc1p-a-led-0280b-pro; для версии 3,6 мм фокусное расстояние сверено с артикулом поставщика.",
+    "data_status": "Характеристики подтверждены по документации производителя/каталогу точной модели. Дополнено по источникам в specs_source.",
+    "specs_source": "Карточка семейства Dahua: https://dahuasystems.ru/dh-ipc-hfw1439tc1p-a-led-0280b-pro; для версии 3,6 мм фокусное расстояние сверено с артикулом поставщика.; https://www.regard.ru/product/796513/ip-kamera-dahua-dh-ipc-hfw1439tc1p-a-led-0360b-pro-36mm/description",
     "sensor_specs_source": "https://materialfile.dahuasecurity.com/uploads/soft/20250422/DH-IPC-HFW1439TL1-A-IL_S0_datasheet_20240907.pdf",
     "sensor_data_status": "Подтверждено документацией модели/серии; физические размеры сенсора не указаны"
   },
@@ -14591,15 +14591,15 @@
       "ptz": true,
       "outdoor_by_ip_rating": null,
       "sensor_type": null,
-      "sensor_format": null,
+      "sensor_format": "1/2.7\"",
       "sensor_width_mm": null,
       "sensor_height_mm": null,
       "sensor_resolution_mp": null
     },
-    "data_status": "Характеристики подтверждены по документации производителя/точной модели; версия S7 отмечена для сверки",
+    "data_status": "Характеристики подтверждены по документации производителя/точной модели; версия S7 отмечена для сверки. Дополнено по источникам в specs_source.",
     "specs_source": "Официальная страница EZVIZ: https://www.ezviz.com/eu/product/h9c-dual-2k/57463",
-    "sensor_specs_source": "https://www.a2t.ro/source/Fisa_tehnica_pentru_Camera_IP_Wi-Fi_Ezviz_Dual_PT_3_3MP_Iluminare_Duala_Alarma_Acustica_si_Optica_Auto_Tracking_MicroSD_CS-H9c_3mp_3mp_.pdf",
-    "sensor_data_status": "Два сенсора; характеристики каждого модуля указаны отдельно",
+    "sensor_specs_source": "https://www.a2t.ro/source/Fisa_tehnica_pentru_Camera_IP_Wi-Fi_Ezviz_Dual_PT_3_3MP_Iluminare_Duala_Alarma_Acustica_si_Optica_Auto_Tracking_MicroSD_CS-H9c_3mp_3mp_.pdf; https://www.ezviz.com/eu/product/h9c-dual-2k/57463",
+    "sensor_data_status": "Формат сенсора подтверждён источником производителя или спецификацией точной модели.",
     "sensor_modules": [
       {
         "module": "fixed lens",

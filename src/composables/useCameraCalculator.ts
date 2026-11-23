@@ -189,13 +189,15 @@ export function useCameraCalculator() {
 
     if (location.value === 'outdoor' && ipRating !== null && ipRating < 65) return null
     if (location.value === 'outdoor' && ipRating === null) notes.push('класс IP не указан')
-    if (lighting.value === 'dim' && (lux === null || lux > 0.01))
-      notes.push('ночные характеристики не подтверждены')
-    if (
-      lighting.value === 'dark' &&
-      (!(specs.ir_range_m as number) || (specs.ir_range_m as number) < distance.value)
-    )
-      notes.push('дальности ИК-подсветки может не хватить')
+    if (lighting.value === 'dim' && typeof lux === 'number' && lux > 0.01) return null
+    if (lighting.value === 'dim' && typeof lux !== 'number')
+      notes.push('минимальная освещённость не указана')
+
+    const irRange = specs.ir_range_m
+    if (lighting.value === 'dark' && typeof irRange === 'number' && irRange < distance.value)
+      return null
+    if (lighting.value === 'dark' && typeof irRange !== 'number')
+      notes.push('дальность ИК-подсветки не указана')
     if (needWdr.value && specs.wdr !== true) return null
     if (needPoe.value && specs.poe !== true) return null
 
