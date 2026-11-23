@@ -86,6 +86,32 @@ hr{border:0;border-top:1px solid #e7ebef;margin:18px 0}
 
     <div class="grid">
       <div>
+        <label for="formFactor">Исполнение камеры</label>
+        <select id="formFactor">
+          <option value="all">Любое исполнение</option>
+          <option value="dome">Купольная</option>
+          <option value="turret">Turret (eyeball)</option>
+          <option value="bullet">Цилиндрическая</option>
+          <option value="cube">Компактная / cube</option>
+          <option value="box">Корпусная</option>
+          <option value="ptz">Поворотная PTZ</option>
+          <option value="panoramic">Панорамная / fisheye</option>
+          <option value="unknown">Не указано</option>
+        </select>
+      </div>
+      <div>
+        <label for="environment">Место установки</label>
+        <select id="environment">
+          <option value="all">Любое</option>
+          <option value="outdoor">Уличная / наружная</option>
+          <option value="indoor">Для помещения</option>
+          <option value="unknown">Не указано</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div>
         <label for="distance">Расстояние до объекта, м</label>
         <input id="distance" type="number" min="1" max="300" step="1" value="20">
       </div>
@@ -296,7 +322,14 @@ function renderAutoReal() {
     $("output").innerHTML='<div class="result">Выберите хотя бы одного производителя.</div>';
     return;
   }
-  const filteredCatalog=supplierCameras.filter(camera=>selectedBrands.includes(camera.brand));
+  const formFilter=$("formFactor").value;
+  const environmentFilter=$("environment").value;
+  const filteredCatalog=supplierCameras.filter(camera=>{
+    if(!selectedBrands.includes(camera.brand)) return false;
+    if(formFilter==="unknown" ? camera.form_factor!=null : formFilter!=="all" && camera.form_factor!==formFilter) return false;
+    if(environmentFilter==="unknown" ? camera.installation_environment!=null : environmentFilter!=="all" && camera.installation_environment!==environmentFilter) return false;
+    return true;
+  });
   const evaluated=filteredCatalog.map(camera=>{
     const m=cameraMetrics(camera,distance);
     return m ? {...camera,calc:m} : null;
@@ -324,18 +357,31 @@ function renderAutoReal() {
 
   const targetNames={"25":"Обнаружение","62.5":"Наблюдение","125":"Распознавание","250":"Идентификация по изображению","500":"Повышенная детализация"};
   const requiredWidth=minWidth>0 ? minWidth : null;
-  const requiredResolution=requiredWidth ? Math.ceil(ppm*requiredWidth) : null;
+  const minimumCandidate = [...passing].sort((a,b) =>
+    (a.specs.resolution_width_px-b.specs.resolution_width_px) ||
+    (b.calc.sceneWidth-a.calc.sceneWidth) ||
+    (a.calc.ppm-b.calc.ppm)
+  )[0] || null;
+  const minimumResolution = minimumCandidate ? minimumCandidate.specs.resolution_width_px : null;
+  const maxAllowedHFOV = minimumResolution
+    ? 2*Math.atan(minimumResolution/(2*ppm*distance))*180/Math.PI
+    : null;
+  const recommendedWidth = minimumCandidate ? minimumCandidate.calc.sceneWidth : null;
   let out=`<section class="result"><h2>Требуемые параметры камеры</h2>
     <div class="requirement">
-      <h3>Целевые характеристики для заданной задачи</h3>
+      <h3>Минимальные параметры по результатам расчёта</h3>
       <div class="metrics">
-        <div class="metric"><small>Целевая плотность</small><b>${ppm} PPM</b></div>
-        <div class="metric"><small>Дистанция до объекта</small><b>${distance} м</b></div>
-        <div class="metric"><small>Ширина зоны</small><b>${requiredWidth ? requiredWidth+" м (минимум)" : "Подбирается автоматически"}</b></div>
-        <div class="metric"><small>Требование к горизонтальному разрешению</small><b>${requiredResolution ? requiredResolution.toLocaleString("ru-RU")+" px минимум при указанной ширине" : "Зависит от угла обзора выбранной камеры"}</b></div>
+        <div class="metric"><small>Задача</small><b>${esc(targetNames[String(ppm)]||"Выбранная задача")} · ${ppm} PPM</b></div>
+        <div class="metric"><small>Дистанция</small><b>${distance} м</b></div>
+        <div class="metric"><small>Минимальное горизонтальное разрешение среди подходящих камер</small><b>${minimumResolution ? minimumResolution.toLocaleString("ru-RU")+" px" : "Не найдено в каталоге"}</b></div>
+        <div class="metric"><small>Угол обзора у минимального варианта</small><b>${minimumCandidate ? minimumCandidate.calc.hfov+"°" : "Нет подходящей модели"}</b></div>
+        <div class="metric"><small>Ширина кадра у минимального варианта</small><b>${recommendedWidth ? recommendedWidth.toFixed(2)+" м" : "Нет данных"}</b></div>
+        <div class="metric"><small>Максимальный HFOV для этого разрешения при заданной PPM</small><b>${maxAllowedHFOV ? maxAllowedHFOV.toFixed(1)+"°" : "Не рассчитывается"}</b></div>
+        <div class="metric"><small>Минимальная ширина зоны по условию</small><b>${requiredWidth ? requiredWidth+" м" : "Не ограничена"}</b></div>
+        <div class="metric"><small>Исполнение / установка</small><b>${$("formFactor").selectedOptions[0].text} / ${$("environment").selectedOptions[0].text}</b></div>
       </div>
-      <p class="note">Камера должна обеспечивать не менее ${ppm} PPM на расстоянии ${distance} м. При заданной ширине ${requiredWidth ? "от "+requiredWidth+" м" : "ширина кадра выбирается по моделям каталога"}. Конкретные разрешение и угол обзора взаимосвязаны: чем шире угол при том же разрешении, тем ниже PPM.</p>
-      <p class="note"><b>Ограничения:</b> размер матрицы и светосила не заданы, поскольку в каталоге нет достоверных значений для их расчёта. Ночной режим дополнительно требует проверки в реальных условиях.</p>
+      <p class="note">Минимальное разрешение здесь — наименьшее горизонтальное разрешение среди моделей каталога, которые проходят расчёт по PPM, дистанции и заданной ширине зоны. Указанный максимальный HFOV — теоретический предел для этого разрешения; фактический угол конкретной модели должен быть не больше него.</p>
+      <p class="note"><b>Важно:</b> форм-фактор и назначение установки выводятся только при наличии основания в названии модели или паспортных данных. Отсутствующие значения не считаются подтверждёнными. Размер матрицы и светосила в каталоге не заданы; ночной режим требует отдельной проверки.</p>
     </div>
     <h2>Примеры камер из каталога</h2>
     <p>Выбранные производители: <b>${selectedBrands.map(esc).join(", ")}</b>. Проверено ${filteredCatalog.length} моделей из выбранных производителей. В расчёт PPM включены только модели с пригодными углом обзора и разрешением.</p>
@@ -358,6 +404,8 @@ function renderAutoReal() {
           <div class="metric"><small>Объектив</small><b>${esc(focalText(s))}</b></div>
           <div class="metric"><small>Минимальная освещённость (паспортная)</small><b>${showVal(s.minimum_illumination_lux," лк")}</b></div>
           <div class="metric"><small>ИК-дальность</small><b>${showVal(s.ir_range_m," м")}</b></div>
+          <div class="metric"><small>Форм-фактор</small><b>${esc(({dome:"Купольная",turret:"Turret",bullet:"Цилиндрическая",cube:"Cube",box:"Корпусная",ptz:"Поворотная PTZ",panoramic:"Панорамная"}[c.form_factor]||"Не указано"))}</b></div>
+          <div class="metric"><small>Место установки</small><b>${esc(({outdoor:"Уличная",indoor:"Для помещения"}[c.installation_environment]||"Не указано"))}</b></div>
           <div class="metric"><small>Защита IP</small><b>${showVal(s.ip_rating,"")}</b></div>
           <div class="metric"><small>PoE / Wi-Fi</small><b>${yesNo(s.poe)} / ${yesNo(s.wifi)}</b></div>
           <div class="metric"><small>Микрофон / динамик</small><b>${yesNo(s.microphone)} / ${yesNo(s.speaker)}</b></div>
@@ -395,6 +443,7 @@ function renderAutoReal() {
         <h4>${esc(c.brand)} — ${esc(c.model)}</h4>
         <p><b>${s.resolution_mp??"?"} Мп</b> · ${Math.round(m.ppm)} PPM · HFOV ${m.hfov}°</p>
         <p>Цена: ${c.price==null?"нет данных":esc(Number(c.price).toLocaleString("ru-RU"))+" "+esc(c.currency||"")} · Объектив: ${esc(focalText(s))}</p>
+        <p class="note">Исполнение: ${{dome:"купольная",turret:"turret",bullet:"цилиндрическая",cube:"cube",box:"корпусная",ptz:"PTZ",panoramic:"панорамная"}[c.form_factor]||"не указано"} · Установка: ${{outdoor:"уличная",indoor:"для помещения"}[c.installation_environment]||"не указано"}</p>
         <p class="note">IP: ${showVal(s.ip_rating)} · PoE: ${yesNo(s.poe)} · ИК: ${showVal(s.ir_range_m," м")}</p>
         ${c.supplier_url?`<a href="${esc(c.supplier_url)}" target="_blank" rel="noopener">Страница поставщика</a>`:""}
       </article>`;
@@ -756,6 +805,8 @@ function renderManual() {
 $("calculateAuto").addEventListener("click", renderAutoReal);
 $("calculateManual").addEventListener("click", renderManual);
 $("resetAuto").addEventListener("click", () => {
+  $("formFactor").value="all";
+  $("environment").value="all";
   $("goal").value="250";
   $("distance").value="20";
   $("light").value="street";
