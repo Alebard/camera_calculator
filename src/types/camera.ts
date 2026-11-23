@@ -3,6 +3,7 @@ export type Camera = {
   model: string
   price: number | null
   currency: string
+  supplier_code?: string
   supplier_url?: string
   specs: Record<string, number | boolean | string | null>
   data_status?: string
