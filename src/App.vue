@@ -34,6 +34,7 @@
     theoreticalMp,
     catalogMaxFocal,
     customPpm,
+    densityStandard,
   } = useCameraCalculator()
 </script>
 
@@ -50,6 +51,7 @@
         v-model:distance="distance"
         v-model:scene-width="sceneWidth"
         v-model:custom-ppm="customPpm"
+        v-model:density-standard="densityStandard"
         v-model:location="location"
         v-model:lighting="lighting"
         v-model:form-factor="formFactor"
@@ -76,9 +78,15 @@
       :theoretical-mp="theoreticalMp"
       :catalog-max-focal="catalogMaxFocal"
       :common-focal-ceiling="commonFocalCeiling"
+      :is-plate-task="
+        profile === 'plate' || (densityStandard === 'iec2025' && profile === 'scrutinize')
+      "
     />
 
-    <section v-if="profile === 'plate'" class="notice plate-notice">
+    <section
+      v-if="profile === 'plate' || (densityStandard === 'iec2025' && profile === 'scrutinize')"
+      class="notice plate-notice"
+    >
       <span>!</span>
       <div>
         <strong>Для чтения номеров нужен натурный тест</strong>
@@ -88,7 +96,7 @@
         </p>
       </div>
     </section>
-    <section v-if="profile === 'identify' || profile === 'recognize'" class="notice">
+    <section v-if="targetPpm >= 125" class="notice">
       <span>i</span>
       <div>
         <strong>Расчётная плотность не гарантирует идентификацию</strong>

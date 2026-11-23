@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import catalogData from '../../static/catalog.json'
 import type {
   Camera,
@@ -12,7 +12,7 @@ import { estimatedSensorWidths, inferFormFactor, sensorWidthFor } from '../utils
 
 const catalog = catalogData as Camera[]
 
-export const scenarioProfiles: ScenarioProfile[] = [
+const doriProfiles: ScenarioProfile[] = [
   {
     id: 'presence',
     title: 'Обнаружение присутствия',
@@ -64,8 +64,68 @@ export const scenarioProfiles: ScenarioProfile[] = [
   },
 ]
 
+const iec2025Profiles: ScenarioProfile[] = [
+  {
+    id: 'overview',
+    title: 'Обзор (Overview)',
+    ppm: 20,
+    icon: '◉',
+    detail: 'Определить, движется ли объект',
+  },
+  {
+    id: 'outline',
+    title: 'Контур и направление (Outline)',
+    ppm: 40,
+    icon: '◎',
+    detail: 'Оценить контур объекта и направление движения',
+  },
+  {
+    id: 'discern',
+    title: 'Различение (Discern)',
+    ppm: 80,
+    icon: '⌕',
+    detail: 'Различать объекты и их движение',
+  },
+  {
+    id: 'perceive',
+    title: 'Восприятие (Perceive)',
+    ppm: 125,
+    icon: '◌',
+    detail: 'Воспринимать объект без различения его признаков',
+  },
+  {
+    id: 'characterize',
+    title: 'Характеризация (Characterize)',
+    ppm: 250,
+    icon: '▱',
+    detail: 'Оценивать тип человека, походку, поведение или категорию автомобиля',
+  },
+  {
+    id: 'validate',
+    title: 'Проверка (Validate)',
+    ppm: 500,
+    icon: '▤',
+    detail: 'Проверять известного человека, действия и регистрационный номер',
+  },
+  {
+    id: 'scrutinize',
+    title: 'Детальное изучение (Scrutinize)',
+    ppm: 1500,
+    icon: '⌖',
+    detail: 'Детально устанавливать личность и читать регистрационный номер',
+  },
+  {
+    id: 'custom',
+    title: 'Своя задача',
+    ppm: 125,
+    icon: '＋',
+    detail: 'Задать требуемую плотность вручную',
+  },
+]
+
 export function useCameraCalculator() {
   const profile = ref('identify')
+  const densityStandard = ref('dori')
   const distance = ref(10)
   const sceneWidth = ref(5)
   const customPpm = ref(250)
@@ -78,9 +138,34 @@ export function useCameraCalculator() {
   const needWhiteLed = ref(false)
   const needMicrophone = ref(false)
 
-  const selectedProfile = computed(() =>
-    scenarioProfiles.find((item) => item.id === profile.value)!,
+  const scenarioProfiles = computed(() =>
+    densityStandard.value === 'iec2025' ? iec2025Profiles : doriProfiles,
   )
+  const selectedProfile = computed(() =>
+    scenarioProfiles.value.find((item) => item.id === profile.value)!,
+  )
+  watch(densityStandard, (standard) => {
+    const doriToIec: Record<string, string> = {
+      presence: 'overview',
+      observe: 'discern',
+      recognize: 'perceive',
+      identify: 'characterize',
+      vehicle: 'overview',
+      plate: 'scrutinize',
+      custom: 'custom',
+    }
+    const iecToDori: Record<string, string> = {
+      overview: 'presence',
+      outline: 'observe',
+      discern: 'observe',
+      perceive: 'recognize',
+      characterize: 'identify',
+      validate: 'identify',
+      scrutinize: 'identify',
+      custom: 'custom',
+    }
+    profile.value = (standard === 'iec2025' ? doriToIec : iecToDori)[profile.value] ?? 'custom'
+  })
   const targetPpm = computed(() =>
     profile.value === 'custom' ? customPpm.value : selectedProfile.value.ppm,
   )
@@ -285,6 +370,7 @@ export function useCameraCalculator() {
     catalogCount: catalog.length,
     scenarioProfiles,
     profile,
+    densityStandard,
     distance,
     sceneWidth,
     customPpm,

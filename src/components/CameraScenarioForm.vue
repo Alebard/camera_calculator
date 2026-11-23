@@ -7,6 +7,7 @@
     targetPpm: number
     formOptions: string[]
   }>()
+  const densityStandard = defineModel<string>('densityStandard', { required: true })
   const profile = defineModel<string>('profile', { required: true })
   const distance = defineModel<number>('distance', { required: true })
   const sceneWidth = defineModel<number>('sceneWidth', { required: true })
@@ -32,19 +33,31 @@
       </div>
       <span class="small-muted">Цель задаёт рекомендуемый PPM</span>
     </div>
-    <label class="scenario-select"
-      ><span>Цель наблюдения</span
-      ><select v-model="profile">
-        <option v-for="item in profiles" :key="item.id" :value="item.id">
-          {{ item.title }}{{ item.id === 'custom' ? '' : ` — ${fmt(item.ppm, 1)} PPM` }}
-        </option></select
-      ><small
-        >{{ selectedProfile.detail
-        }}<template v-if="profile !== 'custom'">
-          · ориентир {{ fmt(targetPpm, 1) }} PPM</template
-        ></small
-      ></label
-    >
+    <div class="profile-controls">
+      <label class="field density-standard"
+        ><span>Шкала плотности</span
+        ><select v-model="densityStandard">
+          <option value="dori">Классическая DORI · IEC 62676-4:2014</option>
+          <option value="iec2025">IEC 62676-4:2025 · 7 уровней</option></select
+        ><small class="field-hint"
+          >Проверяются PPM и геометрия, а не полное соответствие стандарту. При смене шкалы порог
+          цели может измениться: например, чтение номера сопоставляется с 1500 PPM в редакции
+          2025.</small
+        ></label
+      ><label class="scenario-select"
+        ><span>{{ densityStandard === 'iec2025' ? 'Уровень детализации' : 'Цель наблюдения' }}</span
+        ><select v-model="profile">
+          <option v-for="item in profiles" :key="item.id" :value="item.id">
+            {{ item.title }}{{ item.id === 'custom' ? '' : ` — ${fmt(item.ppm, 1)} PPM` }}
+          </option></select
+        ><small
+          >{{ selectedProfile.detail
+          }}<template v-if="profile !== 'custom'">
+            · ориентир {{ fmt(targetPpm, 1) }} PPM</template
+          ></small
+        ></label
+      >
+    </div>
     <div v-if="profile === 'custom'" class="custom-ppm">
       <label for="ppm">Требуемая плотность, PPM</label
       ><input id="ppm" v-model.number="customPpm" type="number" min="1" max="2000" step="1" />

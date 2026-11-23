@@ -12,6 +12,7 @@
     theoreticalMp: number
     catalogMaxFocal: number
     commonFocalCeiling: number
+    isPlateTask: boolean
   }>()
   const sensorFormat = defineModel<string>('sensorFormat', { required: true })
   const fmt = (value: number, digits = 1) =>
@@ -102,7 +103,7 @@
         }}. Требуемое разрешение зависит от ширины сцены и PPM; увеличение дистанции увеличивает
         фокусное расстояние, но при неизменных ширине сцены и PPM не меняет Мп.
         {{
-          profile === 'plate'
+          isPlateTask
             ? 'Для чтения номера дополнительно нужна специализированная ANPR/LPR-модель и проверка на объекте.'
             : ''
         }}
