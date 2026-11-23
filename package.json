@@ -1,0 +1,26 @@
+{
+  "name": "cam-calc",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "test": "node --experimental-strip-types --test test/*.test.ts",
+    "preview": "vite preview",
+    "format": "prettier --write \"src/**/*.{vue,ts,css}\" \"vite.config.ts\" \"index.html\" \"package.json\" \"*.json\" \".github/**/*.yml\"",
+    "format:check": "prettier --check \"src/**/*.{vue,ts,css}\" \"vite.config.ts\" \"index.html\" \"package.json\" \"*.json\" \".github/**/*.yml\""
+  },
+  "dependencies": {
+    "vue": "^3.5.44"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "@vue/tsconfig": "^0.9.1",
+    "prettier": "^3.10.1",
+    "typescript": "~6.0.3",
+    "vite": "^8.3.6",
+    "vue-tsc": "^3.3.14"
+  }
+}
