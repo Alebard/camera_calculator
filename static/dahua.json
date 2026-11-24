@@ -143,17 +143,17 @@
       "ptz": false,
       "outdoor_by_ip_rating": true,
       "sensor_type": "CMOS",
-      "sensor_format": "1/3",
+      "sensor_format": "1/3\"",
       "sensor_resolution_mp": 4,
-      "white_led": null,
+      "white_led": false,
       "white_led_range_m": null
     },
     "data_status": "Серия и суффикс S4 совпадают; в даташите код заказа указан как DH-IPC-HDW1431TP-ZS-2812-S4, тогда как в прайсе нет суффикса 2812. Значения объектива/углов относятся к опубликованному 2.8–12 мм варианту; нужно подтвердить комплектацию поставки.",
     "specs_source": "https://material.dahuasecurity.com/uploads/soft/20231208/DH-IPC-HDW1431TP-ZS-S4_datasheet_20201225_RU.pdf",
     "sensor_specs_source": "https://material.dahuasecurity.com/uploads/soft/20231208/DH-IPC-HDW1431TP-ZS-S4_datasheet_20201225_RU.pdf",
     "sensor_data_status": "Сенсорные данные подтверждены официальным даташитом",
-    "white_led_source": null,
-    "white_led_data_status": "Не указана в проверенном даташите",
+    "white_led_source": "https://material.dahuasecurity.com/uploads/soft/20250204/DH-IPC-HDW1431TP-ZS-S4_S4_datasheet_20240417_RU.pdf",
+    "white_led_data_status": "Официальный даташит описывает только ИК-подсветку (2 ИК-диода, до 50 м); белая LED-подсветка не заявлена.",
     "microphone_source": null,
     "microphone_data_status": "Не указано в проверенном даташите",
     "research_status": "Исследовано; см. примечание к точной модификации"
@@ -688,7 +688,7 @@
       "ip_rating": "IP67",
       "ik_rating": "IK10",
       "max_fps": 60,
-      "microSD_max_gb": null,
+      "microSD_max_gb": 512,
       "wdr": true,
       "wdr_db": null,
       "poe": true,
@@ -704,15 +704,15 @@
       "sensor_type": "CMOS",
       "sensor_format": "1/2.8",
       "sensor_resolution_mp": 2,
-      "white_led": null,
+      "white_led": false,
       "white_led_range_m": null
     },
     "data_status": "Официальная карточка Dahua SD5A225GB-HNR: 2 Мп 1920×1080, 1/2.8 CMOS, 4.8–120 мм, 25×, ИК 150 м, IP67/IK10, PoE+, 60 fps (главный поток 1080p), PTZ, AcuPick и IVS. Встроенный микрофон/динамик и microSD в проверенных полях не подтверждены.",
     "specs_source": "https://www.dahuasecurity.com/products/PTZ-Cameras/WizSense-Series/SD5/SD5A225GB-HNR",
     "sensor_specs_source": "https://www.dahuasecurity.com/products/PTZ-Cameras/WizSense-Series/SD5/SD5A225GB-HNR",
     "sensor_data_status": "Тип и формат сенсора подтверждены официальным даташитом; физические размеры матрицы не опубликованы",
-    "white_led_source": null,
-    "white_led_data_status": "Не указана в проверенной официальной карточке",
+    "white_led_source": "https://material.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/SD5A225GB-HNR_S0_datasheet_20231225.pdf",
+    "white_led_data_status": "Точный даташит модели описывает только ИК-подсветку до 150 м; белый LED-осветитель не заявлен.",
     "microphone_source": null,
     "microphone_data_status": "Не указан в проверенном даташите",
     "research_status": "Исследовано по официальному даташиту; незаполненные поля оставлены null"
@@ -738,10 +738,10 @@
       "ip_rating": "IP66",
       "ik_rating": null,
       "max_fps": 30,
-      "microSD_max_gb": null,
+      "microSD_max_gb": 512,
       "wdr": "DWDR",
       "wdr_db": null,
-      "poe": null,
+      "poe": true,
       "wifi": null,
       "microphone": null,
       "speaker": null,
@@ -754,15 +754,15 @@
       "sensor_type": "CMOS",
       "sensor_format": "1/2.8",
       "sensor_resolution_mp": 8,
-      "white_led": null,
+      "white_led": false,
       "white_led_range_m": null
     },
     "data_status": "Официальная карточка Dahua SD49825GB-HNR: 8 Мп 3840×2160, 1/2.8 CMOS, 5–125 мм, 25×, ИК 100 м, IP66, PTZ, IVS и классификация человека/транспорта; DWDR. PoE и microSD не подтверждены проверенными данными.",
     "specs_source": "https://www.dahuasecurity.com/my/products/PTZ-Cameras/WizSense-Series/SD4/SD49825GB-HNR",
     "sensor_specs_source": "https://www.dahuasecurity.com/my/products/PTZ-Cameras/WizSense-Series/SD4/SD49825GB-HNR",
     "sensor_data_status": "Тип и формат сенсора подтверждены официальным даташитом; физические размеры матрицы не опубликованы",
-    "white_led_source": null,
-    "white_led_data_status": "Не указана в проверенной официальной карточке",
+    "white_led_source": "https://www.dahuasecurity.com/products/PTZ-Cameras/WizSense-Series/SD4/SD49825GB-HNR",
+    "white_led_data_status": "Официальная спецификация точной модели описывает только ИК-подсветку до 100 м (4 ИК-диода); белый LED-осветитель не заявлен.",
     "microphone_source": null,
     "microphone_data_status": "Не указан в проверенном даташите",
     "research_status": "Исследовано по официальному даташиту; незаполненные поля оставлены null"
@@ -2737,8 +2737,8 @@
     "specs_source": "https://www.dahuasecurity.com/products/PTZ-Cameras/X-Spans-Series/SDT4E425-4F-GB-A-PV1",
     "sensor_specs_source": "https://www.dahuasecurity.com/products/network-products/ptz-cameras/tioc-series/sdt4e425-4f-gb-a-pv1",
     "sensor_data_status": "Тип и формат сенсора подтверждены официальной документацией производителя.",
-    "white_led_source": "https://www.dahuasecurity.com/products/network-products/ptz-cameras/tioc-series/sdt4e425-4f-gb-a-pv1",
-    "white_led_data_status": "Белая подсветка и дальность подтверждены документацией производителя.",
+    "white_led_source": "https://materialfile.dahuasecurity.com/uploads/soft/20250618/SDT4E425-4F-GB-A-PV1_S0_datasheet_20250209.pdf",
+    "white_led_data_status": "Подтверждена двойная подсветка. Дальность ИК и белого света различается по каналам; см. channels[].",
     "microphone_source": null,
     "microphone_data_status": "Не подтверждено; требуется проверка точной модификации",
     "research_status": "Геометрия заполнена по каналам на основании официальной документации Dahua; использовать channels[] без сведения каналов в один набор полей.",
@@ -2750,7 +2750,10 @@
         "sensor_format": "1/2.8\"",
         "focal_length_min_mm": 2.8,
         "focal_length_max_mm": 2.8,
-        "source": "https://www.dahuasecurity.com/products/PTZ-Cameras/X-Spans-Series/SDT4E425-4F-GB-A-PV1"
+        "source": "https://www.dahuasecurity.com/products/PTZ-Cameras/X-Spans-Series/SDT4E425-4F-GB-A-PV1",
+        "ir_range_m": 30,
+        "white_led": true,
+        "white_led_range_m": 30
       },
       {
         "channel": "Детальный PTZ",
@@ -2759,7 +2762,10 @@
         "sensor_format": "1/2.8\"",
         "focal_length_min_mm": 5,
         "focal_length_max_mm": 125,
-        "source": "https://www.dahuasecurity.com/products/PTZ-Cameras/X-Spans-Series/SDT4E425-4F-GB-A-PV1"
+        "source": "https://www.dahuasecurity.com/products/PTZ-Cameras/X-Spans-Series/SDT4E425-4F-GB-A-PV1",
+        "ir_range_m": 100,
+        "white_led": true,
+        "white_led_range_m": 50
       }
     ]
   },
@@ -3908,7 +3914,7 @@
     "sensor_specs_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/SDT4E425-8P-GB-APV1_S0_datasheet_20250109.pdf",
     "sensor_data_status": "Тип и формат сенсора подтверждены официальной документацией производителя.",
     "white_led_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/SDT4E425-8P-GB-APV1_S0_datasheet_20250109.pdf",
-    "white_led_data_status": "Белая подсветка и дальность подтверждены документацией производителя.",
+    "white_led_data_status": "Подтверждена двойная подсветка. Дальность ИК и белого света различается по каналам; см. channels[].",
     "microphone_source": null,
     "microphone_data_status": "Не подтверждено; требуется проверка точной модификации",
     "research_status": "Геометрия заполнена по каналам на основании официальной документации Dahua; использовать channels[] без сведения каналов в один набор полей.",
@@ -3920,7 +3926,10 @@
         "sensor_format": "1/2.7\"",
         "focal_length_min_mm": 2.8,
         "focal_length_max_mm": 2.8,
-        "source": "https://www.dahuasecurity.com/products/network-products/ptz-cameras/x-spans-series/distribution/sdt4e425-8p-gb-apv1"
+        "source": "https://www.dahuasecurity.com/products/network-products/ptz-cameras/x-spans-series/distribution/sdt4e425-8p-gb-apv1",
+        "ir_range_m": 30,
+        "white_led": true,
+        "white_led_range_m": 30
       },
       {
         "channel": "Детальный PTZ",
@@ -3929,7 +3938,10 @@
         "sensor_format": "1/2.8\"",
         "focal_length_min_mm": 5,
         "focal_length_max_mm": 125,
-        "source": "https://www.dahuasecurity.com/products/network-products/ptz-cameras/x-spans-series/distribution/sdt4e425-8p-gb-apv1"
+        "source": "https://www.dahuasecurity.com/products/network-products/ptz-cameras/x-spans-series/distribution/sdt4e425-8p-gb-apv1",
+        "ir_range_m": 100,
+        "white_led": true,
+        "white_led_range_m": 50
       }
     ]
   },
@@ -3977,8 +3989,8 @@
     "specs_source": "https://www.dahuasecurity.com/la/products/network-products/network-cameras/Wireless-Series/Outdoor-Camera/Picoo-Series/P5D-5F-PV",
     "sensor_specs_source": "https://www.dahuasecurity.com/ea/products/All-Products/Network-Cameras/Wireless-Series/Outdoor-Camera/Picoo-Series/P5DP-5F-PV",
     "sensor_data_status": "Тип и формат сенсора подтверждены источником; для отдельных строк источник вторичный.",
-    "white_led_source": "https://www.dahuasecurity.com/ea/products/All-Products/Network-Cameras/Wireless-Series/Outdoor-Camera/Picoo-Series/P5DP-5F-PV",
-    "white_led_data_status": "Подсветка подтверждена указанным источником.",
+    "white_led_source": "https://dahua-store.ru/product/ip-videokamera-dahua-dh-ipc-p5dp-5f-pv-0280b-0600b/",
+    "white_led_data_status": "Подтверждена LED/тёплая подсветка по каналам; дальность по каждому каналу указана в channels[].",
     "microphone_source": "https://www.dahuasecurity.com/ea/products/All-Products/Network-Cameras/Wireless-Series/Outdoor-Camera/Picoo-Series/P5DP-5F-PV",
     "microphone_data_status": "Встроенный микрофон подтверждён указанным источником.",
     "research_status": "Геометрия заполнена по каналам на основании официальной документации Dahua; использовать channels[] без сведения каналов в один набор полей.",
@@ -3990,7 +4002,10 @@
         "sensor_format": "1/3\"",
         "focal_length_min_mm": 2.8,
         "focal_length_max_mm": 2.8,
-        "source": "https://www.dahuasecurity.com/la/products/network-products/network-cameras/Wireless-Series/Outdoor-Camera/Picoo-Series/P5D-5F-PV"
+        "source": "https://www.dahuasecurity.com/la/products/network-products/network-cameras/Wireless-Series/Outdoor-Camera/Picoo-Series/P5D-5F-PV",
+        "ir_range_m": 30,
+        "white_led": true,
+        "white_led_range_m": 20
       },
       {
         "channel": "Поворотный PT",
@@ -3999,7 +4014,10 @@
         "sensor_format": "1/3\"",
         "focal_length_min_mm": 6,
         "focal_length_max_mm": 6,
-        "source": "https://www.dahuasecurity.com/la/products/network-products/network-cameras/Wireless-Series/Outdoor-Camera/Picoo-Series/P5D-5F-PV"
+        "source": "https://www.dahuasecurity.com/la/products/network-products/network-cameras/Wireless-Series/Outdoor-Camera/Picoo-Series/P5D-5F-PV",
+        "ir_range_m": 50,
+        "white_led": true,
+        "white_led_range_m": 40
       }
     ]
   },
@@ -4091,14 +4109,14 @@
       "sensor_format": "1/1.8\"",
       "sensor_resolution_mp": 4,
       "white_led": true,
-      "white_led_range_m": 20
+      "white_led_range_m": 50
     },
     "data_status": "Характеристики заполнены по официальному даташиту/карточке Dahua; неподтверждённые поля оставлены null. Официальная карточка IPC-HFW2449TL-S-PRO; SKU 0280B — 2.8 мм. WizColor использует тёплую подсветку до 20 м, без заявленной ИК-подсветки.",
     "specs_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2449TL-S-PRO",
     "sensor_specs_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2449TL-S-PRO",
     "sensor_data_status": "Тип и формат сенсора подтверждены официальной документацией производителя.",
-    "white_led_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2449TL-S-PRO",
-    "white_led_data_status": "Белая подсветка и дальность подтверждены документацией производителя; для данной WizColor версии указана тёплая подсветка.",
+    "white_led_source": "https://www.easymultimedia.fr/videosurveillance/2747-ipc-hfw2449tlp-s-led-0280b-pro.html",
+    "white_led_data_status": "Для точной серии HFW2449TLP-S-LED-PRO указан только тёплый LED-свет до 50 м; ИК-подсветка в спецификации этой серии не заявлена.",
     "microphone_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2449TL-S-PRO",
     "microphone_data_status": "Встроенный микрофон подтверждён документацией производителя.",
     "research_status": "Исследовано по официальному даташиту/карточке производителя; неподтверждённые поля оставлены null."
@@ -4141,14 +4159,14 @@
       "sensor_format": "1/1.8\"",
       "sensor_resolution_mp": 4,
       "white_led": true,
-      "white_led_range_m": 30
+      "white_led_range_m": 50
     },
     "data_status": "Характеристики заполнены по официальному даташиту/карточке Dahua; неподтверждённые поля оставлены null. Официальная карточка IPC-HFW2449TL-S-PRO; SKU 0360B — 3.6 мм. Тёплая подсветка до 30 м.",
     "specs_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2449TL-S-PRO",
     "sensor_specs_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2449TL-S-PRO",
     "sensor_data_status": "Тип и формат сенсора подтверждены официальной документацией производителя.",
-    "white_led_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2449TL-S-PRO",
-    "white_led_data_status": "Белая подсветка и дальность подтверждены документацией производителя; для данной WizColor версии указана тёплая подсветка.",
+    "white_led_source": "https://www.easymultimedia.fr/videosurveillance/2747-ipc-hfw2449tlp-s-led-0280b-pro.html",
+    "white_led_data_status": "Для точной серии HFW2449TLP-S-LED-PRO указан только тёплый LED-свет до 50 м; ИК-подсветка в спецификации этой серии не заявлена.",
     "microphone_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2449TL-S-PRO",
     "microphone_data_status": "Встроенный микрофон подтверждён документацией производителя.",
     "research_status": "Исследовано по официальному даташиту/карточке производителя; неподтверждённые поля оставлены null."
@@ -4560,8 +4578,8 @@
     "specs_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/DH-SDT3E410-8P-MB-A-PV1_datasheet_20250114.pdf",
     "sensor_specs_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/DH-SDT3E410-8P-MB-A-PV1_datasheet_20251011.pdf",
     "sensor_data_status": "Тип и формат сенсора подтверждены официальной документацией производителя.",
-    "white_led_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/DH-SDT3E410-8P-MB-A-PV1_datasheet_20251011.pdf",
-    "white_led_data_status": "Белая/тёплая подсветка и дальность подтверждены документацией производителя.",
+    "white_led_source": "https://www.dahuasecurity.com/products/network-products/pt-cameras/ip-pt-3-series/multivision/sdt3e410-8p-mb-a-pv1",
+    "white_led_data_status": "Подтверждена двойная подсветка. Дальность ИК и белого света различается по каналам; см. channels[].",
     "microphone_source": "https://www.dahuasecurity.com/ceen/products/PTZ-Cameras/X-Spans-Series/SDT3E410-8P-MB-A-PV1",
     "microphone_data_status": "Встроенный микрофон предусмотрен: официальный даташит указывает встроенный микрофон как альтернативу внешнему LINE IN на обзорном канале.",
     "research_status": "Геометрия заполнена по каналам на основании официальной документации Dahua; использовать channels[] без сведения каналов в один набор полей.",
@@ -4573,7 +4591,10 @@
         "sensor_format": "1/2.8\"",
         "focal_length_min_mm": 2.8,
         "focal_length_max_mm": 2.8,
-        "source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/DH-SDT3E410-8P-MB-A-PV1_datasheet_20250114.pdf"
+        "source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/DH-SDT3E410-8P-MB-A-PV1_datasheet_20250114.pdf",
+        "ir_range_m": 30,
+        "white_led": true,
+        "white_led_range_m": 30
       },
       {
         "channel": "Детальный PTZ",
@@ -4582,7 +4603,10 @@
         "sensor_format": "1/2.8\"",
         "focal_length_min_mm": 4,
         "focal_length_max_mm": 40,
-        "source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/DH-SDT3E410-8P-MB-A-PV1_datasheet_20250114.pdf"
+        "source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/DH-SDT3E410-8P-MB-A-PV1_datasheet_20250114.pdf",
+        "ir_range_m": 70,
+        "white_led": true,
+        "white_led_range_m": 30
       }
     ]
   },
@@ -5024,14 +5048,14 @@
       "sensor_format": "1/2.9\"",
       "sensor_resolution_mp": 2,
       "white_led": true,
-      "white_led_range_m": 20
+      "white_led_range_m": 50
     },
     "data_status": "Характеристики заполнены по официальному даташиту/карточке Dahua; неподтверждённые поля оставлены null. Официальная карточка IPC-HFW2249TL-S-PRO; SKU 0280B — объектив 2.8 мм. 2 Мп, тёплая подсветка 20 м, WDR 120 дБ, микрофон, microSD 256 ГБ, IP67, PoE.",
     "specs_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2249TL-S-PRO",
     "sensor_specs_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2249TL-S-PRO",
     "sensor_data_status": "Тип и формат сенсора подтверждены официальной документацией производителя.",
-    "white_led_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2249TL-S-PRO",
-    "white_led_data_status": "Белая/тёплая подсветка и дальность подтверждены документацией производителя.",
+    "white_led_source": "https://www.tinko.ru/catalog/product/348248/",
+    "white_led_data_status": "Точная карточка HFW2249TLP-S-LED-0280B-PRO указывает тёплую LED-подсветку до 50 м; ИК-подсветка не указана.",
     "microphone_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2249TL-S-PRO",
     "microphone_data_status": "Встроенный микрофон подтверждён документацией производителя.",
     "research_status": "Исследовано по официальному даташиту/карточке производителя; неподтверждённые поля оставлены null."
@@ -5103,7 +5127,7 @@
       "view_angle_vertical_deg": null,
       "view_angle_diagonal_deg": null,
       "minimum_illumination_lux": null,
-      "ir_range_m": null,
+      "ir_range_m": 50,
       "ip_rating": "IP69",
       "ik_rating": null,
       "max_fps": 30,
@@ -5124,14 +5148,14 @@
       "sensor_format": "1/2.9\"",
       "sensor_resolution_mp": null,
       "white_led": true,
-      "white_led_range_m": null
+      "white_led_range_m": 50
     },
     "data_status": "Официальная карточка базовой модели HFW3449E-S-IL: сенсор 1/2.9\" CMOS; суффикс EP из прайса отдельно не раскрыт.",
     "specs_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/wizsense-3-series/smart-dual-light/ipc-hfw3449e-s-il",
     "sensor_specs_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/wizsense-3-series/smart-dual-light/ipc-hfw3449e-s-il",
     "sensor_data_status": "Официальная карточка базовой модели HFW3449E-S-IL: сенсор 1/2.9\" CMOS; суффикс EP из прайса отдельно не раскрыт.",
-    "white_led_source": "https://www.adiglobal.nl/Product/IPCHFW3449EPSIL28B",
-    "white_led_data_status": "Подсветка подтверждена указанным источником.",
+    "white_led_source": "https://www.dahuasecurity.com/ea/products/All-Products/Network-Cameras/3-Series/Smart-Dual-Light/IPC-HFW3449EP-S-IL",
+    "white_led_data_status": "Официальная карточка точной модели подтверждает комбинированную подсветку: ИК до 50 м и LED/тёплый свет до 50 м.",
     "microphone_source": "https://www.adiglobal.nl/Product/IPCHFW3449EPSIL28B",
     "microphone_data_status": "Встроенный микрофон подтверждён указанным источником.",
     "research_status": "Геометрические данные дополнены; точность модификации отмечена в примечании."
@@ -6174,14 +6198,14 @@
       "sensor_format": "1/1.8\"",
       "sensor_resolution_mp": 8,
       "white_led": true,
-      "white_led_range_m": 30
+      "white_led_range_m": 50
     },
     "data_status": "Характеристики заполнены по доступной документации; неподтверждённые поля оставлены null. Официальная карточка IPC-HFW2849TL-S-PRO; SKU 0280B соответствует 2.8 мм. 8 Мп, WizColor, тёплая подсветка, WDR 120 дБ, IP67, PoE, встроенный микрофон.",
     "specs_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2849TL-S-PRO",
     "sensor_specs_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2849TL-S-PRO",
     "sensor_data_status": "Тип и формат сенсора подтверждены документацией производителя или вторичным источником; источник отмечен в статусе.",
-    "white_led_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2849TL-S-PRO",
-    "white_led_data_status": "Подсветка подтверждена указанным источником.",
+    "white_led_source": "https://www.8str.ru/node/11089",
+    "white_led_data_status": "Точная модификация HFW2849TLP-S-LED-PRO указывает тёплую LED-подсветку до 50 м; ИК-подсветка не заявлена.",
     "microphone_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2849TL-S-PRO",
     "microphone_data_status": "Встроенный микрофон подтверждён указанным источником.",
     "research_status": "Исследовано по вторичному источнику/документации базовой модели; точные ограничения и расхождения указаны в примечании."
@@ -6224,14 +6248,14 @@
       "sensor_format": "1/1.8\"",
       "sensor_resolution_mp": 8,
       "white_led": true,
-      "white_led_range_m": 30
+      "white_led_range_m": 50
     },
     "data_status": "Характеристики заполнены по доступной документации; неподтверждённые поля оставлены null. Официальная карточка IPC-HFW2849TL-S-PRO; SKU 0360B соответствует 3.6 мм. 8 Мп, WizColor, тёплая подсветка, WDR 120 дБ, IP67, PoE, встроенный микрофон.",
     "specs_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2849TL-S-PRO",
     "sensor_specs_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2849TL-S-PRO",
     "sensor_data_status": "Тип и формат сенсора подтверждены документацией производителя или вторичным источником; источник отмечен в статусе.",
-    "white_led_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2849TL-S-PRO",
-    "white_led_data_status": "Подсветка подтверждена указанным источником.",
+    "white_led_source": "https://dahuasystems.ru/dh-ipc-hfw2849tlp-s-led-0360b-pro",
+    "white_led_data_status": "Точная модификация HFW2849TLP-S-LED-PRO указывает тёплую LED-подсветку до 50 м; ИК-подсветка не заявлена.",
     "microphone_source": "https://www.dahuasecurity.com/products/network-products/network-cameras/WizSense-2-Series/WizColor/IPC-HFW2849TL-S-PRO",
     "microphone_data_status": "Встроенный микрофон подтверждён указанным источником.",
     "research_status": "Исследовано по вторичному источнику/документации базовой модели; точные ограничения и расхождения указаны в примечании."
@@ -6347,15 +6371,15 @@
       "sensor_type": "CMOS",
       "sensor_format": "1/2.8\"",
       "sensor_resolution_mp": 3,
-      "white_led": false,
-      "white_led_range_m": null
+      "white_led": true,
+      "white_led_range_m": 30
     },
     "data_status": "Характеристики заполнены по доступному источнику; ограничения и расхождения указаны в примечании. Карточка дистрибьютора точного SKU DH-IPC-T3AP-IL-0280B-EUR: 3 Мп, 2.8 мм, Wi‑Fi 6, IR 30 м, IP67, microSD 256 ГБ, DWDR.",
     "specs_source": "https://www.secomp.nl/en/item/dahua-dh-ipc-t3ap-il-0280b-eur-eyeball-3mp-28mm-ir-led-wlan-camera/21210392",
     "sensor_specs_source": "https://www.secomp.nl/en/item/dahua-dh-ipc-t3ap-il-0280b-eur-eyeball-3mp-28mm-ir-led-wlan-camera/21210392",
     "sensor_data_status": "Тип и формат сенсора подтверждены источником; для отдельных строк источник вторичный.",
-    "white_led_source": "https://www.secomp.nl/en/item/dahua-dh-ipc-t3ap-il-0280b-eur-eyeball-3mp-28mm-ir-led-wlan-camera/21210392",
-    "white_led_data_status": "Подсветка подтверждена указанным источником.",
+    "white_led_source": "https://sin-tec.ru/catalog/videonablyudenie/kamery/ip_videokamera_dahua_dh_ipc_t3ap_il_0280b_dh_t3a_il/",
+    "white_led_data_status": "Точная карточка DH-IPC-T3AP-IL-0280B указывает комбинированную ИК+LED-подсветку; дальность LED — до 30 м.",
     "microphone_source": "https://tdtorus.ru/kamery-videonablyudeniya/ip-kamery-videonablyudeniya-torus/product-dh-ipc-t3ap-il-0280b",
     "microphone_data_status": "Встроенный микрофон подтверждён карточками дистрибьюторов для точной модели DH-IPC-T3AP-IL-0280B.",
     "research_status": "Исследовано по официальной карточке/документации или точной карточке дистрибьютора; неподтверждённые поля оставлены null."
@@ -7228,8 +7252,8 @@
     "specs_source": "https://www.dahuasecurity.com/products/network-products/ptz-cameras/x-spans-series/distribution/sdt4e425-4f-gb-a-pv1-s2%3Ds2",
     "sensor_specs_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/DH-SDT4E425-4F-GB-A-PV1-S2_S2_datasheet_20251016.pdf",
     "sensor_data_status": "Тип и формат сенсора подтверждены официальной документацией производителя.",
-    "white_led_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/DH-SDT4E425-4F-GB-A-PV1-S2_S2_datasheet_20251016.pdf",
-    "white_led_data_status": "Подсветка подтверждена официальной документацией; дальность зависит от канала, поэтому общее поле оставлено null.",
+    "white_led_source": "https://www.dahuasecurity.com/products/network-products/ptz-cameras/x-spans-series/distribution/sdt4e425-4f-gb-a-pv1-s2%3Ds2",
+    "white_led_data_status": "Подтверждена двойная подсветка. Дальность ИК и белого света различается по каналам; см. channels[].",
     "microphone_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/DH-SDT4E425-4F-GB-A-PV1-S2_S2_datasheet_20251016.pdf",
     "microphone_data_status": "Встроенный микрофон подтверждён документацией производителя.",
     "research_status": "Геометрия заполнена по каналам на основании официальной документации Dahua; использовать channels[] без сведения каналов в один набор полей.",
@@ -7241,7 +7265,10 @@
         "sensor_format": "1/2.8\"",
         "focal_length_min_mm": 2.8,
         "focal_length_max_mm": 2.8,
-        "source": "https://www.dahuasecurity.com/products/network-products/ptz-cameras/x-spans-series/distribution/sdt4e425-4f-gb-a-pv1-s2%3Ds2"
+        "source": "https://www.dahuasecurity.com/products/network-products/ptz-cameras/x-spans-series/distribution/sdt4e425-4f-gb-a-pv1-s2%3Ds2",
+        "ir_range_m": 30,
+        "white_led": true,
+        "white_led_range_m": 30
       },
       {
         "channel": "Детальный PTZ",
@@ -7250,7 +7277,10 @@
         "sensor_format": "1/2.8\"",
         "focal_length_min_mm": 5,
         "focal_length_max_mm": 125,
-        "source": "https://www.dahuasecurity.com/products/network-products/ptz-cameras/x-spans-series/distribution/sdt4e425-4f-gb-a-pv1-s2%3Ds2"
+        "source": "https://www.dahuasecurity.com/products/network-products/ptz-cameras/x-spans-series/distribution/sdt4e425-4f-gb-a-pv1-s2%3Ds2",
+        "ir_range_m": 100,
+        "white_led": true,
+        "white_led_range_m": 50
       }
     ]
   },
@@ -7548,8 +7578,8 @@
     "specs_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/IPC-PTS2649C-3E3Z-4GB20-EAU_S0_datasheet_20250327.pdf",
     "sensor_specs_source": "https://www.dahuasecurity.com/products/wireless-products/4g-camera/wire-free-cameras/ipc-pts2649c-3e3z-4gb20",
     "sensor_data_status": "Тип и формат сенсора подтверждены официальной документацией производителя.",
-    "white_led_source": "https://www.dahuasecurity.com/products/wireless-products/4g-camera/wire-free-cameras/ipc-pts2649c-3e3z-4gb20",
-    "white_led_data_status": "Подсветка и дальность подтверждены официальной документацией производителя.",
+    "white_led_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/IPC-PTS2649C-3E3Z-4GB20-EAU_S0_datasheet_20250327.pdf",
+    "white_led_data_status": "Подтверждена LED/тёплая подсветка по каналам; дальность по каждому каналу указана в channels[].",
     "microphone_source": "https://www.dahuasecurity.com/products/wireless-products/4g-camera/wire-free-cameras/ipc-pts2649c-3e3z-4gb20",
     "microphone_data_status": "Встроенный микрофон подтверждён документацией производителя.",
     "research_status": "Геометрия заполнена по каналам на основании официальной документации Dahua; использовать channels[] без сведения каналов в один набор полей.",
@@ -7561,7 +7591,9 @@
         "sensor_format": "1/2.8\"",
         "focal_length_min_mm": 2.8,
         "focal_length_max_mm": 2.8,
-        "source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/IPC-PTS2649C-3E3Z-4GB20-EAU_S0_datasheet_20250327.pdf"
+        "source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/IPC-PTS2649C-3E3Z-4GB20-EAU_S0_datasheet_20250327.pdf",
+        "white_led": true,
+        "white_led_range_m": 30
       },
       {
         "channel": "Поворотный PT",
@@ -7571,7 +7603,9 @@
         "focal_length_min_mm": 3.6,
         "focal_length_max_mm": 8.4,
         "source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/IPC-PTS2649C-3E3Z-4GB20-EAU_S0_datasheet_20250327.pdf",
-        "note": "В спецификации указаны фокусные варианты 3.6 и 8.4 мм; значения не трактуются как непрерывный оптический диапазон."
+        "note": "В спецификации указаны фокусные варианты 3.6 и 8.4 мм; значения не трактуются как непрерывный оптический диапазон.",
+        "white_led": true,
+        "white_led_range_m": 50
       }
     ]
   },
@@ -7619,8 +7653,8 @@
     "specs_source": "https://www.dahuasecurity.com/mena/products/network-products/network-cameras/Wireless-Series/CCTV-Channel/4G-Camera/Battery-Powered-Cameras/IPC-PTS2649C-3E3Z-4GB20",
     "sensor_specs_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/IPC-PTS2649C-3E3Z-4GB20-EAU_S0_datasheet_20250327.pdf",
     "sensor_data_status": "Официальный даташит Dahua: оба канала имеют сенсор 1/2.8\" CMOS.",
-    "white_led_source": "https://www.dahuasecurity.com/products/wireless-products/4g-cameras/wire-free-cameras/ipc-pts2649c-3e3z-4gb20",
-    "white_led_data_status": "Подсветка подтверждена указанным источником.",
+    "white_led_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/IPC-PTS2649C-3E3Z-4GB20-EAU_S0_datasheet_20250327.pdf",
+    "white_led_data_status": "Подтверждена LED/тёплая подсветка по каналам; дальность по каждому каналу указана в channels[].",
     "microphone_source": "https://www.dahuasecurity.com/products/wireless-products/4g-cameras/wire-free-cameras/ipc-pts2649c-3e3z-4gb20",
     "microphone_data_status": "Встроенный микрофон подтверждён указанным источником.",
     "research_status": "Готова по channels[]: два канала по 2304×1296, сенсоры 1/2.8\"; фиксированный объектив 2.8 мм, PT-объективы 3.6 и 8.4 мм. Обозначение CP в строке поставщика принято как вероятная опечатка; сверить PN перед закупкой.",
@@ -7634,7 +7668,9 @@
         "focal_length_min_mm": 2.8,
         "focal_length_max_mm": 2.8,
         "source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/IPC-PTS2649C-3E3Z-4GB20-EAU_S0_datasheet_20250327.pdf",
-        "note": "Характеристики официального даташита Dahua для IPC-PTS2649C-3E3Z-4GB20; применены к варианту PRO из-за совпадения обозначения аппаратной модели без торгового суффикса PRO."
+        "note": "Характеристики официального даташита Dahua для IPC-PTS2649C-3E3Z-4GB20; применены к варианту PRO из-за совпадения обозначения аппаратной модели без торгового суффикса PRO.",
+        "white_led": true,
+        "white_led_range_m": 30
       },
       {
         "channel": "Поворотный PT-объектив",
@@ -7645,7 +7681,9 @@
         "focal_length_min_mm": 3.6,
         "focal_length_max_mm": 8.4,
         "source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/IPC-PTS2649C-3E3Z-4GB20-EAU_S0_datasheet_20250327.pdf",
-        "note": "В даташите перечислены варианты фокусного расстояния 3.6 мм и 8.4 мм; диапазон min/max используется для геометрического расчёта и не означает непрерывный оптический зум."
+        "note": "В даташите перечислены варианты фокусного расстояния 3.6 мм и 8.4 мм; диапазон min/max используется для геометрического расчёта и не означает непрерывный оптический зум.",
+        "white_led": true,
+        "white_led_range_m": 50
       }
     ]
   },
@@ -7693,8 +7731,8 @@
     "specs_source": "https://www.dahuasecurity.com/products/wireless-products/outdoor-camera/picoo-series/p3d-3f-pv",
     "sensor_specs_source": "https://www.dahuasecurity.com/nl/products/network-products/network-cameras/Wireless-Series/NEW-Channel/Outdoor-Camera/Picoo-Series/P3D-3F-PV",
     "sensor_data_status": "Тип и формат сенсора подтверждены указанным источником.",
-    "white_led_source": "https://www.dahuasecurity.com/nl/products/network-products/network-cameras/Wireless-Series/NEW-Channel/Outdoor-Camera/Picoo-Series/P3D-3F-PV",
-    "white_led_data_status": "Подсветка подтверждена указанным источником.",
+    "white_led_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/P3D-3F-PV_datasheet_20240903.pdf",
+    "white_led_data_status": "Подтверждена LED/тёплая подсветка по каналам; дальность по каждому каналу указана в channels[].",
     "microphone_source": "https://www.dahuasecurity.com/nl/products/network-products/network-cameras/Wireless-Series/NEW-Channel/Outdoor-Camera/Picoo-Series/P3D-3F-PV",
     "microphone_data_status": "Встроенный микрофон подтверждён указанным источником.",
     "research_status": "Геометрия заполнена по каналам на основании официальной документации Dahua; использовать channels[] без сведения каналов в один набор полей.",
@@ -7706,7 +7744,10 @@
         "sensor_format": "1/2.8\"",
         "focal_length_min_mm": 2.8,
         "focal_length_max_mm": 2.8,
-        "source": "https://previous.dahuasecurity.com/la/products/All-Products/Network-Cameras/Wireless-Series/Outdoor-Camera/Picoo-Series/P3D-3F-PV"
+        "source": "https://previous.dahuasecurity.com/la/products/All-Products/Network-Cameras/Wireless-Series/Outdoor-Camera/Picoo-Series/P3D-3F-PV",
+        "ir_range_m": 30,
+        "white_led": true,
+        "white_led_range_m": 20
       },
       {
         "channel": "Поворотный PT",
@@ -7715,7 +7756,10 @@
         "sensor_format": "1/2.8\"",
         "focal_length_min_mm": 6,
         "focal_length_max_mm": 6,
-        "source": "https://previous.dahuasecurity.com/la/products/All-Products/Network-Cameras/Wireless-Series/Outdoor-Camera/Picoo-Series/P3D-3F-PV"
+        "source": "https://previous.dahuasecurity.com/la/products/All-Products/Network-Cameras/Wireless-Series/Outdoor-Camera/Picoo-Series/P3D-3F-PV",
+        "ir_range_m": 50,
+        "white_led": true,
+        "white_led_range_m": 40
       }
     ]
   },
@@ -8213,8 +8257,8 @@
     "specs_source": "https://www.dahuasecurity.com/products/PTZ-Cameras/WizSense-Series/PT2/IPC-PTS2449C-4E3Z-S-PV-PRO",
     "sensor_specs_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/DH-IPC-PTS2449C-4E3Z-S-PV-PRO_S0_datasheet_20250829.pdf",
     "sensor_data_status": "Тип и формат сенсора подтверждены официальной документацией производителя.",
-    "white_led_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/DH-IPC-PTS2449C-4E3Z-S-PV-PRO_S0_datasheet_20250829.pdf",
-    "white_led_data_status": "Подсветка подтверждена официальной документацией; дальность зависит от канала и отмечена в примечании.",
+    "white_led_source": "https://www.dahuasecurity.com/products/PTZ-Cameras/WizSense-Series/PT2/IPC-PTS2449C-4E3Z-S-PV-PRO",
+    "white_led_data_status": "Подтверждена LED/тёплая подсветка по каналам; дальность по каждому каналу указана в channels[].",
     "microphone_source": "https://materialfile.dahuasecurity.com/uploads/cpq/prm-os-srv-res/smart/datasheetzipfiles/DH-IPC-PTS2449C-4E3Z-S-PV-PRO_S0_datasheet_20250829.pdf",
     "microphone_data_status": "Встроенный микрофон подтверждён документацией производителя.",
     "research_status": "Геометрия заполнена по каналам на основании официальной документации Dahua; использовать channels[] без сведения каналов в один набор полей.",
@@ -8226,7 +8270,9 @@
         "sensor_format": "1/1.8\"",
         "focal_length_min_mm": 2.8,
         "focal_length_max_mm": 2.8,
-        "source": "https://www.dahuasecurity.com/ceen/products/PTZ-Cameras/WizSense-Series/PT2/IPC-PTS2449C-4E3Z-S-PV-PRO"
+        "source": "https://www.dahuasecurity.com/ceen/products/PTZ-Cameras/WizSense-Series/PT2/IPC-PTS2449C-4E3Z-S-PV-PRO",
+        "white_led": true,
+        "white_led_range_m": 30
       },
       {
         "channel": "Поворотный PT",
@@ -8236,7 +8282,9 @@
         "focal_length_min_mm": 3.6,
         "focal_length_max_mm": 8.4,
         "source": "https://www.dahuasecurity.com/ceen/products/PTZ-Cameras/WizSense-Series/PT2/IPC-PTS2449C-4E3Z-S-PV-PRO",
-        "note": "В спецификации указаны фокусные варианты 3.6 и 8.4 мм; значения не трактуются как непрерывный оптический диапазон."
+        "note": "В спецификации указаны фокусные варианты 3.6 и 8.4 мм; значения не трактуются как непрерывный оптический диапазон.",
+        "white_led": true,
+        "white_led_range_m": 50
       }
     ]
   },
