@@ -9,12 +9,15 @@ export const estimatedSensorWidths: Record<string, number> = {
   '1/2.8"': 5.6,
   '1/2.7"': 5.37,
   '1/2.5"': 5.76,
+  '1/2.4"': 6.0,
   '1/1.8"': 7.2,
   '1/1.2"': 10.67,
 }
 
 export const sensorFormatKey = (value: unknown) => {
-  const match = String(value ?? '').match(/(\d+\s*\/\s*\d+(?:[.,]\d+)?)/)
+  const match = String(value ?? '').match(
+      /(\d+\s*\/\s*\d+(?:[.,]\d+)?)/
+  );
   return match ? `${match[1].replace(/\s+/g, '').replace(',', '.')}"` : null
 }
 
@@ -23,7 +26,9 @@ export const sensorWidthForFormat = (value: unknown) => {
   if (!format) return undefined
   const baseWidth = estimatedSensorWidths[format]
   if (!baseWidth) return undefined
+
   const sensorCount = String(value ?? '').match(/[×x]\s*(\d+)/i)?.[1]
+
   return baseWidth * (sensorCount ? Number(sensorCount) : 1)
 }
 

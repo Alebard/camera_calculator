@@ -1,5 +1,7 @@
 import { computed, ref, watch } from 'vue'
-import catalogData from '../../static/catalog.json'
+import dahuaCatalog from '../../static/dahua.json'
+import hiwatchCatalog from '../../static/hiwatch.json'
+import hikvision from '../../static/hikvision.json'
 import type {
   Camera,
   CameraChannel,
@@ -16,7 +18,7 @@ import {
   sensorWidthForFormat,
 } from '../utils/camera'
 
-const catalog = catalogData as Camera[]
+const catalog = [...dahuaCatalog, ...hiwatchCatalog, ...hikvision] as Camera[]
 
 const doriProfiles: ScenarioProfile[] = [
   {
@@ -247,11 +249,24 @@ export function useCameraCalculator() {
   )
 
   const geometrySpecsFor = (camera: Camera) =>
-    camera.channels?.length ? camera.channels : [camera.specs]
+      camera.channels?.length
+          ? camera.channels.map((channel) => ({
+            ...camera.specs,
+            ...channel,
+            sensor_format:
+                channel.sensor_format ?? camera.specs.sensor_format,
+          }))
+          : [camera.specs]
 
   function getMatch(camera: Camera, channel?: CameraChannel): CameraMatch | null {
     const specs = camera.specs
-    const geometrySpecs = channel ?? specs
+    const geometrySpecs = channel
+        ? {
+          ...specs,
+          ...channel,
+          sensor_format: channel.sensor_format ?? specs.sensor_format,
+        }
+        : specs;
     const widthPx = geometrySpecs.resolution_width_px as number | null
     const heightPx = geometrySpecs.resolution_height_px as number | null
     const sensorWidth = sensorWidthForFormat(geometrySpecs.sensor_format) ?? null
