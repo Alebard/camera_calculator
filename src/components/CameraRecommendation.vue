@@ -6,7 +6,6 @@
     requiredPixels: number
     recommendedResolution: ResolutionChoice | null
     resolutionRaisedForFocal: boolean
-    selectedSensorWidth: number
     sensorOptions: [string, number][]
     recommendedFocalRange: FocalRange | null
     theoreticalMp: number
@@ -56,15 +55,12 @@
         }}</small>
       </div>
       <div class="recommendation-item sensor-recommendation">
-        <label for="sensorFormat">Размер матрицы</label
+        <label for="sensorFormat">Оптический формат матрицы</label
         ><select id="sensorFormat" v-model="sensorFormat">
           <option v-for="[format] in sensorOptions" :key="format" :value="format">
             {{ format }}
           </option></select
-        ><small
-          >Ориентировочная ширина {{ fmt(selectedSensorWidth, 2) }} мм. Сверьте размер по паспорту
-          камеры.</small
-        >
+        ><small>Для расчёта используется типовое соответствие оптического формата.</small>
       </div>
       <div class="recommendation-item">
         <span>Фокусное расстояние</span
@@ -95,7 +91,7 @@
           recommendedResolution
             ? `камеру от ${fmt(recommendedResolution.mp, 1)} Мп`
             : `камеру с разрешением от ${requiredPixels.toLocaleString('ru-RU')} px по горизонтали`
-        }}, с матрицей {{ sensorFormat }} (оценка) и объективом
+        }}, с оптическим форматом матрицы {{ sensorFormat }} и объективом
         {{
           recommendedFocalRange && recommendedFocalRange.min <= recommendedFocalRange.max
             ? `${fmt(recommendedFocalRange.min, 1)}–${fmt(recommendedFocalRange.max, 1)} мм`

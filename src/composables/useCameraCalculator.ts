@@ -2,13 +2,19 @@ import { computed, ref, watch } from 'vue'
 import catalogData from '../../static/catalog.json'
 import type {
   Camera,
+  CameraChannel,
   CameraMatch,
   FocalRange,
   MissingDataCounts,
   ResolutionChoice,
   ScenarioProfile,
 } from '../types/camera'
-import { estimatedSensorWidths, inferFormFactor, sensorWidthFor } from '../utils/camera'
+import {
+  estimatedSensorWidths,
+  inferFormFactor,
+  sensorFormatLabel,
+  sensorWidthForFormat,
+} from '../utils/camera'
 
 const catalog = catalogData as Camera[]
 
@@ -240,15 +246,17 @@ export function useCameraCalculator() {
     () => (requiredPixels.value * Math.ceil((requiredPixels.value * 9) / 16)) / 1_000_000,
   )
 
-  function getMatch(camera: Camera): CameraMatch | null {
+  const geometrySpecsFor = (camera: Camera) =>
+    camera.channels?.length ? camera.channels : [camera.specs]
+
+  function getMatch(camera: Camera, channel?: CameraChannel): CameraMatch | null {
     const specs = camera.specs
-    const widthPx = specs.resolution_width_px as number | null
-    const heightPx = specs.resolution_height_px as number | null
-    const exactSensorWidth = specs.sensor_width_mm as number | null
-    const sensorWidth = sensorWidthFor(camera) ?? null
-    const sensorHeight = specs.sensor_height_mm as number | null
-    const focalMin = specs.focal_length_min_mm as number | null
-    const focalMax = specs.focal_length_max_mm as number | null
+    const geometrySpecs = channel ?? specs
+    const widthPx = geometrySpecs.resolution_width_px as number | null
+    const heightPx = geometrySpecs.resolution_height_px as number | null
+    const sensorWidth = sensorWidthForFormat(geometrySpecs.sensor_format) ?? null
+    const focalMin = geometrySpecs.focal_length_min_mm as number | null
+    const focalMax = geometrySpecs.focal_length_max_mm as number | null
 
     if (!widthPx || !sensorWidth || !focalMin || !focalMax) return null
     if (focalMin > focalMax || distance.value <= 0 || sceneWidth.value <= 0 || targetPpm.value <= 0)
@@ -270,13 +278,24 @@ export function useCameraCalculator() {
     const ipRating = specs.ip_rating as number | null
     const lux = specs.minimum_illumination_lux as number | null
     const notes: string[] = []
+    const sourceSensorFormats = String(geometrySpecs.sensor_format ?? '').match(
+      /\d+\s*\/\s*\d+(?:[.,]\d+)?/g,
+    )
+    const distinctSensorFormats = new Set(
+      sourceSensorFormats?.map((format) => sensorFormatLabel(format)),
+    )
+    if (distinctSensorFormats.size > 1) {
+      notes.push('у камеры указано несколько оптических форматов; в расчёте использован первый')
+    }
     const whiteLedRange = specs.white_led_range_m
+    const hasWhiteLed = specs.white_led === true || typeof whiteLedRange === 'number'
+    if (needWhiteLed.value && !hasWhiteLed) return null
     const whiteLedCanCover =
       needWhiteLed.value &&
-      specs.white_led === true &&
+      hasWhiteLed &&
       (typeof whiteLedRange !== 'number' || whiteLedRange >= distance.value)
-    if (!heightPx && !sensorHeight)
-      notes.push('вертикальное разрешение не указано; вертикальный угол не рассчитан')
+    if (!heightPx) notes.push('вертикальное разрешение не указано; вертикальный угол не рассчитан')
+    if (channel?.note) notes.push(channel.note)
     let conditional = false
 
     if (location.value === 'outdoor' && ipRating !== null && ipRating < 65) return null
@@ -311,19 +330,15 @@ export function useCameraCalculator() {
     if (needPoe.value && specs.poe !== true) return null
     if (needMicrophone.value && specs.microphone !== true) return null
 
-    const estimatedSensor = typeof exactSensorWidth !== 'number'
-    const estimateRange = estimatedSensor ? [sensorWidth * 0.9, sensorWidth * 1.1] : null
-    const sensorEstimateStable = estimateRange
-      ? estimateRange.every((width) => getGeometry(width) !== null)
-      : true
-    if (estimatedSensor && !sensorEstimateStable) {
+    const estimateRange = [sensorWidth * 0.9, sensorWidth * 1.1]
+    const sensorEstimateStable = estimateRange.every((width) => getGeometry(width) !== null)
+    if (!sensorEstimateStable) {
       notes.push(
-        'подбор зависит от оценочного размера сенсора; нужна проверка точной ширины матрицы',
+        'расчёт зависит от типового соответствия оптического формата; проверьте объектив по документации модели',
       )
       conditional = true
     }
-    const calculatedSensorHeight =
-      sensorHeight ?? (heightPx ? (sensorWidth * heightPx) / widthPx : null)
+    const calculatedSensorHeight = heightPx ? (sensorWidth * heightPx) / widthPx : null
     return {
       camera,
       focal,
@@ -332,8 +347,16 @@ export function useCameraCalculator() {
       minFocal: requiredFocalMin,
       maxFocal: allowedFocalMax,
       sensorWidth,
-      sensorFormat: typeof specs.sensor_format === 'string' ? specs.sensor_format : null,
-      estimatedSensor,
+      channel: channel?.channel ?? null,
+      resolutionWidthPx: widthPx,
+      resolutionHeightPx: heightPx,
+      resolutionMp:
+        typeof specs.resolution_mp === 'number' && !channel
+          ? specs.resolution_mp
+          : heightPx
+            ? (widthPx * heightPx) / 1_000_000
+            : null,
+      sensorFormat: sensorFormatLabel(geometrySpecs.sensor_format),
       hAngle: (2 * Math.atan(sensorWidth / (2 * focal)) * 180) / Math.PI,
       vAngle: calculatedSensorHeight
         ? (2 * Math.atan(calculatedSensorHeight / (2 * focal)) * 180) / Math.PI
@@ -344,24 +367,37 @@ export function useCameraCalculator() {
   }
 
   const matches = computed(() =>
-    catalog.map(getMatch).filter((match): match is CameraMatch => match !== null),
+    catalog.flatMap((camera) => {
+      const channels = camera.channels?.length ? camera.channels : [undefined]
+      return channels
+        .map((channel) => getMatch(camera, channel))
+        .filter((match): match is CameraMatch => match !== null)
+    }),
   )
   const missingDataCounts = computed<MissingDataCounts>(() => ({
-    horizontalResolution: catalog.filter((camera) => !camera.specs.resolution_width_px).length,
-    usableSensorWidth: catalog.filter((camera) => !sensorWidthFor(camera)).length,
+    horizontalResolution: catalog.filter(
+      (camera) => !geometrySpecsFor(camera).some((geometry) => geometry.resolution_width_px),
+    ).length,
+    supportedSensorFormat: catalog.filter(
+      (camera) =>
+        !geometrySpecsFor(camera).some((geometry) => sensorWidthForFormat(geometry.sensor_format)),
+    ).length,
     focalRange: catalog.filter(
-      (camera) => !camera.specs.focal_length_min_mm || !camera.specs.focal_length_max_mm,
+      (camera) =>
+        !geometrySpecsFor(camera).some(
+          (geometry) => geometry.focal_length_min_mm && geometry.focal_length_max_mm,
+        ),
     ).length,
   }))
   const incompleteCount = computed(
     () =>
       catalog.filter((camera) => {
-        const specs = camera.specs
-        return (
-          !specs.resolution_width_px ||
-          !sensorWidthFor(camera) ||
-          !specs.focal_length_min_mm ||
-          !specs.focal_length_max_mm
+        return !geometrySpecsFor(camera).some(
+          (geometry) =>
+            geometry.resolution_width_px &&
+            sensorWidthForFormat(geometry.sensor_format) &&
+            geometry.focal_length_min_mm &&
+            geometry.focal_length_max_mm,
         )
       }).length,
   )
@@ -386,7 +422,6 @@ export function useCameraCalculator() {
     selectedProfile,
     targetPpm,
     requiredPixels,
-    selectedSensorWidth,
     sensorOptions,
     recommendedResolution,
     resolutionRaisedForFocal,

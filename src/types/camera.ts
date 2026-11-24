@@ -4,13 +4,29 @@ export type Camera = {
   price: number | null
   currency: string
   supplier_code?: string
-  supplier_url?: string
+  supplier_url?: string | null
   specs: Record<string, number | boolean | string | null>
+  channels?: CameraChannel[]
   data_status?: string
+}
+
+export type CameraChannel = {
+  channel: string
+  resolution_width_px: number | null
+  resolution_height_px: number | null
+  sensor_format: string | null
+  focal_length_min_mm: number | null
+  focal_length_max_mm: number | null
+  source?: string | null
+  note?: string | null
 }
 
 export type CameraMatch = {
   camera: Camera
+  channel: string | null
+  resolutionWidthPx: number
+  resolutionHeightPx: number | null
+  resolutionMp: number | null
   focal: number
   width: number
   ppm: number
@@ -20,7 +36,6 @@ export type CameraMatch = {
   maxFocal: number
   sensorWidth: number
   sensorFormat: string | null
-  estimatedSensor: boolean
   conditional: boolean
   notes: string[]
 }
@@ -37,6 +52,6 @@ export type ResolutionChoice = { width: number; height: number; mp: number }
 export type FocalRange = { min: number; max: number }
 export type MissingDataCounts = {
   horizontalResolution: number
-  usableSensorWidth: number
+  supportedSensorFormat: number
   focalRange: number
 }

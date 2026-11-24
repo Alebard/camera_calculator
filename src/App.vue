@@ -27,7 +27,6 @@
     scenarioProfiles,
     sceneWidth,
     selectedProfile,
-    selectedSensorWidth,
     sensorFormat,
     sensorOptions,
     targetPpm,
@@ -72,7 +71,6 @@
       :required-pixels="requiredPixels"
       :recommended-resolution="recommendedResolution"
       :resolution-raised-for-focal="resolutionRaisedForFocal"
-      :selected-sensor-width="selectedSensorWidth"
       :sensor-options="sensorOptions"
       :recommended-focal-range="recommendedFocalRange"
       :theoretical-mp="theoreticalMp"

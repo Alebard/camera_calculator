@@ -744,6 +744,12 @@ select {
   min-height: 37px;
   margin: 5px 0 9px;
 }
+.camera-channel {
+  margin: -5px 0 8px;
+  color: #4d765a;
+  font-size: 9px;
+  font-weight: 600;
+}
 .camera-specs {
   display: flex;
   gap: 8px;
@@ -757,6 +763,51 @@ select {
   background: #f5f6f3;
   padding: 5px 6px;
   border-radius: 3px;
+}
+.camera-indicators {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+.camera-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 8px;
+  line-height: 1.2;
+}
+.camera-indicator svg {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 13px;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.camera-indicator--yes {
+  color: #39704b;
+  background: #eef5ec;
+  border-color: #dce9d9;
+}
+.camera-indicator--no {
+  color: #747d75;
+  background: #f3f4f1;
+  border-color: #e6e9e3;
+}
+.camera-indicator--unknown {
+  color: #8a918b;
+  background: #f7f7f5;
+  border-color: #eceee9;
+}
+.camera-indicator--info {
+  color: #687c70;
+  background: #f2f5f1;
+  border-color: #e5ebe3;
 }
 .camera-metrics {
   display: grid;
@@ -790,7 +841,6 @@ select {
     monospace;
   color: #8b968d;
 }
-.camera-explanation,
 .camera-note {
   font-size: 9px;
   line-height: 1.5;
@@ -998,9 +1048,6 @@ footer a {
     grid-template-columns: 1fr;
   }
   .camera-card h3 {
-    min-height: unset;
-  }
-  .camera-explanation {
     min-height: unset;
   }
   .hero h1 {

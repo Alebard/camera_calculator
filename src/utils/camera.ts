@@ -10,11 +10,30 @@ export const estimatedSensorWidths: Record<string, number> = {
   '1/2.7"': 5.37,
   '1/2.5"': 5.76,
   '1/1.8"': 7.2,
+  '1/1.2"': 10.67,
 }
 
-export const sensorWidthFor = (camera: Camera) =>
-  (camera.specs.sensor_width_mm as number | null) ??
-  estimatedSensorWidths[String(camera.specs.sensor_format ?? '')]
+export const sensorFormatKey = (value: unknown) => {
+  const match = String(value ?? '').match(/(\d+\s*\/\s*\d+(?:[.,]\d+)?)/)
+  return match ? `${match[1].replace(/\s+/g, '').replace(',', '.')}"` : null
+}
+
+export const sensorWidthForFormat = (value: unknown) => {
+  const format = sensorFormatKey(value)
+  if (!format) return undefined
+  const baseWidth = estimatedSensorWidths[format]
+  if (!baseWidth) return undefined
+  const sensorCount = String(value ?? '').match(/[×x]\s*(\d+)/i)?.[1]
+  return baseWidth * (sensorCount ? Number(sensorCount) : 1)
+}
+
+export const sensorFormatLabel = (value: unknown) => {
+  const raw = String(value ?? '').trim()
+  if (!raw) return null
+  return /[×x]\s*\d+/i.test(raw) ? raw : sensorFormatKey(raw)
+}
+
+export const sensorWidthFor = (camera: Camera) => sensorWidthForFormat(camera.specs.sensor_format)
 
 export function inferFormFactor(camera: Camera): string | null {
   const name = `${camera.model} ${camera.specs.sensor_type ?? ''}`.toLowerCase()
