@@ -2,6 +2,7 @@ import { computed, ref, watch } from 'vue'
 import dahuaCatalog from '../../static/dahua.json'
 import hiwatchCatalog from '../../static/hiwatch.json'
 import hikvision from '../../static/hikvision.json'
+import iflow from '../../static/iflow.json'
 import type {
   Camera,
   CameraChannel,
@@ -18,7 +19,7 @@ import {
   sensorWidthForFormat,
 } from '../utils/camera'
 
-const catalog = [...dahuaCatalog, ...hiwatchCatalog, ...hikvision] as Camera[]
+const catalog = [...dahuaCatalog, ...hiwatchCatalog, ...hikvision, ...iflow] as Camera[]
 
 const doriProfiles: ScenarioProfile[] = [
   {
