@@ -4,6 +4,7 @@ import hiwatchCatalog from '../../static/hiwatch.json'
 import hikvision from '../../static/hikvision.json'
 import iflow from '../../static/iflow.json'
 import ezviz from '../../static/ezviz.json'
+import tiandy from '../../static/tiandy.json'
 import type {
   Camera,
   CameraChannel,
@@ -20,7 +21,7 @@ import {
   sensorWidthForFormat,
 } from '../utils/camera'
 
-const catalog = [...dahuaCatalog, ...hiwatchCatalog, ...hikvision, ...iflow, ...ezviz] as Camera[]
+const catalog = [...dahuaCatalog, ...hiwatchCatalog, ...hikvision, ...iflow, ...ezviz, ...tiandy] as Camera[]
 
 const doriProfiles: ScenarioProfile[] = [
   {
